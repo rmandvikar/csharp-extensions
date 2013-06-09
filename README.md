@@ -1,4 +1,11 @@
 csharp-extensions
 =================
 
-C# extension methods
+
+####string extensions:
+
+```c#
+var s = "";
+if (s.IsNullOrEmpty()) { /**/ }
+if (s.IsNullOrWhiteSpace()) { /**/ }
+```
