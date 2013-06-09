@@ -41,3 +41,15 @@ public void SomeMethod(string s1, string s2)
     s.NullOrEmptyCheck("s");
 }
 ```
+
+####DateTime extensions:
+
+```c#
+// gives date in UTC format string
+string dateUtc = date.ToUtcFormatString();
+// dateUtc: "1994-11-05T13:15:30.000Z"
+
+// gives min date that can be inserted in sql database without exception (SqlDateTime.MinValue)
+DateTime date = new DateTime().ToSqlDateTimeMinUtc();
+// date: 1/1/1753 12:00:00 AM
+```
