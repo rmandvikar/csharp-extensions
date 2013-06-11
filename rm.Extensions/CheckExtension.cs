@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Ex = rm.Extensions.ExceptionHelper;
 
 namespace rm.Extensions
@@ -25,6 +26,26 @@ namespace rm.Extensions
             Ex.Throw<ArgumentNullException>(o == null, exMessage);
         }
         /// <summary>
+        /// Throws exception if any of the objects is null.
+        /// </summary>
+        public static void NullCheck(this IEnumerable<object> objects)
+        {
+            foreach (var o in objects)
+            {
+                o.NullCheck();
+            }
+        }
+        /// <summary>
+        /// Throws exception if any of the object arguments is null.
+        /// </summary>
+        public static void NullArgumentCheck(this IEnumerable<object> objects)
+        {
+            foreach (var o in objects)
+            {
+                o.NullArgumentCheck();
+            }
+        }
+        /// <summary>
         /// Throws exception if the string is null or empty.
         /// </summary>
         /// <param name="exMessage">Exception message.</param>
@@ -41,6 +62,26 @@ namespace rm.Extensions
         {
             Ex.Throw<ArgumentNullException>(s == null, exMessage);
             Ex.Throw<EmptyException>(s.Length == 0, exMessage);
+        }
+        /// <summary>
+        /// Throws exception if any of the strings is null or empty.
+        /// </summary>
+        public static void NullOrEmptyCheck(this IEnumerable<string> strings)
+        {
+            foreach (var s in strings)
+            {
+                s.NullOrEmptyCheck();
+            }
+        }
+        /// <summary>
+        /// Throws exception if any of the string arguments is null or empty.
+        /// </summary>
+        public static void NullOrEmptyArgumentCheck(this IEnumerable<string> strings)
+        {
+            foreach (var s in strings)
+            {
+                s.NullOrEmptyArgumentCheck();
+            }
         }
         /// <summary>
         /// Throws exception if index is out of range.

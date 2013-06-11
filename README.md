@@ -18,6 +18,8 @@ public void SomeMethod(object obj1, object obj2)
     // throws ArgumentNullException if object is null
     obj1.NullArgumentCheck("obj1");
 	obj2.NullArgumentCheck("obj2");
+    // OR 
+    new[] { obj1, obj2 }.NullArgumentCheck();
     
     // ...
     
@@ -33,6 +35,8 @@ public void SomeMethod(string s1, string s2)
     // throws ArgumentNullException or EmptyException if string is null or empty
     s1.NullOrEmptyArgumentCheck("s1");
     s2.NullOrEmptyArgumentCheck("s2");
+    // OR 
+    new[] { s1, s2 }.NullOrEmptyArgumentCheck();
     
     // ...
     

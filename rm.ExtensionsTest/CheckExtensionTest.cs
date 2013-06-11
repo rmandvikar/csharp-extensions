@@ -33,6 +33,22 @@ namespace rm.ExtensionsTest
             }
         }
         [Test]
+        public void NullCheck04()
+        {
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                new[] { new object(), null }.NullCheck();
+            });
+        }
+        [Test]
+        public void NullCheck05()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                new[] { new object(), new object() }.NullCheck();
+            });
+        }
+        [Test]
         [TestCase((object)null)]
         public void NullArgumentCheck01(object o)
         {
@@ -64,6 +80,14 @@ namespace rm.ExtensionsTest
             Assert.DoesNotThrow(() => { s.NullOrEmptyCheck(); });
         }
         [Test]
+        public void NullOrEmptyCheck03()
+        {
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                new[] { "s1", null }.NullOrEmptyCheck();
+            });
+        }
+        [Test]
         [TestCase((string)null)]
         public void NullOrEmptyArgumentCheck01a(string s)
         {
@@ -81,6 +105,14 @@ namespace rm.ExtensionsTest
         public void NullOrEmptyArgumentCheck02(string s)
         {
             Assert.DoesNotThrow(() => { s.NullOrEmptyArgumentCheck(); });
+        }
+        [Test]
+        public void NullOrEmptyCheckArgument03()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new[] { "s1", null }.NullOrEmptyArgumentCheck();
+            });
         }
     }
 }
