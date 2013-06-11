@@ -51,6 +51,7 @@
     <Compile Include="CheckExtensionTest.cs" />
     <Compile Include="DateTimeExtensionTest.cs" />
     <Compile Include="EnumerableExtensionTest.cs" />
+    <Compile Include="EnumExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionTest.cs" />
   </ItemGroup>

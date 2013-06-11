@@ -65,3 +65,14 @@ DateTime date = new DateTime().ToSqlDateTimeMinUtc();
 IEnumerable<IEnumerable<int>> chunks = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.Chunk(3);
 // chunks: { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10 } }
 ```
+
+####Enum extensions:
+
+```c#
+enum Color { Red = 1, Green, Blue };
+Color color = "Red".Parse<Color>();
+// OR
+Color color;
+"Red".TryParse<Color>(out color);
+// color: Color.Red
+```
