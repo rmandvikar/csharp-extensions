@@ -52,7 +52,9 @@ public void SomeMethod(string s1, string s2)
 // gives date in UTC format string
 string dateUtc = date.ToUtcFormatString();
 // dateUtc: "1994-11-05T13:15:30.000Z"
+```
 
+```c#
 // gives min date that can be inserted in sql database without exception (SqlDateTime.MinValue)
 DateTime date = new DateTime().ToSqlDateTimeMinUtc();
 // date: 1/1/1753 12:00:00 AM
@@ -81,4 +83,29 @@ Color color = "Red".Parse<Color>();
 Color color;
 "Red".TryParse<Color>(out color);
 // color: Color.Red
+```
+
+```c#
+enum Color
+{
+    [Description("Red color")] Red = 1, 
+    Green, 
+    [Description("Blue color")] Blue
+}
+string redDesc = Color.Red.GetDescription();
+string greenDesc = Color.Green.GetDescription();
+// redDesc: "Red color"
+// greenDesc: "Green"
+```
+
+```c#
+enum Color { Red = 1, Green, Blue };
+Color color = "Red".GetEnumValue<Color>();
+// color: Color.Red
+
+// string.GetEnumValue<TEnum> is faster than enumValue.ToString()
+// faster
+if ("Red".GetEnumValue<Color>() == Color.Red) { /**/ }
+// slower
+if ("Red" == Color.Red.ToString()) { /**/ }
 ```

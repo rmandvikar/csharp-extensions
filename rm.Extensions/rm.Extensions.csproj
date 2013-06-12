@@ -45,6 +45,7 @@
     <Compile Include="CheckExtension.cs" />
     <Compile Include="EnumerableExtension.cs" />
     <Compile Include="EnumExtension.cs" />
+    <Compile Include="EnumInternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtension.cs" />
   </ItemGroup>

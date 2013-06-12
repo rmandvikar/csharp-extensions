@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace rm.Extensions
 {
@@ -22,6 +23,62 @@ namespace rm.Extensions
             where T : struct
         {
             return (T)Enum.Parse(typeof(T), name, ignoreCase);
+        }
+
+        /// <summary>
+        /// Get values for type T enum.
+        /// </summary>
+        public static T[] GetEnumValues<T>()
+            where T : struct
+        {
+            return EnumInternal<T>.ValueToNameMap.Select(x => x.Key).ToArray();
+        }
+        /// <summary>
+        /// Get names (strings) for type T enum.
+        /// </summary>
+        public static string[] GetEnumNames<T>()
+            where T : struct
+        {
+            return EnumInternal<T>.NameToValueMap.Select(x => x.Key).ToArray();
+        }
+        /// <summary>
+        /// Get the name (string) for the enum value or throw exception if not exists.
+        /// </summary>
+        public static string GetEnumName<T>(T enumValue)
+            where T : struct
+        {
+            string enumName;
+            if (EnumInternal<T>.ValueToNameMap.TryGetValue(enumValue, out enumName))
+            {
+                return enumName;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+        /// <summary>
+        /// Get the value for the enum name (string) or throw exception if not exists.
+        /// </summary>
+        public static T GetEnumValue<T>(this string name)
+            where T : struct
+        {
+            T enumValue;
+            if (EnumInternal<T>.NameToValueMap.TryGetValue(name, out enumValue))
+            {
+                return enumValue;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+        /// <summary>
+        /// Get the description (DescriptionAttribute) for the enum value or throw exception if not exists.
+        /// </summary>
+        public static string GetDescription<T>(this T enumValue)
+            where T : struct
+        {
+            string description;
+            if (EnumInternal<T>.ValueToDescriptionMap.TryGetValue(enumValue, out description))
+            {
+                return description;
+            }
+            throw new ArgumentOutOfRangeException();
         }
     }
 }
