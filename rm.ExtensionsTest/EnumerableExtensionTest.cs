@@ -53,5 +53,12 @@ namespace rm.ExtensionsTest
                 Assert.AreEqual(chunks_rev.Count() - i, chunks_rev.ElementAt(i).ElementAt(0));
             }
         }
+        [Test]
+        public void IsNullOrEmpty01()
+        {
+            Assert.IsFalse(new[] { 3 }.IsNullOrEmpty());
+            Assert.IsTrue(new int[0].IsNullOrEmpty());
+            Assert.IsTrue(((IEnumerable<int>)null).IsNullOrEmpty());
+        }
     }
 }

@@ -66,6 +66,12 @@ IEnumerable<IEnumerable<int>> chunks = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 // chunks: { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10 } }
 ```
 
+```c#
+// if a collection is null or empty
+var collection = new[] { 1, 2 };
+if (collection.IsNullOrEmpty()) { /**/ }
+```
+
 ####Enum extensions:
 
 ```c#
