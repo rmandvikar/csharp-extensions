@@ -74,6 +74,13 @@ var collection = new[] { 1, 2 };
 if (collection.IsNullOrEmpty()) { /**/ }
 ```
 
+```c#
+// split a collection into n parts
+var collection = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+IEnumerable<IEnumerable<int>> splits = collection.Split(3);
+// splits: { { 1, 4, 7, 10 }, { 2, 5, 8 }, { 3, 6, 9 } }
+```
+
 ####Enum extensions:
 
 ```c#

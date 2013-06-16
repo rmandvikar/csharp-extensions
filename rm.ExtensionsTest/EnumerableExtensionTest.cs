@@ -60,5 +60,15 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(new int[0].IsNullOrEmpty());
             Assert.IsTrue(((IEnumerable<int>)null).IsNullOrEmpty());
         }
+        [Test]
+        public void Split01()
+        {
+            int n = 3;
+            var splits = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.Split(n);
+            //Print(splits);
+            Assert.AreEqual(n, splits.Count());
+            Assert.IsTrue(splits.ElementAt(0).SequenceEqual(new[] { 1, 4, 7, 10 }));
+            Assert.IsTrue(splits.ElementAt(2).SequenceEqual(new[] { 3, 6, 9 }));
+        }
     }
 }
