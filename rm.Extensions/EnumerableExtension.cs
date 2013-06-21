@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace rm.Extensions
@@ -66,6 +67,45 @@ namespace rm.Extensions
             var splits = source.GroupBy(x => i++ % parts)
                 .Select(g => g.Select(x => x));
             return splits;
+        }
+        /// <summary>
+        /// Returns true if list is ascendingly or descendingly sorted.
+        /// </summary>
+        public static bool IsSorted<T>(this IEnumerable<T> source)
+            where T : IComparable
+        {
+            source.NullArgumentCheck("source");
+            // make an array to avoid inefficiency due to ElementAt(index)
+            var sourceArray = source.ToArray();
+            if (sourceArray.Length <= 1)
+            {
+                return true;
+            }
+            var isSorted = false;
+            // asc test
+            int i;
+            for (i = 1; i < sourceArray.Length; i++)
+            {
+                if (sourceArray[i - 1].CompareTo(sourceArray[i]) > 0)
+                {
+                    break;
+                }
+            }
+            isSorted = sourceArray.Length == i;
+            if (isSorted)
+            {
+                return true;
+            }
+            // desc test
+            for (i = 1; i < sourceArray.Length; i++)
+            {
+                if (sourceArray[i - 1].CompareTo(sourceArray[i]) < 0)
+                {
+                    break;
+                }
+            }
+            isSorted = sourceArray.Length == i;
+            return isSorted;
         }
     }
 }

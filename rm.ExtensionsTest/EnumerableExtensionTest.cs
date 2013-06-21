@@ -70,5 +70,28 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(splits.ElementAt(0).SequenceEqual(new[] { 1, 4, 7, 10 }));
             Assert.IsTrue(splits.ElementAt(2).SequenceEqual(new[] { 3, 6, 9 }));
         }
+        [Test]
+        public void IsSorted01()
+        {
+            Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).IsSorted(); });
+            var sourceAsc = new[] { 1, 5, 10 };
+            Assert.IsTrue(sourceAsc.IsSorted());
+            var sourceDesc = new[] { 1, 5, 10 }.Reverse();
+            Assert.IsTrue(sourceDesc.IsSorted());
+            var sourceUnsorted = new[] { 1, 3, 2 };
+            Assert.IsFalse(sourceUnsorted.IsSorted());
+        }
+        [Test]
+        public void IsSorted02()
+        {
+            var source1 = new[] { 1 };
+            Assert.IsTrue(source1.IsSorted());
+            var source2Asc = new[] { 1, 5 };
+            Assert.IsTrue(source2Asc.IsSorted());
+            var source2Desc = new[] { 1, 5 }.Reverse();
+            Assert.IsTrue(source2Desc.IsSorted());
+            var sourceAllSame = new[] { 5, 5, 5 };
+            Assert.IsTrue(sourceAllSame.IsSorted());
+        }
     }
 }

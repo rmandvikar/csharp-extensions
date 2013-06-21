@@ -81,6 +81,15 @@ IEnumerable<IEnumerable<int>> splits = collection.Split(3);
 // splits: { { 1, 4, 7, 10 }, { 2, 5, 8 }, { 3, 6, 9 } }
 ```
 
+```c#
+// if a collection is sorted
+var collection1 = new[] { 1, 2, 3, 4 };
+bool isSorted1 = collection1.IsSorted();
+var collection2 = new[] { 7, 5, 3 };
+bool isSorted2 = collection2.IsSorted();
+// isSorted1, isSorted2: true
+```
+
 ####Enum extensions:
 
 ```c#
