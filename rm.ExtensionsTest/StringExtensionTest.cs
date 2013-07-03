@@ -35,5 +35,23 @@ namespace rm.ExtensionsTest
         {
             Assert.IsFalse(s.IsNullOrWhiteSpace());
         }
+        [Test]
+        [TestCase((string)null, "")]
+        [TestCase("s", "s")]
+        [TestCase("", "")]
+        [TestCase(" ", "")]
+        public void OrEmpty01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.OrEmpty());
+        }
+        [Test]
+        [TestCase((string)null, "default", "default")]
+        [TestCase("", "default", "default")]
+        [TestCase(" ", "default", "default")]
+        [TestCase("s", "default", "s")]
+        public void Or01(string s, string or, string expected)
+        {
+            Assert.AreEqual(expected, s.Or(or));
+        }
     }
 }

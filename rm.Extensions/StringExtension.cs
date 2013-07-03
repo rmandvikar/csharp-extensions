@@ -19,5 +19,23 @@
         {
             return string.IsNullOrWhiteSpace(s);
         }
+        /// <summary>
+        /// Returns specified value if string is null/empty/whitespace else same string.
+        /// </summary>
+        public static string Or(this string s, string or)
+        {
+            if (!s.IsNullOrWhiteSpace())
+            {
+                return s;
+            }
+            return or;
+        }
+        /// <summary>
+        /// Returns empty if string is null/empty/whitespace else same string.
+        /// </summary>
+        public static string OrEmpty(this string s)
+        {
+            return s.Or("");
+        }
     }
 }

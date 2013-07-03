@@ -10,6 +10,17 @@ if (s.IsNullOrEmpty()) { /**/ }
 if (s.IsNullOrWhiteSpace()) { /**/ }
 ```
 
+```c#
+// some string that could be null/empty/whitespace
+string s = null; // or "value"
+string text = "default";
+if (!s.IsNullOrWhiteSpace())
+	text = s.Trim();
+// fluent code by avoiding comparison
+string text = s.OrEmpty().Trim(); // "" when s is null/empty/whitespace
+string text = s.Or("default").Trim(); // "default" when s is null/empty/whitespace
+```
+
 ####check extensions:
 
 ```c#
