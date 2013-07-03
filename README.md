@@ -125,3 +125,21 @@ if ("Red".GetEnumValue<Color>() == Color.Red) { /**/ }
 // slower
 if ("Red" == Color.Red.ToString()) { /**/ }
 ```
+
+```c#
+enum Color
+{
+    [Description("Red color")] Red = 1, 
+    Green, 
+    [Description("Blue color")] Blue
+}
+IDictionary<string, string> colorsMap = EnumExtension.GetEnumNameToDescriptionMap<Color>();
+// build a select list
+IEnumerable<ListItem> selectOptions = colorsMap
+	.Select(x => new ListItem() { text: x.Value, value: x.Key });
+//	<select>
+//	  <option value="Red">Red color</option>
+//	  <option value="Green">Green</option>
+//	  <option value="Blue">Blue color</option>
+//	</select>
+```

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
@@ -115,6 +116,21 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(colors.Contains(Color.Red.ToString()));
             Assert.IsTrue(colors.Contains(Color.Green.ToString()));
             Assert.IsTrue(colors.Contains(Color.Blue.ToString()));
+        }
+        [Test]
+        public void GetEnumNameToDescriptionMap01()
+        {
+            var colorsMap = EnumExtension.GetEnumNameToDescriptionMap<Color>();
+            Assert.AreEqual(3, colorsMap.Count());
+            Assert.IsTrue(colorsMap.Contains(
+                new KeyValuePair<string, string>(Color.Red.ToString(), Color.Red.GetDescription())
+                ));
+            Assert.IsTrue(colorsMap.Contains(
+                new KeyValuePair<string, string>(Color.Green.ToString(), Color.Green.GetDescription())
+                ));
+            Assert.IsTrue(colorsMap.Contains(
+                new KeyValuePair<string, string>(Color.Blue.ToString(), Color.Blue.GetDescription())
+                ));
         }
     }
 }

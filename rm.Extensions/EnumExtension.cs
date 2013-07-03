@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace rm.Extensions
@@ -40,6 +41,15 @@ namespace rm.Extensions
             where T : struct
         {
             return EnumInternal<T>.NameToValueMap.Select(x => x.Key).ToArray();
+        }
+        /// <summary>
+        /// Get enum name (string) -> description (string) map for type T enum.
+        /// </summary>
+        public static IDictionary<string, string> GetEnumNameToDescriptionMap<T>()
+            where T : struct
+        {
+            return EnumInternal<T>.ValueToDescriptionMap
+                .ToDictionary(x => GetEnumName(x.Key), x => x.Value);
         }
         /// <summary>
         /// Get the name (string) for the enum value or throw exception if not exists.
