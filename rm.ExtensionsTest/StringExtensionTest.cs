@@ -53,5 +53,43 @@ namespace rm.ExtensionsTest
         {
             Assert.AreEqual(expected, s.Or(or));
         }
+        [Test]
+        [TestCase("<", "&lt;")]
+        [TestCase("s", "s")]
+        [TestCase("", "")]
+        [TestCase(" ", " ")]
+        [TestCase((string)null, (string)null)]
+        public void HtmlEncode01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.HtmlEncode());
+        }
+        [Test]
+        [TestCase("&lt;", "<")]
+        [TestCase("s", "s")]
+        [TestCase("", "")]
+        [TestCase(" ", " ")]
+        [TestCase((string)null, (string)null)]
+        public void HtmlDecode01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.HtmlDecode());
+        }
+        [Test]
+        [TestCase(" ", "+")]
+        [TestCase("s", "s")]
+        [TestCase("", "")]
+        [TestCase((string)null, (string)null)]
+        public void UrlEncode01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.UrlEncode());
+        }
+        [Test]
+        [TestCase("+", " ")]
+        [TestCase("s", "s")]
+        [TestCase("", "")]
+        [TestCase((string)null, (string)null)]
+        public void UrlDecode01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.UrlDecode());
+        }
     }
 }

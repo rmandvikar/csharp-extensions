@@ -1,4 +1,6 @@
-﻿namespace rm.Extensions
+﻿using System.Net;
+
+namespace rm.Extensions
 {
     /// <summary>
     /// String extensions.
@@ -36,6 +38,34 @@
         public static string OrEmpty(this string s)
         {
             return s.Or("");
+        }
+        /// <summary>
+        /// Returns html-encoded string.
+        /// </summary>
+        public static string HtmlEncode(this string s)
+        {
+            return WebUtility.HtmlEncode(s);
+        }
+        /// <summary>
+        /// Returns html-decoded string.
+        /// </summary>
+        public static string HtmlDecode(this string s)
+        {
+            return WebUtility.HtmlDecode(s);
+        }
+        /// <summary>
+        /// Returns url-encoded string.
+        /// </summary>
+        public static string UrlEncode(this string s)
+        {
+            return WebUtility.UrlEncode(s);
+        }
+        /// <summary>
+        /// Returns url-decoded string.
+        /// </summary>
+        public static string UrlDecode(this string s)
+        {
+            return WebUtility.UrlDecode(s);
         }
     }
 }

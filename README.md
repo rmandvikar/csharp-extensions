@@ -21,6 +21,15 @@ string text = s.OrEmpty().Trim(); // "" when s is null/empty/whitespace
 string text = s.Or("default").Trim(); // "default" when s is null/empty/whitespace
 ```
 
+```c#
+// html-en/decode, url-en/decode
+string s = "";
+string htmlencoded = s.HtmlEncode();
+string htmldecoded = s.HtmlDecode();
+string urlencoded = s.UrlEncode();
+string urldecoded = s.UrlDecode();
+```
+
 ####check extensions:
 
 ```c#
