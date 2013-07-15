@@ -107,5 +107,66 @@ namespace rm.Extensions
             isSorted = sourceArray.Length == i;
             return isSorted;
         }
+        /// <summary>
+        /// Returns the only two elements of a sequence.
+        /// </summary>
+        public static IEnumerable<T> Double<T>(this IEnumerable<T> source)
+        {
+            source.NullArgumentCheck("source");
+            return XOrDefaultInternal(source, count: 2, emptyCheck: false);
+        }
+        /// <summary>
+        ///  Returns the only two elements of a sequence that satisfy a specified condition.
+        /// </summary>
+        public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
+            Func<T, bool> predicate)
+        {
+            source.NullArgumentCheck("source");
+            predicate.NullArgumentCheck("predicate");
+            return Double(source.Where(predicate));
+        }
+        /// <summary>
+        /// Returns the only two elements of a sequence, or a default value if the sequence is empty.
+        /// </summary>
+        public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source)
+        {
+            source.NullArgumentCheck("source");
+            return XOrDefaultInternal(source, count: 2, emptyCheck: true);
+        }
+        /// <summary>
+        /// Returns the only two elements of a sequence that satisfy a specified condition 
+        /// or a default value if no such elements exists.
+        /// </summary>
+        public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
+            Func<T, bool> predicate)
+        {
+            source.NullArgumentCheck("source");
+            predicate.NullArgumentCheck("predicate");
+            return DoubleOrDefault(source.Where(predicate));
+        }
+        /// <summary>
+        /// Returns the only <paramref name="count"/> elements of a sequence 
+        /// or a default value if no such elements exists depending on <paramref name="emptyCheck"/>.
+        /// </summary>
+        private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
+            int count, bool emptyCheck)
+        {
+            source.NullArgumentCheck("source");
+            count.ArgumentRangeCheck("count");
+            if (emptyCheck)
+            {
+                if (source.Count() == 0)
+                {
+                    return null;
+                }
+            }
+            if (source.Count() == count)
+            {
+                return source;
+            }
+            throw new InvalidOperationException(
+                string.Format("The input sequence does not contain {0} elements.", count)
+                );
+        }
     }
 }

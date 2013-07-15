@@ -110,6 +110,24 @@ bool isSorted2 = collection2.IsSorted();
 // isSorted1, isSorted2: true
 ```
 
+```c#
+// Double(), DoubleOrDefault() as Single(), SingleOrDefault()
+IEnumerable<int> doubleitems = new[] { 1, 2 }.Double();
+// doubleitems: { 1, 2 }
+IEnumerable<int> doubleitems = new[] { 1, 2, 3 }.Double(x => x > 1);
+// doubleitems: { 2, 3 }
+IEnumerable<int> doubleordefaultitems = new int[0].DoubleOrDefault();
+// doubleordefaultitems: null
+IEnumerable<int> doubleordefaultitems = new[] { 1, 2, 3 }.DoubleOrDefault(x => x > 1);
+// doubleordefaultitems: { 2, 3 }
+
+// throws InvalidOperationException
+new[] { 1 }.Double();
+new[] { 1 }.Double(x => x > 0);
+new[] { 1 }.DoubleOrDefault();
+new[] { 1 }.DoubleOrDefault(x => x > 0);
+```
+
 ####Enum extensions:
 
 ```c#

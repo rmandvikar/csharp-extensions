@@ -93,5 +93,45 @@ namespace rm.ExtensionsTest
             var sourceAllSame = new[] { 5, 5, 5 };
             Assert.IsTrue(sourceAllSame.IsSorted());
         }
+        [Test]
+        public void Double01()
+        {
+            Assert.AreEqual(2, new[] { 1, 2 }.Double().Count());
+            Assert.Throws<InvalidOperationException>(() => { new int[0].Double(); });
+
+            Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).Double(); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.Double(); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.Double(); });
+        }
+        [Test]
+        public void Double02()
+        {
+            Assert.AreEqual(2, new[] { 0, 1, 2, 3 }.Double(x => x > 1).Count());
+            Assert.Throws<InvalidOperationException>(() => { new int[0].Double(x => x > 0); });
+
+            Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).Double(x => x > 0); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.Double(x => x > 0); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.Double(x => x > 0); });
+        }
+        [Test]
+        public void DoubleOrDefault01()
+        {
+            Assert.AreEqual(2, new[] { 1, 2 }.DoubleOrDefault().Count());
+            Assert.AreEqual(null, new int[0].DoubleOrDefault());
+            
+            Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).DoubleOrDefault(); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(); });
+        }
+        [Test]
+        public void DoubleOrDefault02()
+        {
+            Assert.AreEqual(2, new[] { 0, 1, 2, 3 }.DoubleOrDefault(x => x > 1).Count());
+            Assert.AreEqual(null, new int[0].DoubleOrDefault(x => x > 1));
+
+            Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).DoubleOrDefault(x => x > 0); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(x => x > 0); });
+            Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(x => x > 0); });
+        }
     }
 }
