@@ -192,3 +192,18 @@ enum Color
 string redName = "Red color".GetEnumNameFromDescription<Color>()
 // redName: "Red"
 ```
+
+```c#
+enum Color
+{
+    [Description("Red color")] Red = 1, 
+    Green, 
+    [Description("Blue color")] Blue
+}
+string colorjson = EnumExtension.GetJson<Color>();
+// colorjson: @"{
+//   Red: "Red color",
+//   Green: "Green",
+//   Blue: "Blue color"
+// }"
+```

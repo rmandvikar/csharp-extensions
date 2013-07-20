@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 
 namespace rm.Extensions
 {
@@ -33,19 +34,36 @@ namespace rm.Extensions
         internal static readonly IDictionary<string, T> DescriptionToValueMap =
             new Dictionary<string, T>();
         /// <summary>
+        /// enum type name -> json
+        /// </summary>
+        internal static readonly IDictionary<string, string> TypeNameToJsonMap =
+            new Dictionary<string, string>();
+        /// <summary>
         /// Build maps.
         /// </summary>
         static EnumInternal()
         {
+            var buffer = new StringBuilder();
+            var first = true;
+            buffer.Append("{");
             foreach (T enumValue in Enum.GetValues(typeof(T)))
             {
+                if (!first)
+                {
+                    buffer.Append(",");
+                }
+                first = false;
                 var enumName = Enum.GetName(typeof(T), enumValue);
                 NameToValueMap.Add(enumName, enumValue);
                 ValueToNameMap.Add(enumValue, enumName);
                 var description = GetDescription(enumValue);
                 ValueToDescriptionMap.Add(enumValue, description);
                 DescriptionToValueMap.Add(description, enumValue);
+                buffer.AppendFormat("{0}{1}{2}: \"{3}\"", 
+                    Environment.NewLine, "\t", enumName, description);
             }
+            buffer.AppendFormat("{0}}}", Environment.NewLine);
+            TypeNameToJsonMap.Add(typeof(T).FullName, buffer.ToString());
         }
         /// <summary>
         /// Get description (DescriptionAttribute) for enum value or string representation if not exists.

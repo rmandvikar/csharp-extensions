@@ -20,6 +20,7 @@ namespace rm.ExtensionsTest
         [Sc.Description("Blue color")]
         Blue
     }
+    public enum EmptyEnum { }
     [TestFixture]
     public class EnumExtensionTest
     {
@@ -140,6 +141,24 @@ namespace rm.ExtensionsTest
             {
                 "OutOfRange".GetEnumNameFromDescription<Color>();
             });
+        }
+        [Test]
+        public void GetJson01()
+        {
+            var json = EnumExtension.GetJson<Color>();
+            Console.WriteLine("colorjson = {0}", json);
+            var expected = string.Format("{{{0}{1}Red: \"Red color\",{0}{1}Green: \"Green\",{0}{1}Blue: \"Blue color\"{0}}}", Environment.NewLine, "\t");
+            dynamic j = expected;
+            Assert.AreEqual(expected, json);
+        }
+        [Test]
+        public void GetJson02()
+        {
+            var json = EnumExtension.GetJson<EmptyEnum>();
+            Console.WriteLine("emptyenumjson = {0}", json);
+            var expected = string.Format("{{{0}}}", Environment.NewLine);
+            dynamic j = expected;
+            Assert.AreEqual(expected, json);
         }
     }
 }

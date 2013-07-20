@@ -103,5 +103,18 @@ namespace rm.Extensions
             }
             throw new ArgumentOutOfRangeException();
         }
+        /// <summary>
+        /// Get enum json as name, description.
+        /// </summary>
+        public static string GetJson<T>()
+            where T : struct
+        {
+            string json;
+            if (EnumInternal<T>.TypeNameToJsonMap.TryGetValue(typeof(T).FullName, out json))
+            {
+                return json;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
     }
 }
