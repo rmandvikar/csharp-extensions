@@ -28,6 +28,11 @@ namespace rm.Extensions
         internal static readonly IDictionary<T, string> ValueToDescriptionMap =
             new Dictionary<T, string>();
         /// <summary>
+        /// enum description -> value
+        /// </summary>
+        internal static readonly IDictionary<string, T> DescriptionToValueMap =
+            new Dictionary<string, T>();
+        /// <summary>
         /// Build maps.
         /// </summary>
         static EnumInternal()
@@ -39,6 +44,7 @@ namespace rm.Extensions
                 ValueToNameMap.Add(enumValue, enumName);
                 var description = GetDescription(enumValue);
                 ValueToDescriptionMap.Add(enumValue, description);
+                DescriptionToValueMap.Add(description, enumValue);
             }
         }
         /// <summary>

@@ -181,3 +181,14 @@ IEnumerable<ListItem> selectOptions = colorsMap
 //	  <option value="Blue">Blue color</option>
 //	</select>
 ```
+
+```c#
+enum Color
+{
+    [Description("Red color")] Red = 1, 
+    Green, 
+    [Description("Blue color")] Blue
+}
+string redName = "Red color".GetEnumNameFromDescription<Color>()
+// redName: "Red"
+```

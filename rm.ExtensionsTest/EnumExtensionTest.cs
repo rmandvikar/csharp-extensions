@@ -132,5 +132,14 @@ namespace rm.ExtensionsTest
                 new KeyValuePair<string, string>(Color.Blue.ToString(), Color.Blue.GetDescription())
                 ));
         }
+        [Test]
+        public void GetEnumNameFromDescription01()
+        {
+            Assert.AreEqual(Color.Red.ToString(), "Red color".GetEnumNameFromDescription<Color>());
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                "OutOfRange".GetEnumNameFromDescription<Color>();
+            });
+        }
     }
 }
