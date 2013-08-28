@@ -207,3 +207,36 @@ string colorjson = EnumExtension.GetJson<Color>();
 //   Blue: "Blue color"
 // }"
 ```
+
+```c#
+// compile error: cannot have int as enum values or hyphen sign in enum values
+enum Grade { Toddler, Pre-K, Kindergarten, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, College }
+// work-around: use Description attribute
+enum Grade 
+{
+	Toddler = 1, 
+    [Description("Pre-K")] PreK, 
+	Kindergarten, 
+	[Description("1")] One, 
+	[Description("2")] Two, 
+	[Description("3")] Three, 
+	[Description("4")] Four, 
+	[Description("5")] Five, 
+	[Description("6")] Six, 
+	[Description("7")] Seven, 
+	[Description("8")] Eight, 
+	[Description("9")] Nine, 
+	[Description("10")] Ten, 
+	[Description("11")] Eleven, 
+	[Description("12")] Twelve, 
+	College
+}
+
+// to sort gradesUnsorted, use GetEnumValueFromDescription<T>() and GetDescription<T>() methods
+string[] gradesUnsorted = new[] { "Pre-K", "1", "College", "2", "Toddler" };
+Grade[] grades = gradesUnsorted
+    .Select(x => x.GetEnumValueFromDescription<Grade>()).ToArray();
+Array.Sort(grades);
+string[] gradesSorted = grades.Select(x => x.GetDescription());
+// gradesSorted: { "Toddler", "Pre-K", "1", "2", "College" } 
+```

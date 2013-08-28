@@ -20,6 +20,25 @@ namespace rm.ExtensionsTest
         [Sc.Description("Blue color")]
         Blue
     }
+    public enum Grade 
+    {
+	    Toddler = 1, 
+        [Sc.Description("Pre-K")] PreK, 
+	    Kindergarten, 
+	    [Sc.Description("1")] One, 
+	    [Sc.Description("2")] Two, 
+	    [Sc.Description("3")] Three, 
+	    [Sc.Description("4")] Four, 
+	    [Sc.Description("5")] Five, 
+	    [Sc.Description("6")] Six, 
+	    [Sc.Description("7")] Seven, 
+	    [Sc.Description("8")] Eight, 
+	    [Sc.Description("9")] Nine, 
+	    [Sc.Description("10")] Ten, 
+	    [Sc.Description("11")] Eleven, 
+	    [Sc.Description("12")] Twelve, 
+	    College
+    }
     public enum EmptyEnum { }
     [TestFixture]
     public class EnumExtensionTest
@@ -159,6 +178,19 @@ namespace rm.ExtensionsTest
             var expected = string.Format("{{{0}}}", Environment.NewLine);
             dynamic j = expected;
             Assert.AreEqual(expected, json);
+        }
+        [Test]
+        public void Sorting01()
+        {
+            var gradesUnsorted = new[] { "Pre-K", "1", "College", "2", "Toddler" };
+            var grades = gradesUnsorted
+                .Select(x => x.GetEnumValueFromDescription<Grade>()).ToArray();
+            Array.Sort(grades);
+            Console.WriteLine("orig: {0}", string.Join(", ", gradesUnsorted));
+            var gradesSorted = grades.Select(x => x.GetDescription());
+            var gradesSortedFlat = string.Join(", ", gradesSorted);
+            Assert.AreEqual("Toddler, Pre-K, 1, 2, College", gradesSortedFlat);
+            Console.WriteLine("sort: {0}", gradesSortedFlat);
         }
     }
 }

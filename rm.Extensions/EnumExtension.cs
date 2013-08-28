@@ -91,6 +91,19 @@ namespace rm.Extensions
             throw new ArgumentOutOfRangeException();
         }
         /// <summary>
+        /// Get the value for the enum description (string) or throw exception if not exists.
+        /// </summary>
+        public static T GetEnumValueFromDescription<T>(this string description)
+            where T : struct
+        {
+            T enumValue;
+            if (EnumInternal<T>.DescriptionToValueMap.TryGetValue(description, out enumValue))
+            {
+                return enumValue;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+        /// <summary>
         /// Get the description (DescriptionAttribute) for the enum value or throw exception if not exists.
         /// </summary>
         public static string GetDescription<T>(this T enumValue)
