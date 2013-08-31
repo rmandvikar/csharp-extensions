@@ -168,5 +168,32 @@ namespace rm.Extensions
                 string.Format("The input sequence does not contain {0} elements.", count)
                 );
         }
+        /// <summary>
+        /// Returns a new collection with items shuffled in O(n) time.
+        /// </summary>
+        /// <remarks>
+        /// Fisher-Yates shuffle
+        /// http://stackoverflow.com/questions/1287567/is-using-random-and-orderby-a-good-shuffle-algorithm
+        /// </remarks>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+        {
+            source.NullArgumentCheck("source");
+            rng.NullArgumentCheck("rng");
+            var items = source.ToArray();
+            for (int i = items.Length - 1; i >= 0; i--)
+            {
+                var swapIndex = rng.Next(i + 1);
+                yield return items[swapIndex];
+                // no need to swap fully as items[swapIndex] is not used later
+                items[swapIndex] = items[i];
+            }
+        }
+        /// <summary>
+        /// Returns a new collection with items shuffled in O(n) time.
+        /// </summary>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            return Shuffle(source, new Random());
+        }
     }
 }

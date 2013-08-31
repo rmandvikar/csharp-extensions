@@ -118,7 +118,7 @@ namespace rm.ExtensionsTest
         {
             Assert.AreEqual(2, new[] { 1, 2 }.DoubleOrDefault().Count());
             Assert.AreEqual(null, new int[0].DoubleOrDefault());
-            
+
             Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).DoubleOrDefault(); });
             Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(); });
             Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(); });
@@ -132,6 +132,17 @@ namespace rm.ExtensionsTest
             Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).DoubleOrDefault(x => x > 0); });
             Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(x => x > 0); });
             Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(x => x > 0); });
+        }
+        [Test]
+        public void Shuffle01()
+        {
+            var items = new[] { 0, 1, 2, 3 };
+            var shuffle = items.Shuffle();
+            var itemsStr = string.Join(",", items);
+            var shuffleStr = string.Join(",", shuffle);
+            Console.WriteLine(itemsStr);
+            Console.WriteLine(shuffleStr);
+            Assert.AreNotEqual(shuffleStr, itemsStr);
         }
     }
 }
