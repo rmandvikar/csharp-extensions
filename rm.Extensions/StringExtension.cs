@@ -67,5 +67,12 @@ namespace rm.Extensions
         {
             return WebUtility.UrlDecode(s);
         }
+        /// <summary>
+        /// Format string.
+        /// </summary>
+        public static string format(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
     }
 }

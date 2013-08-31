@@ -30,6 +30,11 @@ string urlencoded = s.UrlEncode();
 string urldecoded = s.UrlDecode();
 ```
 
+```c#
+// "".format() instead of string.Format()
+"{0}".format("test")
+```
+
 ####check extensions:
 
 ```c#

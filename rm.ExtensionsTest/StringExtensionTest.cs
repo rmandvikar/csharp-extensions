@@ -91,5 +91,12 @@ namespace rm.ExtensionsTest
         {
             Assert.AreEqual(expected, s.UrlDecode());
         }
+        [Test]
+        public void Format01()
+        {
+            Assert.AreEqual("", "".format());
+            Assert.AreEqual("test", "{0}".format("test"));
+            Assert.AreEqual("0: 1: 2", "{0}: {1}: {2}".format(0, 1, 2));
+        }
     }
 }
