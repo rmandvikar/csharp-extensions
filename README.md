@@ -58,7 +58,7 @@ public void SomeMethod(object obj1, object obj2)
 public void SomeMethod(string s1, string s2) 
 {
     // throws ArgumentNullException or EmptyException if string is null or empty
-    s1.NullOrEmptyArgumentCheck("s1");
+    s1.NullOrEmptyArgumentCheck("s1"); // or s1.NullOrWhiteSpaceArgumentCheck("s1")
     s2.NullOrEmptyArgumentCheck("s2");
     // OR 
     new[] { s1, s2 }.NullOrEmptyArgumentCheck();
@@ -67,7 +67,7 @@ public void SomeMethod(string s1, string s2)
     
     string s = DoSomething();
 	// throws NullReferenceException or EmptyException if string is null or empty.
-    s.NullOrEmptyCheck("s");
+    s.NullOrEmptyCheck("s"); // or s1.NullOrWhiteSpaceCheck("s")
 }
 ```
 

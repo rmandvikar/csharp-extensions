@@ -114,5 +114,45 @@ namespace rm.ExtensionsTest
                 new[] { "s1", null }.NullOrEmptyArgumentCheck();
             });
         }
+
+        [Test]
+        [TestCase((string)null)]
+        public void NullOrWhiteSpaceCheck01a(string s)
+        {
+            Assert.Throws<NullReferenceException>(() => { s.NullOrWhiteSpaceCheck(); });
+        }
+        [Test]
+        [TestCase("")]
+        [TestCase("  ")]
+        public void NullOrWhiteSpaceCheck01b(string s)
+        {
+            Assert.Throws<EmptyException>(() => { s.NullOrWhiteSpaceCheck(); });
+        }
+        [Test]
+        [TestCase("s")]
+        public void NullOrWhiteSpaceCheck02(string s)
+        {
+            Assert.DoesNotThrow(() => { s.NullOrWhiteSpaceCheck(); });
+        }
+
+        [Test]
+        [TestCase((string)null)]
+        public void NullOrWhiteSpaceArgumentCheck01a(string s)
+        {
+            Assert.Throws<ArgumentNullException>(() => { s.NullOrWhiteSpaceArgumentCheck(); });
+        }
+        [Test]
+        [TestCase("")]
+        [TestCase("  ")]
+        public void NullOrWhiteSpaceArgumentCheck01b(string s)
+        {
+            Assert.Throws<EmptyException>(() => { s.NullOrWhiteSpaceArgumentCheck(); });
+        }
+        [Test]
+        [TestCase("s")]
+        public void NullOrWhiteSpaceArgumentCheck02(string s)
+        {
+            Assert.DoesNotThrow(() => { s.NullOrWhiteSpaceArgumentCheck(); });
+        }
     }
 }

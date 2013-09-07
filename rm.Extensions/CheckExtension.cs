@@ -84,6 +84,24 @@ namespace rm.Extensions
             }
         }
         /// <summary>
+        /// Throws exception if the string is null or whitespace.
+        /// </summary>
+        /// <param name="exMessage">Exception message.</param>
+        public static void NullOrWhiteSpaceCheck(this string s, string exMessage = "")
+        {
+            Ex.Throw<NullReferenceException>(s == null, exMessage);
+            Ex.Throw<EmptyException>(s.Trim().Length == 0, exMessage);
+        }
+        /// <summary>
+        /// Throws exception if the string argument is null or whitespace.
+        /// </summary>
+        /// <param name="exMessage">Exception message.</param>
+        public static void NullOrWhiteSpaceArgumentCheck(this string s, string exMessage = "")
+        {
+            Ex.Throw<ArgumentNullException>(s == null, exMessage);
+            Ex.Throw<EmptyException>(s.Trim().Length == 0, exMessage);
+        }
+        /// <summary>
         /// Throws exception if index is out of range.
         /// </summary>
         /// <param name="index">Index.</param>
