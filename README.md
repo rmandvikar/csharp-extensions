@@ -139,6 +139,24 @@ var shuffled = new[] { 0, 1, 2, 3 }.Shuffle();
 // shuffled: { 2, 3, 1, 0 }
 ```
 
+```c#
+// slice a collection as Python (http://docs.python.org/2/tutorial/introduction.html#strings)
+var a = new[] { 0, 1, 2, 3, 4 }
+var slice = a.Slice(step: 2);
+// slice: { 0, 2 }
+
+a.Slice(start, end) // items start through end-1
+a.Slice(start) // items start through the rest of the array
+a.Slice(0, end) // items from the beginning through end-1
+a.Slice() // a copy of the whole array
+a.Slice(start, end, step) // start through not past end, by step
+a.Slice(-1) // last item in the array
+a.Slice(-2) // last two items in the array
+a.Slice(-3, -2) // third last item in the array
+a.Slice(0, -2) // everything except the last two items
+a.Slice(step: -1) // copy with array reversed
+```
+
 ####Enum extensions:
 
 ```c#

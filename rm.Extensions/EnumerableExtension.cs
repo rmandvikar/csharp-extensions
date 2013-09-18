@@ -195,5 +195,90 @@ namespace rm.Extensions
         {
             return Shuffle(source, new Random());
         }
+        /// <summary>
+        /// Slice an array as Python.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <param name="start">index to include.</param>
+        /// <param name="end">index to exclude.</param>
+        /// <param name="step">step</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// http://docs.python.org/2/tutorial/introduction.html#strings
+        ///    +---+---+---+---+---+
+        ///    | H | e | l | p | A |
+        ///    +---+---+---+---+---+
+        ///      0   1   2   3   4   5
+        /// -6  -5  -4  -3  -2  -1    
+        /// 
+        /// note:
+        /// [1:3] and [-4:-2] give { e, l }
+        /// +ve step means traverse forward, -ve step means traverse backward
+        /// defaults for +ve step, start = 0, end = 5 (a.Length)
+        /// defaults for -ve step, start = -1, end = -6 (-a.Length -1)
+        /// </remarks>
+        public static IEnumerable<T> Slice<T>(this T[] array,
+            int? start = null, int? end = null, int step = 1)
+        {
+            array.NullArgumentCheck("array");
+            int _start, _end;
+            // step
+            if (step == 0)
+            {
+                // handle gracefully
+                yield break;
+            }
+            else if (step > 0)
+            {
+                // defaults for step > 0
+                _start = 0;
+                _end = array.Length;
+            }
+            else // step < 0
+            {
+                // defaults for step < 0
+                _start = -1;
+                _end = -array.Length - 1;
+            }
+            // inputs
+            _start = start ?? _start;
+            _end = end ?? _end;
+            // get positive index for given index
+            Func<int, int, int> toPositiveIndex = (int index, int length) =>
+            {
+                return index >= 0 ? index : index + length;
+            };
+            // start
+            if (_start < -array.Length || _start >= array.Length)
+            {
+                yield break;
+            }
+            _start = toPositiveIndex(_start, array.Length);
+            // end - check gracefully
+            if (_end < -array.Length - 1)
+            {
+                _end = -array.Length - 1;
+            }
+            if (_end > array.Length)
+            {
+                _end = array.Length;
+            }
+            _end = toPositiveIndex(_end, array.Length);
+            // start, end
+            if (step > 0 && _start > _end)
+            {
+                yield break;
+            }
+            if (step < 0 && _end > _start)
+            {
+                yield break;
+            }
+            // slice
+            for (int i = _start; (step > 0 ? i < _end : i > _end); i += step)
+            {
+                yield return array[i];
+            }
+        }
     }
 }
