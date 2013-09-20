@@ -74,5 +74,17 @@ namespace rm.Extensions
         {
             return string.Format(format, args);
         }
+        /// <summary>
+        /// Try-parse string to bool, else default value.
+        /// </summary>
+        public static bool ToBool(this string value, bool defaultValue)
+        {
+            bool result;
+            if (bool.TryParse(value, out result))
+            {
+                return result;
+            }
+            return defaultValue;
+        }
     }
 }

@@ -35,6 +35,12 @@ string urldecoded = s.UrlDecode();
 "{0}".format("test")
 ```
 
+```c#
+// bool try-parse string with default value
+bool b = "".ToBool(defaultValue: true);
+// b: true
+```
+
 ####check extensions:
 
 ```c#

@@ -98,5 +98,16 @@ namespace rm.ExtensionsTest
             Assert.AreEqual("test", "{0}".format("test"));
             Assert.AreEqual("0: 1: 2", "{0}: {1}: {2}".format(0, 1, 2));
         }
+        [Test]
+        [TestCase("", true, true)]
+        [TestCase("true", false, true)]
+        [TestCase("false", true, false)]
+        [TestCase(((string)null), true, true)]
+        [TestCase("True", false, true)]
+        [TestCase("FALSE", true, false)]
+        public void ToBool01(string value, bool defaultValue, bool result)
+        {
+            Assert.AreEqual(result, value.ToBool(defaultValue));
+        }
     }
 }
