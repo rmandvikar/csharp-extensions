@@ -275,3 +275,12 @@ Array.Sort(grades);
 string[] gradesSorted = grades.Select(x => x.GetDescription());
 // gradesSorted: { "Toddler", "Pre-K", "1", "2", "College" } 
 ```
+
+####NameValueCollection extensions:
+
+```c#
+// get query string for name-value collection
+NameValueCollection nvc = new NameValueCollection { {"k1,", "v1"}, {"k2", "v2"} };
+string query = nvc.ToQueryString(); // OR nvc.ToQueryString(prefixQuestionMark: false);
+// query: "?k1%2C=v1&k2=v2" // OR "k1%2C=v1&k2=v2"
+```
