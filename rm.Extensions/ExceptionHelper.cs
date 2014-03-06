@@ -8,15 +8,43 @@ namespace rm.Extensions
     internal class ExceptionHelper
     {
         /// <summary>
-        /// Throw exception of type T with message exMessage if throwEx is true.
+        /// Throw NullReferenceException if true with message.
         /// </summary>
-        /// <remarks>Uses reflection to create exception instance.</remarks>
-        internal static void Throw<T>(bool throwEx, string exMessage)
-            where T : Exception
+        internal static void ThrowIfNull(bool throwEx, string exMessage)
         {
             if (throwEx)
             {
-                throw (Exception)Activator.CreateInstance(typeof(T), exMessage);
+                throw new NullReferenceException(exMessage);
+            }
+        }
+        /// <summary>
+        /// Throw ArgumentNullException if true with message.
+        /// </summary>
+        internal static void ThrowIfArgumentNull(bool throwEx, string exMessage)
+        {
+            if (throwEx)
+            {
+                throw new ArgumentNullException(exMessage);
+            }
+        }
+        /// <summary>
+        /// Throw EmptyException if true with message.
+        /// </summary>
+        internal static void ThrowIfEmpty(bool throwEx, string exMessage)
+        {
+            if (throwEx)
+            {
+                throw new EmptyException(exMessage);
+            }
+        }
+        /// <summary>
+        /// Throw ArgumentOutOfRangeException if true with message.
+        /// </summary>
+        internal static void ThrowIfArgumentOutOfRange(bool throwEx, string exMessage)
+        {
+            if (throwEx)
+            {
+                throw new ArgumentOutOfRangeException(exMessage);
             }
         }
     }

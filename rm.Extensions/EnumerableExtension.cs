@@ -16,8 +16,8 @@ namespace rm.Extensions
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
             int chunkSize)
         {
-            source.NullArgumentCheck("source");
-            chunkSize.ArgumentRangeCheck("chunkSize");
+            source.ThrowIfArgumentNull("source");
+            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
             // to avoid inefficiency due to Count()
             var totalCount = source.Count();
             for (int start = 0; start < totalCount; start += chunkSize)
@@ -33,8 +33,8 @@ namespace rm.Extensions
         private static IEnumerable<T> Chunk<T>(this IEnumerable<T> source,
             int chunkSize, int start, int totalCount)
         {
-            source.NullArgumentCheck("source");
-            chunkSize.ArgumentRangeCheck("chunkSize");
+            source.ThrowIfArgumentNull("source");
+            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
             for (int i = 0; i < chunkSize; i++)
             {
                 if (start + i == totalCount)
@@ -57,8 +57,8 @@ namespace rm.Extensions
         /// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int parts)
         {
-            source.NullArgumentCheck("source");
-            parts.ArgumentRangeCheck("parts");
+            source.ThrowIfArgumentNull("source");
+            parts.ThrowIfArgumentOutOfRange("parts");
             // requires more space for objects
             //var splits_index = source.Select((x, index) => new { x, index = index })
             //    .GroupBy(x => x.index % parts)
@@ -74,7 +74,7 @@ namespace rm.Extensions
         public static bool IsSorted<T>(this IEnumerable<T> source)
             where T : IComparable
         {
-            source.NullArgumentCheck("source");
+            source.ThrowIfArgumentNull("source");
             // make an array to avoid inefficiency due to ElementAt(index)
             var sourceArray = source.ToArray();
             if (sourceArray.Length <= 1)
@@ -112,7 +112,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<T> Double<T>(this IEnumerable<T> source)
         {
-            source.NullArgumentCheck("source");
+            source.ThrowIfArgumentNull("source");
             return XOrDefaultInternal(source, count: 2, emptyCheck: false);
         }
         /// <summary>
@@ -121,8 +121,8 @@ namespace rm.Extensions
         public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
             Func<T, bool> predicate)
         {
-            source.NullArgumentCheck("source");
-            predicate.NullArgumentCheck("predicate");
+            source.ThrowIfArgumentNull("source");
+            predicate.ThrowIfArgumentNull("predicate");
             return Double(source.Where(predicate));
         }
         /// <summary>
@@ -130,7 +130,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source)
         {
-            source.NullArgumentCheck("source");
+            source.ThrowIfArgumentNull("source");
             return XOrDefaultInternal(source, count: 2, emptyCheck: true);
         }
         /// <summary>
@@ -140,8 +140,8 @@ namespace rm.Extensions
         public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
             Func<T, bool> predicate)
         {
-            source.NullArgumentCheck("source");
-            predicate.NullArgumentCheck("predicate");
+            source.ThrowIfArgumentNull("source");
+            predicate.ThrowIfArgumentNull("predicate");
             return DoubleOrDefault(source.Where(predicate));
         }
         /// <summary>
@@ -151,8 +151,8 @@ namespace rm.Extensions
         private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
             int count, bool emptyCheck)
         {
-            source.NullArgumentCheck("source");
-            count.ArgumentRangeCheck("count");
+            source.ThrowIfArgumentNull("source");
+            count.ThrowIfArgumentOutOfRange("count");
             if (emptyCheck)
             {
                 if (source.Count() == 0)
@@ -177,8 +177,8 @@ namespace rm.Extensions
         /// </remarks>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
         {
-            source.NullArgumentCheck("source");
-            rng.NullArgumentCheck("rng");
+            source.ThrowIfArgumentNull("source");
+            rng.ThrowIfArgumentNull("rng");
             var items = source.ToArray();
             for (int i = items.Length - 1; i >= 0; i--)
             {
@@ -221,7 +221,7 @@ namespace rm.Extensions
         public static IEnumerable<T> Slice<T>(this T[] array,
             int? start = null, int? end = null, int step = 1)
         {
-            array.NullArgumentCheck("array");
+            array.ThrowIfArgumentNull("array");
             int _start, _end;
             // step
             if (step == 0)

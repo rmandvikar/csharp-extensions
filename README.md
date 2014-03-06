@@ -41,22 +41,22 @@ bool b = "".ToBool(defaultValue: true);
 // b: true
 ```
 
-####check extensions:
+####ThrowIf extensions:
 
 ```c#
 public void SomeMethod(object obj1, object obj2) 
 {
     // throws ArgumentNullException if object is null
-    obj1.NullArgumentCheck("obj1");
-	obj2.NullArgumentCheck("obj2");
+    obj1.ThrowIfArgumentNull("obj1");
+    obj2.ThrowIfArgumentNull("obj2");
     // OR 
-    new[] { obj1, obj2 }.NullArgumentCheck();
+    new[] { obj1, obj2 }.ThrowIfArgumentNull();
     
     // ...
     
     object obj = DoSomething();
     // throws NullReferenceException if object is null
-    obj.NullCheck("obj");
+    obj.ThrowIfNull("obj");
 }
 ```
 
@@ -64,16 +64,16 @@ public void SomeMethod(object obj1, object obj2)
 public void SomeMethod(string s1, string s2) 
 {
     // throws ArgumentNullException or EmptyException if string is null or empty
-    s1.NullOrEmptyArgumentCheck("s1"); // or s1.NullOrWhiteSpaceArgumentCheck("s1")
-    s2.NullOrEmptyArgumentCheck("s2");
+    s1.ThrowIfNullOrEmptyArgument("s1"); // or s1.ThrowIfNullOrWhiteSpaceArgument("s1")
+    s2.ThrowIfNullOrEmptyArgument("s2");
     // OR 
-    new[] { s1, s2 }.NullOrEmptyArgumentCheck();
+    new[] { s1, s2 }.ThrowIfNullOrEmptyArgument();
     
     // ...
     
     string s = DoSomething();
 	// throws NullReferenceException or EmptyException if string is null or empty.
-    s.NullOrEmptyCheck("s"); // or s1.NullOrWhiteSpaceCheck("s")
+    s.ThrowIfNullOrEmpty("s"); // or s1.ThrowIfNullOrWhiteSpace("s")
 }
 ```
 
