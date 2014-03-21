@@ -42,5 +42,18 @@ namespace rm.Extensions
             Ex.Throw<ArgumentNullException>(s == null, exMessage);
             Ex.Throw<EmptyException>(s.Length == 0, exMessage);
         }
+        /// <summary>
+        /// Throws exception if index is out of range.
+        /// </summary>
+        /// <param name="index">Index.</param>
+        /// <param name="exMessage">Exception message.</param>
+        /// <param name="minRange">Min range value.</param>
+        /// <param name="maxRange">Max range value.</param>
+        public static void ArgumentRangeCheck(this int index, string exMessage = "",
+            int minRange = 0, int maxRange = int.MaxValue)
+        {
+            Ex.Throw<ArgumentOutOfRangeException>(index < minRange || index > maxRange,
+                exMessage);
+        }
     }
 }

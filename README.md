@@ -53,3 +53,11 @@ string dateUtc = date.ToUtcFormatString();
 DateTime date = new DateTime().ToSqlDateTimeMinUtc();
 // date: 1/1/1753 12:00:00 AM
 ```
+
+####IEnumerable extensions:
+
+```c#
+// creates chunks of given collection of specified size
+IEnumerable<IEnumerable<int>> chunks = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.Chunk(3);
+// chunks: { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10 } }
+```
