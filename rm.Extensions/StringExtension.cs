@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 
 namespace rm.Extensions
 {
@@ -85,6 +88,93 @@ namespace rm.Extensions
                 return result;
             }
             return defaultValue;
+        }
+
+        /// <summary>
+        /// Munge substitutions.
+        /// </summary>
+        private static List<KeyValuePair<char, char>> mungeSubstitutions = GetMungeSubstitutions();
+        private static List<KeyValuePair<char, char>> GetMungeSubstitutions()
+        {
+            var mungeSubstitutions = new List<KeyValuePair<char, char>>();
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('a', '@'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('b', '8'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('c', '('));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('e', '3'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('g', '9'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('i', '1'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('i', '!'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('l', '1'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('o', '0'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('s', '$'));
+            mungeSubstitutions.Add(new KeyValuePair<char, char>('t', '+'));
+            // add more here
+            return mungeSubstitutions;
+        }
+        /// <summary>
+        /// key->value[] map.
+        /// </summary>
+        private static IDictionary<char, char[]> mungeMap = mungeSubstitutions.GroupBy(x => x.Key)
+            .ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToArray());
+        /// <summary>
+        /// value->key[] map.
+        /// </summary>
+        private static IDictionary<char, char[]> unmungeMap = mungeSubstitutions.GroupBy(x => x.Value)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.Key).ToArray());
+        /// <summary>
+        /// Munges or unmunges password as per substitution map.
+        /// </summary>
+        private static IEnumerable<string> MungeUnmunge(this string password,
+            IDictionary<char, char[]> map)
+        {
+            password.ThrowIfArgumentNull("password");
+            var list = new List<string>();
+            MungeUnmunge(password, map, 0, new StringBuilder(), list);
+            return list.AsEnumerable();
+        }
+        /// <summary>
+        /// Recursive method to munge/unmunge.
+        /// </summary>
+        /// <param name="password">Password to munge/unmunge.</param>
+        /// <param name="map">Substitution map.</param>
+        /// <param name="index">Index of currently processed character.</param>
+        /// <param name="buffer">Buffer to hold the munge/unmunged password.</param>
+        /// <param name="list">List to hold the passwords.</param>
+        private static void MungeUnmunge(string password,
+            IDictionary<char, char[]> map, int index, StringBuilder buffer,
+            List<string> list)
+        {
+            if (index == password.Length)
+            {
+                list.Add(buffer.ToString());
+                return;
+            }
+            char[] chars;
+            if (!map.TryGetValue(password[index], out chars))
+            {
+                chars = new[] { password[index] };
+            }
+            foreach (var c in chars)
+            {
+                buffer.Append(c);
+                MungeUnmunge(password, map, index + 1, buffer, list);
+                buffer.Length--;
+            }
+        }
+        /// <summary>
+        /// Munge a password.
+        /// </summary>
+        /// <remarks>http://en.wikipedia.org/wiki/Munged_password</remarks>
+        public static IEnumerable<string> Munge(this string password)
+        {
+            return MungeUnmunge(password, mungeMap);
+        }
+        /// <summary>
+        /// Unmunge a (munged) password.
+        /// </summary>
+        public static IEnumerable<string> Unmunge(this string password)
+        {
+            return MungeUnmunge(password, unmungeMap);
         }
     }
 }

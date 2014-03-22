@@ -41,6 +41,19 @@ bool b = "".ToBool(defaultValue: true);
 // b: true
 ```
 
+```c#
+// munge a password
+string[] munged = "password".Munge().ToArray();
+// munged: { "p@$$w0rd" }
+string[] munged = "ai".Munge().ToArray();
+// munged: { "@1", "@!" }
+// unmunge a password
+string[] unmunged = "p@$$w0rd".Unmunge().ToArray();
+// unmunged: { "password" }
+string[] unmunged = "@1".Unmunge().ToArray();
+// unmunged: { "ai", "al" }
+```
+
 ####ThrowIf extensions:
 
 ```c#

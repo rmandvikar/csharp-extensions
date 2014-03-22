@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
 
@@ -108,6 +108,28 @@ namespace rm.ExtensionsTest
         public void ToBool01(string value, bool defaultValue, bool result)
         {
             Assert.AreEqual(result, value.ToBool(defaultValue));
+        }
+        [Test]
+        [TestCase("password", "p@$$w0rd")]
+        [TestCase("ai", "@1", "@!")]
+        [TestCase("ia", "1@", "!@")]
+        [TestCase("aii", "@11", "@1!", "@!1", "@!!")]
+        public void Munge01(string s, params string[] munges)
+        {
+            var result = s.Munge().ToList();
+            Assert.AreEqual(munges.Length, result.Count);
+            Assert.IsTrue(munges.SequenceEqual(result));
+        }
+        [Test]
+        [TestCase("p@$$w0rd", "password")]
+        [TestCase("@1", "ai", "al")]
+        [TestCase("1@", "ia", "la")]
+        [TestCase("@11", "aii", "ail", "ali", "all")]
+        public void Unmunge01(string s, params string[] unmunges)
+        {
+            var result = s.Unmunge().ToList();
+            Assert.AreEqual(unmunges.Length, result.Count);
+            Assert.IsTrue(unmunges.SequenceEqual(result));
         }
     }
 }
