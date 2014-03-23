@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace rm.Extensions
 {
@@ -278,6 +279,48 @@ namespace rm.Extensions
             for (int i = _start; (step > 0 ? i < _end : i > _end); i += step)
             {
                 yield return array[i];
+            }
+        }
+        /// <summary>
+        /// Returns a new collection with words scrabbled like the game.
+        /// </summary>
+        public static IEnumerable<string> Scrabble(this IEnumerable<string> words)
+        {
+            words.ThrowIfArgumentNull("words");
+            var wordsArray = words.Where(x => !x.IsNullOrEmpty()).ToArray();
+            var list = new List<string>();
+            Scrabble(wordsArray, new bool[wordsArray.Length], new StringBuilder(), 0, list);
+            return list.AsEnumerable();
+        }
+        /// <summary>
+        /// Recursive method to scrabble.
+        /// </summary>
+        /// <param name="words">Words to scrabble.</param>
+        /// <param name="flags">Bool array to determine already used word in <paramref name="words"/>.</param>
+        /// <param name="buffer">Buffer to hold the words.</param>
+        /// <param name="depth">Call depth to determine when to return.</param>
+        /// <param name="list">List to hold the scrabbled words.</param>
+        /// <remarks>Similar to the permute method.</remarks>
+        private static void Scrabble(string[] words, bool[] flags, StringBuilder buffer, int depth,
+            IList<string> list)
+        {
+            if (depth == words.Length)
+            {
+                return;
+            }
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (flags[i])
+                {
+                    continue;
+                }
+                flags[i] = true;
+                buffer.Append(words[i]);
+                // add to list here
+                list.Add(buffer.ToString());
+                Scrabble(words, flags, buffer, depth + 1, list);
+                buffer.Length -= words[i].Length;
+                flags[i] = false;
             }
         }
     }

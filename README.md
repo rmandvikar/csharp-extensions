@@ -54,6 +54,13 @@ string[] unmunged = "@1".Unmunge().ToArray();
 // unmunged: { "ai", "al" }
 ```
 
+```c#
+// scrabble characters of word (like the game)
+var word = "on";
+var scrabbled = word.Scrabble();
+// scrabbled: { "o", "on", "n", "no" }
+```
+
 ####ThrowIf extensions:
 
 ```c#
@@ -174,6 +181,13 @@ a.Slice(-2) // last two items in the array
 a.Slice(-3, -2) // third last item in the array
 a.Slice(0, -2) // everything except the last two items
 a.Slice(step: -1) // copy with array reversed
+```
+
+```c#
+// scrabble a list of words (like the game)
+var words = { "this", "test" };
+var scrabbled = words.Scrabble();
+// scrabbled: { "this", "thistest", "test", "testthis" }
 ```
 
 ####Enum extensions:

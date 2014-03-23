@@ -226,5 +226,21 @@ namespace rm.ExtensionsTest
             Print(slice);
             Assert.AreEqual(count, slice.Count());
         }
+        [Test]
+        [TestCase("this", "is", "a", "test")]
+        [TestCase("this", "test", "")]
+        [TestCase("")]
+        public void Scrabble01(params string[] words)
+        {
+            var result = words.Scrabble();
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("scrabble count:{0}", words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount());
+            Console.WriteLine("result count:{0}", result.Count());
+            Assert.AreEqual(result.Count(), result.Distinct().Count());
+            Assert.AreEqual(words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount(), result.Count());
+        }
     }
 }

@@ -176,5 +176,14 @@ namespace rm.Extensions
         {
             return MungeUnmunge(password, unmungeMap);
         }
+
+        /// <summary>
+        /// Returns a new collection with characters scrabbled like the game.
+        /// </summary>
+        public static IEnumerable<string> Scrabble(this string word)
+        {
+            word.ThrowIfArgumentNull("word");
+            return word.Select(x => x.ToString()).Scrabble();
+        }
     }
 }

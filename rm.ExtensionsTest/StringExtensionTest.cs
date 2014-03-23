@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
 
@@ -130,6 +131,22 @@ namespace rm.ExtensionsTest
             var result = s.Unmunge().ToList();
             Assert.AreEqual(unmunges.Length, result.Count);
             Assert.IsTrue(unmunges.SequenceEqual(result));
+        }
+        [Test]
+        [TestCase("this")]
+        [TestCase("on")]
+        [TestCase("")]
+        public void Scrabble01(string word)
+        {
+            var result = word.Scrabble();
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("scrabble count:{0}", word.Length.ScrabbleCount());
+            Console.WriteLine("result count:{0}", result.Count());
+            Assert.AreEqual(result.Count(), result.Distinct().Count());
+            Assert.AreEqual(word.Length.ScrabbleCount(), result.Count());
         }
     }
 }
