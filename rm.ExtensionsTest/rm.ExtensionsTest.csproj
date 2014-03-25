@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionTest.cs" />
     <Compile Include="ThrowExtensionTest.cs" />
+    <Compile Include="TimeSpanExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

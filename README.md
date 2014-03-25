@@ -311,3 +311,11 @@ NameValueCollection nvc = new NameValueCollection { {"k1,", "v1"}, {"k2", "v2"} 
 string query = nvc.ToQueryString(); // OR nvc.ToQueryString(prefixQuestionMark: false);
 // query: "?k1%2C=v1&k2=v2" // OR "k1%2C=v1&k2=v2"
 ```
+
+####TimeSpan extensions:
+
+```c#
+// round timespan as ms, s, h, d, wk, mth, y.
+string round = TimeSpan.FromDays(10).Round();
+// round: "1wk"
+```
