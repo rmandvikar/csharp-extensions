@@ -51,6 +51,7 @@
     <Compile Include="StringExtension.cs" />
     <Compile Include="ThrowExtension.cs" />
     <Compile Include="TimeSpanExtension.cs" />
+    <Compile Include="UriExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
