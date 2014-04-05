@@ -73,7 +73,7 @@ namespace rm.Extensions
         /// Returns true if list is ascendingly or descendingly sorted.
         /// </summary>
         public static bool IsSorted<T>(this IEnumerable<T> source)
-            where T : IComparable
+            where T : IComparable, IComparable<T>
         {
             source.ThrowIfArgumentNull("source");
             // make an array to avoid inefficiency due to ElementAt(index)
