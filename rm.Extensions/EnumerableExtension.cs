@@ -36,12 +36,8 @@ namespace rm.Extensions
         {
             source.ThrowIfArgumentNull("source");
             chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
-            for (int i = 0; i < chunkSize; i++)
+            for (int i = 0; i < chunkSize && start + i < totalCount; i++)
             {
-                if (start + i == totalCount)
-                {
-                    yield break;
-                }
                 yield return source.ElementAt(start + i);
             }
         }
