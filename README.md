@@ -332,3 +332,10 @@ string md5 = uri.Checksum(Hasher.md5);
 // sha1: 349841408d1aa1f5a8892686fbdf54777afc0b2c
 // md5: 57e396baedfe1a034590339082b9abce
 ```
+
+####Helper methods:
+
+```c#
+// swap two values or references
+a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
+```

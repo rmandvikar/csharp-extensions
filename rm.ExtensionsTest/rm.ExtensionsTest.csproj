@@ -51,6 +51,7 @@
     <Compile Include="DateTimeExtensionTest.cs" />
     <Compile Include="EnumerableExtensionTest.cs" />
     <Compile Include="EnumExtensionTest.cs" />
+    <Compile Include="HelperTest.cs" />
     <Compile Include="IntExtensionTest.cs" />
     <Compile Include="NameValueCollectionExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
