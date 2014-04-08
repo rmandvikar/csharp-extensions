@@ -36,5 +36,19 @@ namespace rm.Extensions
         {
             return SqlDateTimeMinUtc;
         }
+        /// <summary>
+        /// Specify datetime's kind as UTC.
+        /// </summary>
+        /// <param name="datetime"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Date read from db or parsed from string has its Kind as Unspecified.
+        /// Specifying its kind as UTC is needed if date is expected to be UTC.
+        /// ToUniversalTime() assumes that the kind is local while converting it and is undesirable.
+        /// </remarks>
+        public static DateTime AsUtcKind(this DateTime datetime)
+        {
+            return DateTime.SpecifyKind(datetime, DateTimeKind.Utc);
+        }
     }
 }

@@ -20,5 +20,15 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(DateTimeKind.Utc, date.Kind);
             Assert.AreEqual("1/1/1753 12:00:00 AM", date.ToString());
         }
+        [Test]
+        public void AsUtcKind01()
+        {
+            var date = DateTime.Parse("4/1/2014 12:00:00 AM");
+            Assert.AreEqual(DateTimeKind.Unspecified, date.Kind);
+            date = date.AsUtcKind();
+            Assert.AreEqual(DateTimeKind.Utc, date.Kind);
+            Assert.AreEqual("4/1/2014 12:00:00 AM", date.ToString());
+            Assert.AreEqual("4/1/2014 12:00:00 AM", date.ToUniversalTime().ToString());
+        }
     }
 }

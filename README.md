@@ -111,6 +111,14 @@ DateTime date = new DateTime().ToSqlDateTimeMinUtc();
 // date: 1/1/1753 12:00:00 AM
 ```
 
+```c#
+// date read from db or parsed from string has its Kind as Unspecified.
+// specifying its kind as UTC is needed if date is expected to be UTC.
+// ToUniversalTime() assumes that the kind is local while converting it and is undesirable.
+DateTime date = DateTime.Parse("4/1/2014 12:00:00 AM").AsUtcKind();
+// date: 4/1/2014 12:00:00 AM, Kind: Utc
+```
+
 ####IEnumerable extensions:
 
 ```c#
