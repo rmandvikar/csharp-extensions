@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -184,6 +185,13 @@ namespace rm.Extensions
         {
             word.ThrowIfArgumentNull("word");
             return word.Select(x => x.ToString()).Scrabble();
+        }
+        /// <summary>
+        /// Parse a string in UTC format as DateTime.
+        /// </summary>
+        public static DateTime ParseAsUtc(this string s)
+        {
+            return DateTimeOffset.Parse(s).UtcDateTime;
         }
     }
 }

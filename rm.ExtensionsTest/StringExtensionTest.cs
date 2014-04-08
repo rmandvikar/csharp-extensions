@@ -148,5 +148,15 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(result.Count(), result.Distinct().Count());
             Assert.AreEqual(word.Length.ScrabbleCount(), result.Count());
         }
+        [Test]
+        [TestCase("2013-04-01T03:42:14-04:00", "4/1/2013 7:42:14 AM")]
+        [TestCase("2012-02-29T23:00:00-04:00", "3/1/2012 3:00:00 AM")]
+        public void ParseAsUtc01(string s, string expected)
+        {
+            var result = s.ParseAsUtc();
+            Assert.AreEqual(DateTimeKind.Utc, result.Kind);
+            Assert.AreEqual(expected, result.ToString());
+            Assert.AreEqual(expected, result.ToUniversalTime().ToString());
+        }
     }
 }

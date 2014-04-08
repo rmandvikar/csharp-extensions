@@ -61,6 +61,12 @@ var scrabbled = word.Scrabble();
 // scrabbled: { "o", "on", "n", "no" }
 ```
 
+```c#
+// parse a string in UTC format as DateTime
+DateTime date = "2013-04-01T03:42:14-04:00".ParseAsUtc();
+// date: 4/1/2013 7:42:14 AM, Kind: Utc
+```
+
 ####ThrowIf extensions:
 
 ```c#
