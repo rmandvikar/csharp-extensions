@@ -319,5 +319,12 @@ namespace rm.Extensions
                 flags[i] = false;
             }
         }
+        /// <summary>
+        /// Convert a collection to HashSet.
+        /// </summary>
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
+        {
+            return new HashSet<T>(source);
+        }
     }
 }

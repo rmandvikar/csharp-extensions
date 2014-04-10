@@ -204,6 +204,11 @@ var scrabbled = words.Scrabble();
 // scrabbled: { "this", "thistest", "test", "testthis" }
 ```
 
+```c#
+// convert a collection to HashSet
+HashSet<string> hashset = new[] { "this", "test" }.ToHashSet();
+```
+
 ####Enum extensions:
 
 ```c#

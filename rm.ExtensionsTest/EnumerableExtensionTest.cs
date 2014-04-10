@@ -242,5 +242,17 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(result.Count(), result.Distinct().Count());
             Assert.AreEqual(words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount(), result.Count());
         }
+        [Test]
+        [TestCase("words", "word", "", null)]
+        [TestCase("this", "is", "a", "test")]
+        public void ToHashSet01(params string[] words)
+        {
+            var set = words.ToHashSet();
+            Assert.NotNull(set);
+            foreach (var word in words)
+            {
+                Assert.IsTrue(set.Contains(word));
+            }
+        }
     }
 }
