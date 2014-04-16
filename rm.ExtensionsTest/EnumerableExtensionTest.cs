@@ -140,13 +140,23 @@ namespace rm.ExtensionsTest
         [Test]
         public void Shuffle01()
         {
-            var items = new[] { 0, 1, 2, 3 };
-            var shuffle = items.Shuffle();
+            var items = Enumerable.Range(0, 5).ToArray();
             var itemsStr = string.Join(",", items);
-            var shuffleStr = string.Join(",", shuffle);
-            Console.WriteLine(itemsStr);
-            Console.WriteLine(shuffleStr);
-            Assert.AreNotEqual(shuffleStr, itemsStr);
+            var tries = 2;
+            var count = 0;
+            for (int i = 0; i < tries; i++)
+            {
+                var shuffle = items.Shuffle().ToArray();
+                var shuffleStr = string.Join(",", shuffle);
+                Console.WriteLine(itemsStr);
+                Console.WriteLine(shuffleStr);
+                if (items.SequenceEqual(shuffle))
+                {
+                    count++;
+                }
+                Console.WriteLine("--");
+            }
+            Assert.Less(count, tries);
         }
         [Test]
         // normal cases
