@@ -151,14 +151,12 @@ namespace rm.Extensions
         {
             source.ThrowIfArgumentNull("source");
             count.ThrowIfArgumentOutOfRange("count");
-            if (emptyCheck)
+            if (emptyCheck && source.IsNullOrEmpty())
             {
-                if (source.Count() == 0)
-                {
-                    return null;
-                }
+                return null;
             }
-            if (source.Count() == count)
+            // source.Count() == count is inefficient for large enumerable
+            if (source.HasCount(count))
             {
                 return source;
             }
