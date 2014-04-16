@@ -45,5 +45,40 @@ namespace rm.Extensions
             }
             return "{0}ms".format(ts.TotalMilliseconds);
         }
+        /// <summary>
+        /// n Days.
+        /// </summary>
+        public static TimeSpan Days(this int n)
+        {
+            return TimeSpan.FromDays(n);
+        }
+        /// <summary>
+        /// n Hours.
+        /// </summary>
+        public static TimeSpan Hours(this int n)
+        {
+            return TimeSpan.FromHours(n);
+        }
+        /// <summary>
+        /// n Minutes.
+        /// </summary>
+        public static TimeSpan Minutes(this int n)
+        {
+            return TimeSpan.FromMinutes(n);
+        }
+        /// <summary>
+        /// n Seconds.
+        /// </summary>
+        public static TimeSpan Seconds(this int n)
+        {
+            return TimeSpan.FromSeconds(n);
+        }
+        /// <summary>
+        /// n Milliseconds.
+        /// </summary>
+        public static TimeSpan Milliseconds(this int n)
+        {
+            return TimeSpan.FromMilliseconds(n);
+        }
     }
 }

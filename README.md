@@ -339,6 +339,11 @@ string round = TimeSpan.FromDays(10).Round();
 // round: "1wk"
 ```
 
+```c#
+// n Days, Hours, Minutes, Seconds, Milliseconds, etc.
+TimeSpan ts = 10.Days();
+```
+
 ####Uri extensions:
 
 ```c#
