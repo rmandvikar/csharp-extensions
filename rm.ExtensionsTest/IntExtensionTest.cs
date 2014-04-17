@@ -45,5 +45,35 @@ namespace rm.ExtensionsTest
         {
             Assert.AreEqual(result, n.ScrabbleCount());
         }
+        [Test]
+        [TestCase(2, 0, "2")]
+        [TestCase(1000, 0, "1k")]
+        [TestCase(1000000, 0, "1m")]
+        [TestCase(1000000000, 0, "1g")]
+        [TestCase(1500, 0, "1k")]
+        [TestCase(1900, 0, "1k")]
+        [TestCase(2000, 0, "2k")]
+        [TestCase(int.MaxValue, 0, "2g")]
+        [TestCase(int.MinValue, 0, null)] // OverflowException due to abs(n)
+        [TestCase(int.MinValue + 1, 0, "-2g")]
+        [TestCase(999, 0, "999")]
+        [TestCase(-999, 0, "-999")]
+        [TestCase(1001, 0, "1k")]
+        [TestCase(-1001, 0, "-1k")]
+        [TestCase(1099, 1, "1k")]
+        [TestCase(1299, 1, "1.2k")]
+        [TestCase(1599, 1, "1.5k")]
+        [TestCase(1999, 1, "1.9k")]
+        public void Round01(int n, int digits, string result)
+        {
+            if (result.IsNullOrEmpty())
+            {
+                Assert.Throws<OverflowException>(() => n.Round((uint)digits));
+            }
+            else
+            {
+                Assert.AreEqual(result, n.Round((uint)digits));
+            }
+        }
     }
 }

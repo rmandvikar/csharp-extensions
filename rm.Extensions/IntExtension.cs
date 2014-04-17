@@ -58,5 +58,30 @@ namespace rm.Extensions
                 return sum;
             }
         }
+        /// <summary>
+        /// Round int as k, m, g.
+        /// </summary>
+        public static string Round(this int n, uint digits = 0)
+        {
+            string s;
+            var nabs = Math.Abs(n);
+            if (nabs < 1000)
+            {
+                s = n + "";
+            }
+            else if (nabs < 1000000)
+            {
+                s = ((decimal)n / 1000).TruncateTo(digits) + "k";
+            }
+            else if (nabs < 1000000000)
+            {
+                s = ((decimal)n / 1000000).TruncateTo(digits) + "m";
+            }
+            else
+            {
+                s = ((decimal)n / 1000000000).TruncateTo(digits) + "g";
+            }
+            return s;
+        }
     }
 }
