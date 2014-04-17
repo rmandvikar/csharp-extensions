@@ -358,3 +358,10 @@ string md5 = uri.Checksum(Hasher.md5);
 // swap two values or references
 a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
 ```
+
+####decimal extensions:
+
+```c#
+// truncate decimal to specified digits
+12.349m.TruncateTo(2) => 12.34m
+```

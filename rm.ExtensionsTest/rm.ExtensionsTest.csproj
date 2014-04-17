@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeExtensionTest.cs" />
+    <Compile Include="DecimalExtensionTest.cs" />
     <Compile Include="EnumerableExtensionTest.cs" />
     <Compile Include="EnumExtensionTest.cs" />
     <Compile Include="HelperTest.cs" />
