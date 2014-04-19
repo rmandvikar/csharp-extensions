@@ -264,5 +264,13 @@ namespace rm.ExtensionsTest
                 Assert.IsTrue(set.Contains(word));
             }
         }
+        [Test]
+        public void HasCount01()
+        {
+            Assert.True(new[] { 1, 2 }.HasCount(2));
+            Assert.False(new[] { 1 }.HasCount(2));
+            Assert.False(Enumerable.Range(1, 1000000000).HasCount(2));
+            Assert.True(new int[0].HasCount(0));
+        }
     }
 }

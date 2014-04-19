@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -164,6 +165,44 @@ namespace rm.Extensions
             throw new InvalidOperationException(
                 string.Format("The input sequence does not contain {0} elements.", count)
                 );
+        }
+        /// <summary>
+        /// Returns true if source has exactly <paramref name="count"/> elements efficiently.
+        /// </summary>
+        /// <remarks>Based on int Enumerable.Count() method.</remarks>
+        public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
+        {
+            source.ThrowIfArgumentNull("source");
+            var collection = source as ICollection<TSource>;
+            if (collection != null)
+            {
+                return collection.Count == count;
+            }
+            var collection2 = source as ICollection;
+            if (collection2 != null)
+            {
+                return collection2.Count == count;
+            }
+            int num = 0;
+            checked
+            {
+                using (var enumerator = source.GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        num++;
+                        if (num > count)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (num < count)
+            {
+                return false;
+            }
+            return true;
         }
         /// <summary>
         /// Returns a new collection with items shuffled in O(n) time.

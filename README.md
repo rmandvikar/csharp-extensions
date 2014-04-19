@@ -209,6 +209,12 @@ var scrabbled = words.Scrabble();
 HashSet<string> hashset = new[] { "this", "test" }.ToHashSet();
 ```
 
+```c#
+// check an enumerable's count efficiently
+if (enumerable.Count() == 2) { ... } // inefficient for large enumerable
+if (enumerable.HasCount(2)) { ... }
+```
+
 ####Enum extensions:
 
 ```c#
