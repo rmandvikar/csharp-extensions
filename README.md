@@ -242,6 +242,14 @@ var collection = new[] { 1, 2 };
 if (collection.IsEmpty()) { /**/ }
 ```
 
+```c#
+// get top n or bottom n efficiently (using min/max-heap)
+IEnumerable<int> top_n = { 2, 3, 1, 4, 5 }.Top(3);
+IEnumerable<int> bottom_n = { 2, 3, 1, 4, 5 }.Bottom(3);
+// top_n: { 3, 5, 4 }
+// bottom_n: { 3, 1, 2 }
+```
+
 ####Enum extensions:
 
 ```c#

@@ -369,5 +369,82 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(GetEnumerable(1, 10000000).IsEmpty(x => x > 10000000));
             Assert.Throws<ArgumentNullException>(() => ((int[])null).IsEmpty());
         }
+        [Test]
+        [TestCase(3, 1, 4, 6, 7, 9)]
+        [TestCase(3, 9, 1, 4, 6, 7)]
+        [TestCase(3, 1, 1, 1, 1, 1)]
+        [TestCase(3, -9, -1, -4, -6, -7)]
+        [TestCase(3, 1)]
+        public void Top01(int n, params int[] args)
+        {
+            var result = args.Top(n).ToArray();
+            var resultCsv = string.Join(",", result);
+            var argsCsv = string.Join(",", args);
+            args = args.OrderByDescending(x => x).ToArray();
+            result = result.OrderByDescending(x => x).ToArray();
+            var sortresult = args.Take(n).ToArray();
+            var sortresultCsv = string.Join(",", args.Take(n).ToArray());
+            Console.WriteLine(argsCsv);
+            Console.WriteLine(resultCsv);
+            Console.WriteLine(sortresultCsv);
+            Console.WriteLine(string.Join(",", args));
+            Assert.True(sortresult.SequenceEqual(result));
+        }
+        [Test]
+        [TestCase(3, 1, 4, 6, 7, 9)]
+        [TestCase(3, 9, 1, 4, 6, 7)]
+        [TestCase(3, 1, 1, 1, 1, 1)]
+        [TestCase(3, -9, -1, -4, -6, -7)]
+        [TestCase(3, 1)]
+        public void Bottom01(int n, params int[] args)
+        {
+            var result = args.Bottom(n).ToArray();
+            var resultCsv = string.Join(",", result);
+            var argsCsv = string.Join(",", args);
+            args = args.OrderBy(x => x).ToArray();
+            result = result.OrderBy(x => x).ToArray();
+            var sortresult = args.Take(n).ToArray();
+            var sortresultCsv = string.Join(",", sortresult);
+            Console.WriteLine(argsCsv);
+            Console.WriteLine(resultCsv);
+            Console.WriteLine(sortresultCsv);
+            Console.WriteLine(string.Join(",", args));
+            Assert.True(sortresult.SequenceEqual(result));
+        }
+        class ComparableClass : IComparable<ComparableClass>
+        {
+            public int CompareTo(ComparableClass other)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        [Test]
+        public void Top02()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                new[] { (ComparableClass)null }.Top(3, x => x);
+                new[] { 1 }.Top(0);
+            });
+        }
+        [Test]
+        public void Bottom02()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                new[] { (ComparableClass)null }.Bottom(3, x => x);
+                new[] { 1 }.Bottom(0);
+            });
+        }
+        [Test]
+        public void Top03()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Top(-1); });
+        }
+        [Test]
+        public void Bottom03()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Bottom(-1); });
+        }
     }
 }

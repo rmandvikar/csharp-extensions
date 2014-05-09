@@ -569,5 +569,150 @@ namespace rm.Extensions
         {
             return !source.Any(predicate);
         }
+
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
+        /// <remarks>Uses min-heap, O(elements * logn) time, O(n) space.</remarks>
+        public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n, Func<T, TKey> keySelector)
+            where T : class
+            where TKey : IComparable<TKey>
+        {
+            source.ThrowIfArgumentNull("source");
+            n.ThrowIfArgumentOutOfRange("n");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            var heap = new T[n];
+            if (n == 0)
+            {
+                return heap.AsEnumerable();
+            }
+            foreach (var x in source)
+            {
+                if (x == null)
+                {
+                    continue;
+                }
+                if (heap[0] == null //always replace null
+                    || (keySelector(x).CompareTo(keySelector(heap[0])) > 0) //x > heap[0]
+                    )
+                {
+                    heap[0] = x;
+                    SiftDownMin(heap, 0, keySelector);
+                }
+            }
+            return heap.Where(x => x != null);
+        }
+        /// <summary>
+        /// Returns bottom n efficiently.
+        /// </summary>
+        /// <remarks>Uses max-heap, O(elements * logn) time, O(n) space.</remarks>
+        public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n, Func<T, TKey> keySelector)
+            where T : class
+            where TKey : IComparable<TKey>
+        {
+            source.ThrowIfArgumentNull("source");
+            n.ThrowIfArgumentOutOfRange("n");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            var heap = new T[n];
+            if (n == 0)
+            {
+                return heap.AsEnumerable();
+            }
+            foreach (var x in source)
+            {
+                if (x == null)
+                {
+                    continue;
+                }
+                if (heap[0] == null //always replace null
+                    || (keySelector(x).CompareTo(keySelector(heap[0])) < 0) //x < heap[0]
+                    )
+                {
+                    heap[0] = x;
+                    SiftDownMax(heap, 0, keySelector);
+                }
+            }
+            return heap.Where(x => x != null);
+        }
+        private static void SiftDownMin<T, TKey>(T[] heap, int i, Func<T, TKey> keySelector)
+            where T : class
+            where TKey : IComparable<TKey>
+        {
+            var left = 2 * i + 1;
+            var right = left + 1;
+            var min = i;
+            if (left < heap.Length
+                && (heap[left] == null //always sift null up
+                    || (heap[min] != null //anything < null is false so && and not ||
+                        && keySelector(heap[min]).CompareTo(keySelector(heap[left])) > 0) //heap[left] < heap[min]
+                    )
+                )
+            {
+                min = left;
+            }
+            if (right < heap.Length
+                && (heap[right] == null
+                    || (heap[min] != null
+                        && keySelector(heap[min]).CompareTo(keySelector(heap[right])) > 0) //heap[right] < heap[min]
+                    )
+                )
+            {
+                min = right;
+            }
+            if (min != i)
+            {
+                Helper.Swap(ref heap[min], ref heap[i]);
+                SiftDownMin(heap, min, keySelector);
+            }
+        }
+        private static void SiftDownMax<T, TKey>(T[] heap, int i, Func<T, TKey> keySelector)
+            where T : class
+            where TKey : IComparable<TKey>
+        {
+            var left = 2 * i + 1;
+            var right = left + 1;
+            var max = i;
+            if (left < heap.Length
+                && (heap[left] == null //always sift null up
+                    || (heap[max] != null //null < anything is false so && and not ||
+                        && keySelector(heap[max]).CompareTo(keySelector(heap[left])) < 0) //heap[max] < heap[left]
+                    )
+                )
+            {
+                max = left;
+            }
+            if (right < heap.Length
+                && (heap[right] == null
+                    || (heap[max] != null
+                        && keySelector(heap[max]).CompareTo(keySelector(heap[right])) < 0) //heap[max] < heap[right]
+                    )
+                )
+            {
+                max = right;
+            }
+            if (max != i)
+            {
+                Helper.Swap(ref heap[max], ref heap[i]);
+                SiftDownMax(heap, max, keySelector);
+            }
+        }
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n)
+            where T : struct, IComparable<T>
+        {
+            // wrap into reference type, unwrap before returning
+            return Top(source.Select(x => new { item = x }), n, x => x.item).Select(x => x.item);
+        }
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n)
+            where T : struct, IComparable<T>
+        {
+            // wrap into reference type, unwrap before returning
+            return Bottom(source.Select(x => new { item = x }), n, x => x.item).Select(x => x.item);
+        }
     }
 }
