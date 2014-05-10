@@ -49,12 +49,12 @@ namespace rm.Extensions
             where T : struct
         {
             return EnumInternal<T>.ValueToDescriptionMap
-                .ToDictionary(x => GetEnumName(x.Key), x => x.Value);
+                .ToDictionary(x => x.Key.GetEnumName(), x => x.Value);
         }
         /// <summary>
         /// Get the name (string) for the enum value or throw exception if not exists.
         /// </summary>
-        public static string GetEnumName<T>(T enumValue)
+        public static string GetEnumName<T>(this T enumValue)
             where T : struct
         {
             string enumName;
@@ -73,7 +73,7 @@ namespace rm.Extensions
             T enumValue;
             if (EnumInternal<T>.DescriptionToValueMap.TryGetValue(description, out enumValue))
             {
-                return GetEnumName<T>(enumValue);
+                return enumValue.GetEnumName();
             }
             throw new ArgumentOutOfRangeException();
         }

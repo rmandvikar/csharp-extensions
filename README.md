@@ -244,11 +244,15 @@ enum Color { Red = 1, Green, Blue };
 Color color = "Red".GetEnumValue<Color>();
 // color: Color.Red
 
-// string.GetEnumValue<TEnum> is faster than enumValue.ToString()
-// faster
+// enumValue.GetEnumName() is fastest of all
+// fastest, dictionary lookup after 1st call
+if (Color.Red.GetEnumName() == "Red") { /**/ }
+// slightly slow, dictionary lookup after 1st call
 if ("Red".GetEnumValue<Color>() == Color.Red) { /**/ }
-// slower
-if ("Red" == Color.Red.ToString()) { /**/ }
+// slow, due to reflection
+if ("Red".Parse<Color>() == Color.Red) { /**/ }
+// slowest, due to reflection
+if (Color.Red.ToString() == "Red") { /**/ }
 ```
 
 ```c#

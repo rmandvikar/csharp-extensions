@@ -121,12 +121,14 @@ namespace rm.ExtensionsTest
                 timespan = DateTime.Now - datetime;
                 Console.WriteLine("{0}: \t{1}", testName, timespan.TotalSeconds);
             };
-            // 10x slow
+            // 15x slow
             speedTest(() => { return Color.Red.ToString() == "Red"; }, "Enum.ToString()");
-            // 7x slow
-            speedTest(() => { return Color.Red == "Red".Parse<Color>(); }, "Enum.Parse()");
+            // 10x slow
+            speedTest(() => { return "Red".Parse<Color>() == Color.Red; }, "Enum.Parse()");
+            // 1.5x slow
+            speedTest(() => { return "Red".GetEnumValue<Color>() == Color.Red; }, "GetEnumValue()");
             // fastest
-            speedTest(() => { return Color.Red == "Red".GetEnumValue<Color>(); }, "GetEnumValue()");
+            speedTest(() => { return Color.Red.GetEnumName() == "Red"; }, "GetEnumName()");
         }
         [Test]
         public void GetEnumNames01()
