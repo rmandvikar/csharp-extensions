@@ -159,5 +159,14 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(expected, result.ToString());
             Assert.AreEqual(expected, result.ToUniversalTime().ToString());
         }
+        [Test]
+        [TestCase("war and peace", "War And Peace")]
+        [TestCase("but FBI is working", "But FBI Is Working")]
+        [TestCase("wAr aNd pEaCe", "War And Peace")]
+        [TestCase("McDonalds aNd pEaCe", "Mcdonalds And Peace")]
+        public void ToTitleCase01(string s, string expected)
+        {
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
     }
 }

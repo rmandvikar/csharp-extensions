@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace rm.Extensions
 {
@@ -192,6 +194,14 @@ namespace rm.Extensions
         public static DateTime ParseAsUtc(this string s)
         {
             return DateTimeOffset.Parse(s).UtcDateTime;
+        }
+        /// <summary>
+        /// Convert a string to title case.
+        /// </summary>
+        /// <example>"war and peace" -> "War And Peace"</example>
+        public static string ToTitleCase(this string s)
+        {
+            return Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(s);
         }
     }
 }
