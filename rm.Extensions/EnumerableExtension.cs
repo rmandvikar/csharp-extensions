@@ -321,7 +321,8 @@ namespace rm.Extensions
         {
             words.ThrowIfArgumentNull("words");
             var wordsArray = words.Where(x => !x.IsNullOrEmpty()).ToArray();
-            var list = new List<string>();
+            // preallocate
+            var list = new List<string>(wordsArray.Length.ScrabbleCount());
             Scrabble(wordsArray, new bool[wordsArray.Length], new StringBuilder(), 0, list);
             return list.AsEnumerable();
         }

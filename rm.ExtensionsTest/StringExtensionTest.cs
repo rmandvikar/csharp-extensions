@@ -135,6 +135,7 @@ namespace rm.ExtensionsTest
         [Test]
         [TestCase("this")]
         [TestCase("on")]
+        [TestCase("o n")]
         [TestCase("")]
         public void Scrabble01(string word)
         {
