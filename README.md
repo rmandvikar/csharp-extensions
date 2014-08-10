@@ -189,7 +189,7 @@ var shuffled = new[] { 0, 1, 2, 3 }.Shuffle();
 // slice a collection as Python (http://docs.python.org/2/tutorial/introduction.html#strings)
 var a = new[] { 0, 1, 2, 3, 4 }
 var slice = a.Slice(step: 2);
-// slice: { 0, 2 }
+// slice: { 0, 2, 4 }
 
 a.Slice(start, end) // items start through end-1
 a.Slice(start) // items start through the rest of the array
