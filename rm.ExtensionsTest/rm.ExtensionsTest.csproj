@@ -52,6 +52,7 @@
     <Compile Include="DecimalExtensionTest.cs" />
     <Compile Include="EnumerableExtensionTest.cs" />
     <Compile Include="EnumExtensionTest.cs" />
+    <Compile Include="GraphExtensionTest.cs" />
     <Compile Include="HelperTest.cs" />
     <Compile Include="IntExtensionTest.cs" />
     <Compile Include="NameValueCollectionExtensionTest.cs" />

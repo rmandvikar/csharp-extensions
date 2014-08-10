@@ -45,6 +45,7 @@
     <Compile Include="EnumerableExtension.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="EnumInternal.cs" />
+    <Compile Include="GraphExtension.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="DecimalExtension.cs" />
     <Compile Include="IntExtension.cs" />

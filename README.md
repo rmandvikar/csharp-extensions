@@ -396,3 +396,10 @@ a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
 1500.Round() => "1k"
 1500.Round(1) => "1.5k"
 ```
+
+####Graph extensions:
+
+```c#
+// if graph is cyclic (used for deadlock detection)
+bool isCyclic = graph.IsCyclic();
+```
