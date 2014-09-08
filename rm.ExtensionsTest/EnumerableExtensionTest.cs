@@ -27,6 +27,21 @@ namespace rm.ExtensionsTest
             Console.WriteLine(string.Join(", ", a));
         }
         [Test]
+        public void Chunk_bad2_01()
+        {
+            var source = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var chunks = source.Chunk(3);
+            var i = 0;
+            foreach (var chunk in chunks)
+            {
+                foreach (var item in chunk)
+                {
+                    Assert.AreEqual(source[i], item);
+                    i++;
+                }
+            }
+        }
+        [Test]
         public void Chunk01()
         {
             var chunks = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.Chunk(3);

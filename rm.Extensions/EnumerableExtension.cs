@@ -14,8 +14,11 @@ namespace rm.Extensions
         /// <summary>
         /// Split the collection into collections of size chunkSize.
         /// </summary>
-        /// <remarks>Uses yield return/break.</remarks>
-        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
+        /// <remarks>
+        /// Uses yield return. But uses ElementAt(index) which is inefficient.
+        /// </remarks>
+        [Obsolete]
+        public static IEnumerable<IEnumerable<T>> Chunk_bad1<T>(this IEnumerable<T> source,
             int chunkSize)
         {
             source.ThrowIfArgumentNull("source");
@@ -26,22 +29,86 @@ namespace rm.Extensions
             {
                 // note: skip/take is slow. not O(n) but (n/chunkSize)^2.
                 // yield return source.Skip(chunk).Take(chunkSize);
-                yield return source.Chunk(chunkSize, start, totalCount);
+                yield return source.Chunk_bad1(chunkSize, start, totalCount);
             }
         }
         /// <summary>
         /// Yield the next chunkSize elements starting at start and break if no more elements left.
         /// </summary>
-        private static IEnumerable<T> Chunk<T>(this IEnumerable<T> source,
+        [Obsolete]
+        private static IEnumerable<T> Chunk_bad1<T>(this IEnumerable<T> source,
             int chunkSize, int start, int totalCount)
         {
             source.ThrowIfArgumentNull("source");
             chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
             for (int i = 0; i < chunkSize && start + i < totalCount; i++)
             {
+                // note: source.ElementAt(index) is inefficient
                 yield return source.ElementAt(start + i);
             }
         }
+        /// <summary>
+        /// Split the collection into collections of size chunkSize.
+        /// </summary>
+        /// <remarks>
+        /// Uses yield return and enumerator. But does not work with other methods as Count(), ElementAt(index), etc.
+        /// </remarks>
+        [Obsolete]
+        public static IEnumerable<IEnumerable<T>> Chunk_bad2<T>(this IEnumerable<T> source,
+            int chunkSize)
+        {
+            source.ThrowIfArgumentNull("source");
+            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                yield return Chunk_bad2(chunkSize, enumerator);
+            }
+        }
+        /// <summary>
+        /// Yield the next chunkSize elements till the enumerator has any.
+        /// </summary>
+        [Obsolete]
+        private static IEnumerable<T> Chunk_bad2<T>(int chunkSize, IEnumerator<T> enumerator)
+        {
+            var count = 0;
+            do
+            {
+                yield return enumerator.Current;
+                count++;
+            } while (count < chunkSize && enumerator.MoveNext());
+        }
+        /// <summary>
+        /// Split the collection into collections of size chunkSize.
+        /// </summary>
+        /// <remarks>
+        /// Uses yield return but buffers the chunk before returning. Works with other methods 
+        /// as Count(), ElementAt(), etc.
+        /// </remarks>
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
+            int chunkSize)
+        {
+            source.ThrowIfArgumentNull("source");
+            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            var count = 0;
+            var chunk = new List<T>(chunkSize);
+            foreach (var item in source)
+            {
+                chunk.Add(item);
+                count++;
+                if (count == chunkSize)
+                {
+                    yield return chunk.AsEnumerable();
+                    chunk = new List<T>(chunkSize);
+                    count = 0;
+                }
+            }
+            if (count > 0)
+            {
+                yield return chunk.AsEnumerable();
+            }
+        }
+
         /// <summary>
         /// Returns true if collection is null or empty.
         /// </summary>
