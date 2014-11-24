@@ -43,7 +43,7 @@ namespace rm.Extensions
             {
                 return "{0}s".format(ts.Seconds);
             }
-            return "{0}ms".format(ts.TotalMilliseconds);
+            return "{0}ms".format(ts.Milliseconds);
         }
         /// <summary>
         /// n Days.

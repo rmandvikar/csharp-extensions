@@ -25,6 +25,14 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(result, ts.Round());
         }
         [Test]
+        [TestCase(1.9d, "1s")]
+        [TestCase(1.009d, "1s")]
+        public void Round02(double s, string result)
+        {
+            var ts = TimeSpan.FromSeconds(s);
+            Assert.AreEqual(result, ts.Round());
+        }
+        [Test]
         [TestCase(10)]
         [TestCase(100)]
         [TestCase(1000)]
