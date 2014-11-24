@@ -105,6 +105,7 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(colors.Contains(Color.Blue));
         }
         [Test(Description = "GetEnumValue() v/s Enum.ToString() speed test.")]
+        [Category("slow")]
         public void GetEnumValue02()
         {
             Action<Func<bool>, string> speedTest = (testPredicate, testName) =>
