@@ -287,5 +287,27 @@ namespace rm.ExtensionsTest
             Assert.False(Enumerable.Range(1, 1000000000).HasCount(2));
             Assert.True(new int[0].HasCount(0));
         }
+        [Test]
+        public void HasCountOfAtLeast01()
+        {
+            Assert.True(new[] { 1, 2 }.HasCountOfAtLeast(2));
+            Assert.False(new[] { 1 }.HasCountOfAtLeast(2));
+            Assert.True(Enumerable.Range(1, 1000000000).HasCountOfAtLeast(2));
+            Assert.True(new int[0].HasCountOfAtLeast(0));
+        }
+        [Test]
+        [Category("slow")]
+        public void HasCountX01()
+        {
+            var ts = DateTime.UtcNow;
+            Assert.False(Enumerable.Range(1, 1000000).HasCount(2));
+            Console.WriteLine("HasCount done in {0}.", DateTime.UtcNow.Subtract(ts).Round());
+            ts = DateTime.UtcNow;
+            Assert.True(Enumerable.Range(1, 1000000).HasCountOfAtLeast(2));
+            Console.WriteLine("HasCountOfAtLeast done in {0}.", DateTime.UtcNow.Subtract(ts).Round());
+            ts = DateTime.UtcNow;
+            Assert.True(Enumerable.Range(1, 1000000).Count() > 2);
+            Console.WriteLine("Count done in {0}.", DateTime.UtcNow.Subtract(ts).Round());
+        }
     }
 }

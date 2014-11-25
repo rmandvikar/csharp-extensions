@@ -219,6 +219,7 @@ HashSet<string> hashset = new[] { "this", "test" }.ToHashSet();
 // check an enumerable's count efficiently
 if (enumerable.Count() == 2) { ... } // inefficient for large enumerable
 if (enumerable.HasCount(2)) { ... }
+if (enumerable.HasCountOfAtLeast(2)) { ... } // count >= 2
 ```
 
 ####Enum extensions:
