@@ -10,11 +10,12 @@ namespace rm.Extensions
         /// <summary>
         /// n!
         /// </summary>
-        public static int Factorial(this int n)
+        public static double Factorial(this int n)
         {
+            n.ThrowIfArgumentOutOfRange("n");
             checked
             {
-                var product = 1;
+                var product = 1d;
                 for (int i = 1; i <= n; i++)
                 {
                     product *= i;
@@ -27,9 +28,16 @@ namespace rm.Extensions
         /// </summary>
         public static int Permutation(this int n, int r)
         {
+            n.ThrowIfArgumentOutOfRange("n");
+            r.ThrowIfArgumentOutOfRange("r", maxRange: n);
             checked
             {
-                return n.Factorial() / (n - r).Factorial();
+                var result = (n.Factorial() / (n - r).Factorial());
+                if (result > int.MaxValue)
+                {
+                    throw new ArgumentOutOfRangeException("result out of range.");
+                }
+                return (int)result;
             }
         }
         /// <summary>
@@ -37,9 +45,16 @@ namespace rm.Extensions
         /// </summary>
         public static int Combination(this int n, int r)
         {
+            n.ThrowIfArgumentOutOfRange("n");
+            r.ThrowIfArgumentOutOfRange("r", maxRange: n);
             checked
             {
-                return n.Factorial() / ((n - r).Factorial() * r.Factorial());
+                var result = (n.Factorial() / ((n - r).Factorial() * r.Factorial()));
+                if (result > int.MaxValue)
+                {
+                    throw new ArgumentOutOfRangeException("result out of range.");
+                }
+                return (int)result;
             }
         }
         /// <summary>

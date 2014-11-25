@@ -168,5 +168,76 @@ namespace rm.ExtensionsTest
         {
             Assert.AreEqual(expected, s.ToTitleCase());
         }
+        private void Permutation(string s, int r, int count, string[] spotchecks)
+        {
+            var permutations = s.Permutation(r);
+            Assert.AreEqual(permutations.Distinct().Count(), permutations.Count());
+            Assert.AreEqual(s.Length.Permutation(r), permutations.Count());
+            Assert.AreEqual(count, permutations.Count());
+            foreach (var item in permutations)
+            {
+                Assert.AreEqual(r, item.Length);
+            }
+            foreach (var spotcheck in spotchecks)
+            {
+                Assert.IsTrue(permutations.Contains(spotcheck));
+            }
+            Console.WriteLine("permutations = {0}", permutations.Count());
+        }
+        [Test]
+        [Category("slow")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", 4, 358800, new[] { "abcd", "wxyz" })]
+        public void Permutation01(string s, int r, int count, string[] spotchecks)
+        {
+            Permutation(s, r, count, spotchecks);
+        }
+        [Test]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", 2, 650, new[] { "ab", "yz" })]
+        [TestCase("abcd", 4, 24, new[] { "abcd", "dcba" })]
+        public void Permutation02(string s, int r, int count, string[] spotchecks)
+        {
+            Permutation(s, r, count, spotchecks);
+        }
+        [Test]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
+        public void Permutation03(string s, int r)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => s.Permutation(r));
+        }
+        private void Combination(string s, int r, int count, string[] spotchecks)
+        {
+            var combinations = s.Combination(r);
+            Assert.AreEqual(combinations.Distinct().Count(), combinations.Count());
+            Assert.AreEqual(s.Length.Combination(r), combinations.Count());
+            Assert.AreEqual(count, combinations.Count());
+            foreach (var item in combinations)
+            {
+                Assert.AreEqual(r, item.Length);
+            }
+            foreach (var spotcheck in spotchecks)
+            {
+                Assert.IsTrue(combinations.Contains(spotcheck));
+            }
+            Console.WriteLine("combinations = {0}", combinations.Count());
+        }
+        [Test]
+        [Category("slow")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", 25, 26, new[] { "abcdefghijklmnopqrstuvwxy", "bcdefghijklmnopqrstuvwxyz" })]
+        public void Combination01(string s, int r, int count, string[] spotchecks)
+        {
+            Combination(s, r, count, spotchecks);
+        }
+        [Test]
+        [TestCase("abc", 2, 3, new[] { "ab", "ac", "bc" })]
+        public void Combination02(string s, int r, int count, string[] spotchecks)
+        {
+            Combination(s, r, count, spotchecks);
+        }
+        [Test]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
+        public void Combination03(string s, int r)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => s.Combination(r));
+        }
     }
 }

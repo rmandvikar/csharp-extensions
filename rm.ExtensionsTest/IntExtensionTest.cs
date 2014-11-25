@@ -19,7 +19,15 @@ namespace rm.ExtensionsTest
         [Test]
         public void Factorial02()
         {
-            Assert.Throws<OverflowException>(() => { 13.Factorial(); });
+            //Assert.Throws<OverflowException>(() =>
+            //{
+            //    //13.Factorial(); // int
+            //    21.Factorial(); // long
+            //});
+            Assert.DoesNotThrow(() =>
+            {
+                100.Factorial();
+            });
         }
         [Test]
         [TestCase(10, 4, 5040)]

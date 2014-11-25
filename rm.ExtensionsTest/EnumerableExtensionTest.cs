@@ -332,5 +332,27 @@ namespace rm.ExtensionsTest
             Assert.True(Enumerable.Range(1, 1000000).Count() > 2);
             Console.WriteLine("Count done in {0}.", DateTime.UtcNow.Subtract(ts).Round());
         }
+        [Test]
+        [TestCase(4, 2, 12)]
+        [TestCase(4, 1, 4)]
+        [TestCase(4, 4, 24)]
+        [TestCase(2, 2, 2)]
+        public void Permutation01(int n, int r, int count)
+        {
+            var input = Enumerable.Range(1, n);
+            var result = input.Permutation(r);
+            Assert.AreEqual(count, result.Count());
+        }
+        [Test]
+        [TestCase(3, 2, 3)]
+        [TestCase(3, 1, 3)]
+        [TestCase(3, 3, 1)]
+        [TestCase(2, 2, 1)]
+        public void Combination01(int n, int r, int count)
+        {
+            var input = Enumerable.Range(1, n);
+            var result = input.Combination(r);
+            Assert.AreEqual(count, result.Count());
+        }
     }
 }

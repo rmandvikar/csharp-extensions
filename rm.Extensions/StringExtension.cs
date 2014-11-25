@@ -203,5 +203,40 @@ namespace rm.Extensions
         {
             return Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(s);
         }
+
+        /// <summary>
+        /// Get permutations of string for particular r.
+        /// </summary>
+        /// <remarks>nPr permutations</remarks>
+        public static IEnumerable<string> Permutation(this string s, int r)
+        {
+            return s.ToCharArray().Permutation(r)
+                .Select(x => new string(x.ToArray()));
+        }
+        /// <summary>
+        /// Get permutations of string.
+        /// </summary>
+        /// <remarks>nPn permutations</remarks>
+        public static IEnumerable<string> Permutation(this string s)
+        {
+            return s.Permutation(s.Length);
+        }
+        /// <summary>
+        /// Get combinations of string for particular r.
+        /// </summary>
+        /// <remarks>nCr combinations</remarks>
+        public static IEnumerable<string> Combination(this string s, int r)
+        {
+            return s.ToCharArray().Combination(r)
+                .Select(x => new string(x.ToArray()));
+        }
+        /// <summary>
+        /// Get combinations of string.
+        /// </summary>
+        /// <remarks>nCn combinations</remarks>
+        public static IEnumerable<string> Combination(this string s)
+        {
+            return s.Combination(s.Length);
+        }
     }
 }
