@@ -279,6 +279,13 @@ namespace rm.ExtensionsTest
                 Assert.IsTrue(set.Contains(word));
             }
         }
+        private IEnumerable<int> GetEnumerable(int start, int count)
+        {
+            for (int i = start; i <= count; i++)
+            {
+                yield return i;
+            }
+        }
         [Test]
         public void HasCount01()
         {
@@ -288,12 +295,28 @@ namespace rm.ExtensionsTest
             Assert.True(new int[0].HasCount(0));
         }
         [Test]
+        public void HasCount02()
+        {
+            Assert.True(GetEnumerable(1, 2).HasCount(2));
+            Assert.False(GetEnumerable(1, 1).HasCount(2));
+            Assert.False(GetEnumerable(1, 1000000000).HasCount(2));
+            Assert.True(GetEnumerable(1, 0).HasCount(0));
+        }
+        [Test]
         public void HasCountOfAtLeast01()
         {
             Assert.True(new[] { 1, 2 }.HasCountOfAtLeast(2));
             Assert.False(new[] { 1 }.HasCountOfAtLeast(2));
             Assert.True(Enumerable.Range(1, 1000000000).HasCountOfAtLeast(2));
             Assert.True(new int[0].HasCountOfAtLeast(0));
+        }
+        [Test]
+        public void HasCountOfAtLeast02()
+        {
+            Assert.True(GetEnumerable(1, 2).HasCountOfAtLeast(2));
+            Assert.False(GetEnumerable(1, 1).HasCountOfAtLeast(2));
+            Assert.True(GetEnumerable(1, 1000000000).HasCountOfAtLeast(2));
+            Assert.True(GetEnumerable(1, 0).HasCountOfAtLeast(0));
         }
         [Test]
         [Category("slow")]

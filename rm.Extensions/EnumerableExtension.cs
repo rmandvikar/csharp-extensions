@@ -301,6 +301,11 @@ namespace rm.Extensions
                     }
                 }
             }
+            // when source has 0 elements
+            if (num == count)
+            {
+                return true;
+            }
             return false; // < count
         }
         /// <summary>
