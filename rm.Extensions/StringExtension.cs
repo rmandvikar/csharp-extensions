@@ -238,5 +238,13 @@ namespace rm.Extensions
         {
             return s.Combination(s.Length);
         }
+
+        /// <summary>
+        /// Split csv string using common delimiters.
+        /// </summary>
+        public static IEnumerable<string> SplitCsv(this string s)
+        {
+            return s.Split(new[] { ",", ";", "|" }, StringSplitOptions.RemoveEmptyEntries);
+        }
     }
 }

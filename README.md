@@ -73,6 +73,12 @@ string result = "war and peace".ToTitleCase();
 // result: "War And Peace"
 ```
 
+```c#
+// split a csv string
+string result = "a,b;c|d".SplitCsv();
+// result: [ "a", "b", "c", "d" ]
+```
+
 ####ThrowIf extensions:
 
 ```c#

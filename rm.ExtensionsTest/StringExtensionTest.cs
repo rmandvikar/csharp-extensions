@@ -239,5 +239,15 @@ namespace rm.ExtensionsTest
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => s.Combination(r));
         }
+        [Test]
+        [TestCase("founder@company.com|devs@company.com,testers@company.com;ceo@company.com,|;",
+            new[] { "devs@company.com", "testers@company.com", "founder@company.com", "ceo@company.com" })]
+        public static void SplitCsv01(string s, string[] items)
+        {
+            var result = s.SplitCsv();
+            Console.WriteLine(string.Join(" ", result));
+            Assert.True(result.Count() == items.Count());
+            Assert.True(items.Except(result).IsEmpty());
+        }
     }
 }
