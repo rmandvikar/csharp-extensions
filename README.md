@@ -230,6 +230,12 @@ var result = new[] { 1, 2 }.Combination(2);
 // result: { { 1, 2 } };
 ```
 
+```c#
+// if a collection is empty instead of !collection.Any()
+var collection = new[] { 1, 2 };
+if (collection.IsEmpty()) { /**/ }
+```
+
 ####Enum extensions:
 
 ```c#

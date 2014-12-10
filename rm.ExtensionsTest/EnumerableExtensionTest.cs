@@ -354,5 +354,20 @@ namespace rm.ExtensionsTest
             var result = input.Combination(r);
             Assert.AreEqual(count, result.Count());
         }
+        [Test]
+        [TestCase(new int[] { }, true)]
+        [TestCase(new int[] { 1 }, false)]
+        public void IsEmpty01(int[] source, bool result)
+        {
+            Assert.AreEqual(result, source.IsEmpty());
+        }
+        [Test]
+        public void IsEmpty02()
+        {
+            Assert.IsFalse(GetEnumerable(1, 10000000).IsEmpty());
+            Assert.IsFalse(GetEnumerable(1, 10000000).IsEmpty(x => x == 10000000));
+            Assert.IsTrue(GetEnumerable(1, 10000000).IsEmpty(x => x > 10000000));
+            Assert.Throws<ArgumentNullException>(() => ((int[])null).IsEmpty());
+        }
     }
 }

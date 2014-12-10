@@ -560,5 +560,14 @@ namespace rm.Extensions
                 flags[i] = false;
             }
         }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> source)
+        {
+            return !source.Any();
+        }
+        public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            return !source.Any(predicate);
+        }
     }
 }
