@@ -18,7 +18,7 @@ namespace rm.Extensions
         /// Uses yield return. But uses ElementAt(index) which is inefficient.
         /// </remarks>
         [Obsolete]
-        public static IEnumerable<IEnumerable<T>> Chunk_bad1<T>(this IEnumerable<T> source,
+        internal static IEnumerable<IEnumerable<T>> Chunk_bad1<T>(this IEnumerable<T> source,
             int chunkSize)
         {
             source.ThrowIfArgumentNull("source");
@@ -54,7 +54,7 @@ namespace rm.Extensions
         /// Uses yield return and enumerator. But does not work with other methods as Count(), ElementAt(index), etc.
         /// </remarks>
         [Obsolete]
-        public static IEnumerable<IEnumerable<T>> Chunk_bad2<T>(this IEnumerable<T> source,
+        internal static IEnumerable<IEnumerable<T>> Chunk_bad2<T>(this IEnumerable<T> source,
             int chunkSize)
         {
             source.ThrowIfArgumentNull("source");
