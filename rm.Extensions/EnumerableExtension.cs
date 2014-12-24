@@ -714,5 +714,32 @@ namespace rm.Extensions
             // wrap into reference type, unwrap before returning
             return Bottom(source.Select(x => new { item = x }), n, x => x.item).Select(x => x.item);
         }
+        /// <summary>
+        /// Returns source.Except(second, comparer) in a linqified way.
+        /// </summary>
+        public static IEnumerable<T> ExceptBy<T, TKey>(this IEnumerable<T> source, IEnumerable<T> second,
+            Func<T, TKey> keySelector)
+        {
+            source.ThrowIfArgumentNull("source");
+            second.ThrowIfArgumentNull("second");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            return source.Except(second,
+                // calls new GenericEqualityComparer<T, TKey>(keySelector)
+                GenericEqualityComparer<T>.By(keySelector)
+                );
+        }
+        /// <summary>
+        /// Returns source.Distinct(comparer) in a linqified way.
+        /// </summary>
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source,
+            Func<T, TKey> keySelector)
+        {
+            source.ThrowIfArgumentNull("source");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            return source.Distinct(
+                // calls new GenericEqualityComparer<T, TKey>(keySelector)
+                GenericEqualityComparer<T>.By(keySelector)
+                );
+        }
     }
 }

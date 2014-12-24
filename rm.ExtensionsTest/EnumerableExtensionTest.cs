@@ -446,5 +446,63 @@ namespace rm.ExtensionsTest
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Bottom(-1); });
         }
+        [Test]
+        [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3 }, new[] { 4, 5 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 2, 3 }, new[] { 1, 4, 5 })]
+        [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3, 4, 5 }, new int[] { })]
+        [TestCase(new[] { 2, 3 }, new[] { 1, 2, 3, 4, 5 }, new int[] { })]
+        public void ExceptBy01(int[] a, int[] b, int[] expected)
+        {
+            var source = a.Select(x => new { prop = x });
+            var second = b.Select(x => new { prop = x });
+            var except = source.ExceptBy(second, x => x.prop);
+            Assert.AreEqual(expected.Count(), except.Count());
+            foreach (var item in expected)
+            {
+                Assert.Contains(item, except.Select(x => x.prop).ToList());
+            }
+        }
+        [Test]
+        public void ExceptBy02()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new int?[] { 1, 2 }.ExceptBy(new int?[] { 1 }, (Func<int?, int>)null)
+                );
+        }
+        [Test]
+        public void ExceptBy03()
+        {
+            var except = new int?[] { 1, null }.ExceptBy(new int?[] { null }, x => x);
+            Assert.IsTrue(except.Count() == 1);
+            Assert.IsTrue(except.Contains(1));
+        }
+        [Test]
+        [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 1, 1, 2 }, new[] { 1, 2 })]
+        public void DistinctBy01(int[] a, int[] expected)
+        {
+            var source = a.Select(x => new { prop = x });
+            var distinct = source.DistinctBy(x => x.prop);
+            Assert.AreEqual(expected.Count(), distinct.Count());
+            foreach (var item in expected)
+            {
+                Assert.Contains(item, distinct.Select(x => x.prop).ToList());
+            }
+        }
+        [Test]
+        public void DistinctBy02()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new int?[] { 1, 2 }.DistinctBy((Func<int?, int>)null)
+                );
+        }
+        [Test]
+        public void DistinctBy03()
+        {
+            var distinct = new int?[] { 1, null, null }.DistinctBy(x => x);
+            Assert.IsTrue(distinct.Count() == 2);
+            Assert.IsTrue(distinct.Contains(1));
+            Assert.IsTrue(distinct.Contains((int?)null));
+        }
     }
 }
