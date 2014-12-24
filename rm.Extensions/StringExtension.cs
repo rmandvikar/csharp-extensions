@@ -123,7 +123,7 @@ namespace rm.Extensions
         /// value->key[] map.
         /// </summary>
         private static IDictionary<char, char[]> unmungeMap = mungeSubstitutions.GroupBy(x => x.Value)
-                .ToDictionary(g => g.Key, g => g.Select(x => x.Key).ToArray());
+            .ToDictionary(g => g.Key, g => g.Select(x => x.Key).ToArray());
         /// <summary>
         /// Munges or unmunges password as per substitution map.
         /// </summary>
