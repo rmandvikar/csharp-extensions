@@ -504,5 +504,11 @@ namespace rm.ExtensionsTest
             Assert.IsTrue(distinct.Contains(1));
             Assert.IsTrue(distinct.Contains((int?)null));
         }
+        [Test]
+        public void OrEmpty01()
+        {
+            Assert.AreEqual(new[] { 1 }, new[] { 1 }.OrEmpty());
+            Assert.AreEqual(new int[0], ((int[])null).OrEmpty());
+        }
     }
 }

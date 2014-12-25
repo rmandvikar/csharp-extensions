@@ -741,5 +741,12 @@ namespace rm.Extensions
                 GenericEqualityComparer<T>.By(keySelector)
                 );
         }
+        /// <summary>
+        /// Returns empty if enumerable is null else same enumerable.
+        /// </summary>
+        public static IEnumerable<T> OrEmpty<T>(this IEnumerable<T> source)
+        {
+            return source ?? Enumerable.Empty<T>();
+        }
     }
 }

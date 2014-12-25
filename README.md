@@ -256,6 +256,13 @@ source.ExceptBy(second, x => x.Member);
 source.DistinctBy(x => x.Member);
 ```
 
+```c#
+// source.OrEmpty() to avoid a null check
+foreach (var item in source.OrEmpty()) { /**/ }
+// instead of
+if (source != null) { foreach (var item in source) { /**/ } }
+```
+
 ####Enum extensions:
 
 ```c#
