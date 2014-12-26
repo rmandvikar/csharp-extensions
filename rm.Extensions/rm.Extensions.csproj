@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StringBuilderExtension.cs" />
     <Compile Include="GenericEqualityComparer.cs" />
     <Compile Include="DateTimeExtension.cs" />
     <Compile Include="EmptyException.cs" />

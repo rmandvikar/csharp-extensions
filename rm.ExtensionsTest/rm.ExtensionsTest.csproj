@@ -57,6 +57,7 @@
     <Compile Include="IntExtensionTest.cs" />
     <Compile Include="NameValueCollectionExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringBuilderExtensionTest.cs" />
     <Compile Include="StringExtensionTest.cs" />
     <Compile Include="ThrowExtensionTest.cs" />
     <Compile Include="TimeSpanExtensionTest.cs" />

@@ -445,3 +445,10 @@ Helper.Swap(ref a, ref b);
 // if graph is cyclic (used for deadlock detection)
 bool isCyclic = graph.IsCyclic();
 ```
+
+####StringBuilder extensions:
+
+```c#
+// instead of buffer.AppendLine(string.Format(format, args))
+buffer.AppendLine(format, args);
+```
