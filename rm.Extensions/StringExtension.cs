@@ -246,5 +246,18 @@ namespace rm.Extensions
         {
             return s.Split(new[] { ",", ";", "|" }, StringSplitOptions.RemoveEmptyEntries);
         }
+        /// <summary>
+        /// Returns substring till end of length <paramref name="n"/>.
+        /// </summary>
+        public static string SubstringTillEnd(this string source, int n)
+        {
+            source.ThrowIfArgumentNull("source");
+            n.ThrowIfArgumentOutOfRange("n");
+            if (n >= source.Length)
+            {
+                return source;
+            }
+            return source.Substring(source.Length - n);
+        }
     }
 }

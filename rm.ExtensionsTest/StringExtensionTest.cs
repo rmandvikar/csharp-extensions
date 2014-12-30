@@ -249,5 +249,22 @@ namespace rm.ExtensionsTest
             Assert.True(result.Count() == items.Count());
             Assert.True(items.Except(result).IsEmpty());
         }
+        [Test]
+        [TestCase("123", 1, "3")]
+        [TestCase("123", 3, "123")]
+        [TestCase("123", 5, "123")]
+        [TestCase("123", 0, "")]
+        [TestCase("", 1, "")]
+        [TestCase("123\r\n123", 5, "\r\n123")]
+        public static void SubstringTillEnd01(string s, int n, string expected)
+        {
+            Assert.AreEqual(expected, s.SubstringTillEnd(n));
+        }
+        [Test]
+        public static void SubstringTillEnd02()
+        {
+            Assert.Throws<ArgumentNullException>(() => ((string)null).SubstringTillEnd(1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "123".SubstringTillEnd(-1));
+        }
     }
 }

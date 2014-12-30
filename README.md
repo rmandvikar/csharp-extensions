@@ -78,6 +78,12 @@ string result = "a,b;c|d".SplitCsv();
 // result: [ "a", "b", "c", "d" ]
 ```
 
+```c#
+// substring till end
+string result = "this is a test".SubstringTillEnd(4);
+// result: "test"
+```
+
 ####ThrowIf extensions:
 
 ```c#
