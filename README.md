@@ -458,3 +458,11 @@ bool isCyclic = graph.IsCyclic();
 // instead of buffer.AppendLine(string.Format(format, args))
 buffer.AppendLine(format, args);
 ```
+
+####Dictionary extensions:
+
+```c#
+// for key in dictionary, get value if exists or default / specified value
+var value = dictionary.GetValueOrDefault(key);
+var value = dictionary.GetValueOrDefault(key, other);
+```
