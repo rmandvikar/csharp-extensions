@@ -230,9 +230,9 @@ if (enumerable.HasCountOfAtLeast(2)) { ... } // count >= 2
 ```c#
 // get permutations or combinations for particular r
 var result = new[] { 1, 2 }.Permutation(2);
-// result: { { 1, 2 }, { 2, 1 } };
+// result: { { 1, 2 }, { 2, 1 } }
 var result = new[] { 1, 2 }.Combination(2);
-// result: { { 1, 2 } };
+// result: { { 1, 2 } }
 ```
 
 ```c#
