@@ -412,7 +412,7 @@ string md5 = uri.Checksum(Hasher.md5);
 
 ```c#
 // swap two values or references
-a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
+Helper.Swap(ref a, ref b);
 ```
 
 ####decimal extensions:

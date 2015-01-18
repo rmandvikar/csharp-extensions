@@ -12,7 +12,7 @@ namespace rm.ExtensionsTest
             var t1 = 1;
             var t2 = 2;
             Assert.AreNotEqual(t1, t2);
-            t1.Swap(ref t1, ref t2);
+            Helper.Swap(ref t1, ref t2);
             Assert.AreNotEqual(1, t1);
             Assert.AreNotEqual(2, t2);
             Assert.AreEqual(2, t1);
