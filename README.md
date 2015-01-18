@@ -251,9 +251,9 @@ IEnumerable<int> bottom_n = { 2, 3, 1, 4, 5 }.Bottom(3);
 
 ```c#
 // source.Except(second, comparer) linqified instead of a full-blown class for comparer
-source.ExceptBy(second, x => x.Member)
+source.ExceptBy(second, x => x.Member);
 // same for source.Distinct(comparer)
-source.DistinctBy(x => x.Member)
+source.DistinctBy(x => x.Member);
 ```
 
 ####Enum extensions:
