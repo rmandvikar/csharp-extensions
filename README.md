@@ -31,7 +31,7 @@ string urldecoded = s.UrlDecode();
 
 ```c#
 // "".format() instead of string.Format()
-"{0}".format("test")
+"{0}".format("test");
 ```
 
 ```c#
