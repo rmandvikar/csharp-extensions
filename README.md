@@ -419,7 +419,7 @@ a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
 
 ```c#
 // truncate decimal to specified digits
-12.349m.TruncateTo(2) => 12.34m
+12.349m.TruncateTo(2); // 12.34m
 ```
 
 ####int extensions:
