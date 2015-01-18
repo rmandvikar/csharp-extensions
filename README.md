@@ -385,7 +385,7 @@ string query = nvc.ToQueryString(); // OR nvc.ToQueryString(prefixQuestionMark: 
 ####TimeSpan extensions:
 
 ```c#
-// round timespan as ms, s, h, d, wk, mth, y.
+// round timespan as ms, s, m, h, d, wk, mth, y.
 string round = TimeSpan.FromDays(10).Round();
 // round: "1wk"
 ```
