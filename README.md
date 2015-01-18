@@ -426,10 +426,10 @@ a.Swap(ref a, ref b); // OR Helper.Swap(ref a, ref b);
 
 ```c#
 // round int as k, m, g
-1000.Round() => "1k"
-1000000.Round() => "1m"
-1500.Round() => "1k"
-1500.Round(1) => "1.5k"
+1000.Round(); // "1k"
+1000000.Round(); // "1m"
+1500.Round(); // "1k"
+1500.Round(1); // "1.5k"
 ```
 
 ####Graph extensions:
