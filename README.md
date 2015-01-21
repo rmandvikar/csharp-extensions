@@ -109,7 +109,7 @@ public void SomeMethod(string s1, string s2)
     // ...
     
     string s = DoSomething();
-	// throws NullReferenceException or EmptyException if string is null or empty.
+    // throws NullReferenceException or EmptyException if string is null or empty.
     s.ThrowIfNullOrEmpty("s"); // or s1.ThrowIfNullOrWhiteSpace("s")
 }
 ```
@@ -306,12 +306,12 @@ enum Color
 IDictionary<string, string> colorsMap = EnumExtension.GetEnumNameToDescriptionMap<Color>();
 // build a select list
 IEnumerable<ListItem> selectOptions = colorsMap
-	.Select(x => new ListItem() { text: x.Value, value: x.Key });
-//	<select>
-//	  <option value="Red">Red color</option>
-//	  <option value="Green">Green</option>
-//	  <option value="Blue">Blue color</option>
-//	</select>
+    .Select(x => new ListItem() { text: x.Value, value: x.Key });
+//  <select>
+//    <option value="Red">Red color</option>
+//    <option value="Green">Green</option>
+//    <option value="Blue">Blue color</option>
+//  </select>
 ```
 
 ```c#
@@ -346,22 +346,22 @@ enum Grade { Toddler, Pre-K, Kindergarten, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 // work-around: use Description attribute
 enum Grade 
 {
-	Toddler = 1, 
+    Toddler = 1, 
     [Description("Pre-K")] PreK, 
-	Kindergarten, 
-	[Description("1")] One, 
-	[Description("2")] Two, 
-	[Description("3")] Three, 
-	[Description("4")] Four, 
-	[Description("5")] Five, 
-	[Description("6")] Six, 
-	[Description("7")] Seven, 
-	[Description("8")] Eight, 
-	[Description("9")] Nine, 
-	[Description("10")] Ten, 
-	[Description("11")] Eleven, 
-	[Description("12")] Twelve, 
-	College
+    Kindergarten, 
+    [Description("1")] One, 
+    [Description("2")] Two, 
+    [Description("3")] Three, 
+    [Description("4")] Four, 
+    [Description("5")] Five, 
+    [Description("6")] Six, 
+    [Description("7")] Seven, 
+    [Description("8")] Eight, 
+    [Description("9")] Nine, 
+    [Description("10")] Ten, 
+    [Description("11")] Eleven, 
+    [Description("12")] Twelve, 
+    College
 }
 
 // to sort gradesUnsorted, use GetEnumValueFromDescription<T>() and GetDescription<T>() methods
@@ -400,8 +400,8 @@ TimeSpan ts = 10.Days();
 ```c#
 // calculate uri's checksum (sha1, md5)
 var uri = new Uri(@"https://www.google.com/images/srpr/logo11w.png") // url
-	// OR new Uri(@"D:\temp\images\logo.png"); // local file
-	// OR new Uri(new Uri(@"D:\temp\"), @".\images\logo.png"); // dir and relative path
+    // OR new Uri(@"D:\temp\images\logo.png"); // local file
+    // OR new Uri(new Uri(@"D:\temp\"), @".\images\logo.png"); // dir and relative path
 string sha1 = uri.Checksum(Hasher.sha1);
 string md5 = uri.Checksum(Hasher.md5);
 // sha1: 349841408d1aa1f5a8892686fbdf54777afc0b2c
