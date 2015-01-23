@@ -59,7 +59,7 @@ namespace rm.Extensions
                 var description = GetDescription(enumValue);
                 ValueToDescriptionMap.Add(enumValue, description);
                 DescriptionToValueMap.Add(description, enumValue);
-                buffer.AppendFormat("{0}{1}{2}: \"{3}\"", 
+                buffer.AppendFormat("{0}{1}{2}: \"{3}\"",
                     Environment.NewLine, "\t", enumName, description);
             }
             buffer.AppendFormat("{0}}}", Environment.NewLine);

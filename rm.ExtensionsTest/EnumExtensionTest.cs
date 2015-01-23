@@ -20,24 +20,37 @@ namespace rm.ExtensionsTest
         [Sc.Description("Blue color")]
         Blue
     }
-    public enum Grade 
+    public enum Grade
     {
-	    Toddler = 1, 
-        [Sc.Description("Pre-K")] PreK, 
-	    Kindergarten, 
-	    [Sc.Description("1")] One, 
-	    [Sc.Description("2")] Two, 
-	    [Sc.Description("3")] Three, 
-	    [Sc.Description("4")] Four, 
-	    [Sc.Description("5")] Five, 
-	    [Sc.Description("6")] Six, 
-	    [Sc.Description("7")] Seven, 
-	    [Sc.Description("8")] Eight, 
-	    [Sc.Description("9")] Nine, 
-	    [Sc.Description("10")] Ten, 
-	    [Sc.Description("11")] Eleven, 
-	    [Sc.Description("12")] Twelve, 
-	    College
+        Toddler = 1,
+        [Sc.Description("Pre-K")]
+        PreK,
+        Kindergarten,
+        [Sc.Description("1")]
+        One,
+        [Sc.Description("2")]
+        Two,
+        [Sc.Description("3")]
+        Three,
+        [Sc.Description("4")]
+        Four,
+        [Sc.Description("5")]
+        Five,
+        [Sc.Description("6")]
+        Six,
+        [Sc.Description("7")]
+        Seven,
+        [Sc.Description("8")]
+        Eight,
+        [Sc.Description("9")]
+        Nine,
+        [Sc.Description("10")]
+        Ten,
+        [Sc.Description("11")]
+        Eleven,
+        [Sc.Description("12")]
+        Twelve,
+        College
     }
     public enum EmptyEnum { }
     [TestFixture]
