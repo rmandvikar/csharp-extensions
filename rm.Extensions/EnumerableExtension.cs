@@ -797,5 +797,27 @@ namespace rm.Extensions
         {
             return source ?? Enumerable.Empty<T>();
         }
+        /// <summary>
+        /// Returns source.OrderBy(keySelector, comparer) in a linqified way.
+        /// </summary>
+        public static IOrderedEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source,
+            Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
+        {
+            source.ThrowIfArgumentNull("source");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            compare.ThrowIfArgumentNull("compare");
+            return source.OrderBy(keySelector, new GenericComparer<TKey>(compare));
+        }
+        /// <summary>
+        /// Returns source.OrderByDescending(keySelector, comparer) in a linqified way.
+        /// </summary>
+        public static IOrderedEnumerable<T> OrderByDescending<T, TKey>(this IEnumerable<T> source,
+            Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
+        {
+            source.ThrowIfArgumentNull("source");
+            keySelector.ThrowIfArgumentNull("keySelector");
+            compare.ThrowIfArgumentNull("compare");
+            return source.OrderByDescending(keySelector, new GenericComparer<TKey>(compare));
+        }
     }
 }

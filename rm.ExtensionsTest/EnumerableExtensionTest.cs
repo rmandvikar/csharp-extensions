@@ -569,5 +569,29 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(new[] { 1 }, new[] { 1 }.OrEmpty());
             Assert.AreEqual(new int[0], ((int[])null).OrEmpty());
         }
+        [Test]
+        [TestCase(new[] { 1, 4, 5, 2, 3 }, new[] { 1, 2, 3, 4, 5 }, true)]
+        [TestCase(new[] { 1, 1, 2 }, new[] { 1, 1, 2 }, true)]
+        [TestCase(new int[] { }, new int[] { }, true)]
+        [TestCase(new[] { 1, 5, 4 }, new[] { 1, 5, 4 }, false)]
+        [TestCase(new int[] { }, new[] { 1 }, false)]
+        public void OrderBy01(int[] a, int[] expected, bool result)
+        {
+            var source = a.Select(x => new { prop = x.ToString() });
+            var order = source.OrderBy(x => x.prop, (prop1, prop2) => prop1.CompareTo(prop2));
+            Assert.AreEqual(result, expected.Select(x => new { prop = x.ToString() }).SequenceEqual(order));
+        }
+        [Test]
+        [TestCase(new[] { 1, 4, 5, 2, 3 }, new[] { 5, 4, 3, 2, 1 }, true)]
+        [TestCase(new[] { 1, 1, 2 }, new[] { 2, 1, 1 }, true)]
+        [TestCase(new int[] { }, new int[] { }, true)]
+        [TestCase(new[] { 1, 5, 4 }, new[] { 1, 5, 4 }, false)]
+        [TestCase(new int[] { }, new[] { 1 }, false)]
+        public void OrderByDescending01(int[] a, int[] expected, bool result)
+        {
+            var source = a.Select(x => new { prop = x.ToString() });
+            var order = source.OrderByDescending(x => x.prop, (prop1, prop2) => prop1.CompareTo(prop2));
+            Assert.AreEqual(result, expected.Select(x => new { prop = x.ToString() }).SequenceEqual(order));
+        }
     }
 }

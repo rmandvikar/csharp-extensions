@@ -274,6 +274,10 @@ IEnumerable<int> bottom_n = { 2, 3, 1, 4, 5 }.Bottom(3);
 source.ExceptBy(second, x => x.Member);
 // same for source.Distinct(comparer)
 source.DistinctBy(x => x.Member);
+// same for source.OrderBy(keySelector, comparer)
+source.OrderBy(x => x.Property,
+    (p1, p2) => p1.CompareTo(p2) // where p1, p2 are of same type as x.Property
+);
 ```
 
 ```c#

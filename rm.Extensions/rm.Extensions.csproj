@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericComparer.cs" />
     <Compile Include="DictionaryExtension.cs" />
     <Compile Include="StringBuilderExtension.cs" />
     <Compile Include="GenericEqualityComparer.cs" />
