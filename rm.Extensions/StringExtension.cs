@@ -100,18 +100,21 @@ namespace rm.Extensions
         private static List<KeyValuePair<char, char>> GetMungeSubstitutions()
         {
             var mungeSubstitutions = new List<KeyValuePair<char, char>>();
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('a', '@'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('b', '8'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('c', '('));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('e', '3'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('g', '9'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('i', '1'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('i', '!'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('l', '1'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('o', '0'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('s', '$'));
-            mungeSubstitutions.Add(new KeyValuePair<char, char>('t', '+'));
-            // add more here
+            new[]
+            {
+                new[] {'a', '@'},
+                new[] {'b', '8'},
+                new[] {'c', '('},
+                new[] {'e', '3'},
+                new[] {'g', '9'},
+                new[] {'i', '1'},
+                new[] {'i', '!'},
+                new[] {'l', '1'},
+                new[] {'o', '0'},
+                new[] {'s', '$'},
+                new[] {'t', '+'},
+                // add more here
+            }.ToList().ForEach(x => mungeSubstitutions.Add(new KeyValuePair<char, char>(x[0], x[1])));
             return mungeSubstitutions;
         }
         /// <summary>
