@@ -488,13 +488,13 @@ namespace rm.Extensions
             var input = source.ToArray();
             var output = new List<IEnumerable<T>>(input.Length.Permutation(r));
             var buffer = new T[r];
-            var flags = new bool[input.Length];
+            var used = new bool[input.Length];
             var depth = 0;
-            Permute(input, r, output, buffer, flags, depth);
+            Permute(input, r, output, buffer, used, depth);
             return output.AsEnumerable();
         }
         private static void Permute<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
-            bool[] flags, int depth)
+            bool[] used, int depth)
         {
             if (depth > r)
             {
@@ -507,15 +507,15 @@ namespace rm.Extensions
             }
             for (int i = 0; i < input.Length; i++)
             {
-                if (flags[i])
+                if (used[i])
                 {
                     continue;
                 }
-                flags[i] = true;
+                used[i] = true;
                 buffer[depth] = input[i];
-                Permute(input, r, output, buffer, flags, depth + 1);
+                Permute(input, r, output, buffer, used, depth + 1);
                 buffer[depth] = default(T);
-                flags[i] = false;
+                used[i] = false;
             }
         }
         public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source)
@@ -532,14 +532,13 @@ namespace rm.Extensions
             var input = source.ToArray();
             var output = new List<IEnumerable<T>>(input.Length.Combination(r));
             var buffer = new T[r];
-            var flags = new bool[input.Length];
             var depth = 0;
             var start = 0;
-            Combine(input, r, output, buffer, flags, depth, start);
+            Combine(input, r, output, buffer, depth, start);
             return output.AsEnumerable();
         }
         private static void Combine<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
-            bool[] flags, int depth, int start)
+            int depth, int start)
         {
             if (depth > r)
             {
@@ -552,15 +551,9 @@ namespace rm.Extensions
             }
             for (int i = start; i < input.Length; i++)
             {
-                if (flags[i])
-                {
-                    continue;
-                }
-                flags[i] = true;
                 buffer[depth] = input[i];
-                Combine(input, r, output, buffer, flags, depth + 1, i + 1);
+                Combine(input, r, output, buffer, depth + 1, i + 1);
                 buffer[depth] = default(T);
-                flags[i] = false;
             }
         }
 
