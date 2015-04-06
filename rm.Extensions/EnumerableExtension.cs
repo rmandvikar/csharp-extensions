@@ -436,31 +436,34 @@ namespace rm.Extensions
         /// Recursive method to scrabble.
         /// </summary>
         /// <param name="words">Words to scrabble.</param>
-        /// <param name="flags">Bool array to determine already used word in <paramref name="words"/>.</param>
+        /// <param name="used">Bool array to determine already used word in <paramref name="words"/>.</param>
         /// <param name="buffer">Buffer to hold the words.</param>
         /// <param name="depth">Call depth to determine when to return.</param>
         /// <param name="list">List to hold the scrabbled words.</param>
         /// <remarks>Similar to the permute method.</remarks>
-        private static void Scrabble(string[] words, bool[] flags, StringBuilder buffer, int depth,
+        private static void Scrabble(string[] words, bool[] used, StringBuilder buffer, int depth,
             IList<string> list)
         {
+            // add to list here
+            if (depth > 0)
+            {
+                list.Add(buffer.ToString());
+            }
             if (depth == words.Length)
             {
                 return;
             }
             for (int i = 0; i < words.Length; i++)
             {
-                if (flags[i])
+                if (used[i])
                 {
                     continue;
                 }
-                flags[i] = true;
+                used[i] = true;
                 buffer.Append(words[i]);
-                // add to list here
-                list.Add(buffer.ToString());
-                Scrabble(words, flags, buffer, depth + 1, list);
+                Scrabble(words, used, buffer, depth + 1, list);
                 buffer.Length -= words[i].Length;
-                flags[i] = false;
+                used[i] = false;
             }
         }
         /// <summary>
