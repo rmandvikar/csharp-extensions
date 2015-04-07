@@ -415,9 +415,23 @@ namespace rm.Extensions
                 yield break;
             }
             // slice
-            for (int i = _start; (step > 0 ? i < _end : i > _end); i += step)
+            if (step > 0)
             {
-                yield return array[i];
+                var i = _start;
+                while (i < _end)
+                {
+                    yield return array[i];
+                    i += step;
+                }
+            }
+            if (step < 0)
+            {
+                var i = _start;
+                while (i > _end)
+                {
+                    yield return array[i];
+                    i += step;
+                }
             }
         }
         /// <summary>

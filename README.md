@@ -212,6 +212,14 @@ a.Slice(-2); // last two items in the array
 a.Slice(-3, -2); // third last item in the array
 a.Slice(0, -2); // everything except the last two items
 a.Slice(step: -1); // copy with array reversed
+
+// help
+a.Slice(end: 2)      // 1st 2
+a.Slice(2)           // except 1st 2
+a.Slice(-2)          // last 2
+a.Slice(0, -2)       // except last 2
+a.Slice(1, 1 + 1)    // 2nd char
+a.Slice(-2, -2 + 1)  // 2nd last char
 ```
 
 ```c#

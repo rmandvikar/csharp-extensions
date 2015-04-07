@@ -174,6 +174,23 @@ namespace rm.ExtensionsTest
             Assert.Less(count, tries);
         }
         [Test]
+        public void Slice00_help()
+        {
+            var a = "12345".ToCharArray();
+            // 1st 2
+            Assert.AreEqual(a.Slice(end: 2).ToArray(), new[] { '1', '2' });
+            // except 1st 2
+            Assert.AreEqual(a.Slice(2).ToArray(), new[] { '3', '4', '5' });
+            // last 2
+            Assert.AreEqual(a.Slice(-2).ToArray(), new[] { '4', '5' });
+            // except last 2
+            Assert.AreEqual(a.Slice(0, -2).ToArray(), new[] { '1', '2', '3' });
+            // 2nd char
+            Assert.AreEqual(a.Slice(1, 1 + 1).ToArray(), new[] { '2' });
+            // 2nd last char
+            Assert.AreEqual(a.Slice(-2, -2 + 1).ToArray(), new[] { '4' });
+        }
+        [Test]
         // normal cases
         [TestCase(3, 5, 1, 3, 4)]
         [TestCase(0, 5, 1, 0, 4)]
