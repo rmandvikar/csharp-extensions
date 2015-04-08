@@ -392,9 +392,13 @@ namespace rm.ExtensionsTest
         [TestCase(3, 1, 1, 1, 1, 1)]
         [TestCase(3, -9, -1, -4, -6, -7)]
         [TestCase(3, 1)]
+        [TestCase(3, 1, 2, 3)]
+        [TestCase(5, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)]
+        [TestCase(0, 1, 2, 3)]
         public void Top01(int n, params int[] args)
         {
             var result = args.Top(n).ToArray();
+            Assert.AreEqual(args.Length < n ? args.Length : n, result.Length);
             var resultCsv = string.Join(",", result);
             var argsCsv = string.Join(",", args);
             args = args.OrderByDescending(x => x).ToArray();
@@ -413,9 +417,13 @@ namespace rm.ExtensionsTest
         [TestCase(3, 1, 1, 1, 1, 1)]
         [TestCase(3, -9, -1, -4, -6, -7)]
         [TestCase(3, 1)]
+        [TestCase(3, 1, 2, 3)]
+        [TestCase(5, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9)]
+        [TestCase(0, 1, 2, 3)]
         public void Bottom01(int n, params int[] args)
         {
             var result = args.Bottom(n).ToArray();
+            Assert.AreEqual(args.Length < n ? args.Length : n, result.Length);
             var resultCsv = string.Join(",", result);
             var argsCsv = string.Join(",", args);
             args = args.OrderBy(x => x).ToArray();
@@ -435,13 +443,27 @@ namespace rm.ExtensionsTest
                 throw new NotImplementedException();
             }
         }
+        class ComparableClass2 : IComparable<ComparableClass2>
+        {
+            public int Value { get; set; }
+            public int CompareTo(ComparableClass2 other)
+            {
+                return Value.CompareTo(other.Value);
+            }
+            public override string ToString()
+            {
+                return Value.ToString();
+            }
+        }
         [Test]
         public void Top02()
         {
             Assert.DoesNotThrow(() =>
             {
-                new[] { (ComparableClass)null }.Top(3, x => x);
-                new[] { 1 }.Top(0);
+                var heap1 = new[] { (ComparableClass)null }.Top(3, x => x).ToArray();
+                Assert.AreEqual(0, heap1.Length);
+                var heap2 = new[] { 1 }.Top(0).ToArray();
+                Assert.AreEqual(0, heap2.Length);
             });
         }
         [Test]
@@ -449,8 +471,10 @@ namespace rm.ExtensionsTest
         {
             Assert.DoesNotThrow(() =>
             {
-                new[] { (ComparableClass)null }.Bottom(3, x => x);
-                new[] { 1 }.Bottom(0);
+                var heap1 = new[] { (ComparableClass)null }.Bottom(3, x => x).ToArray();
+                Assert.AreEqual(0, heap1.Length);
+                var heap2 = new[] { 1 }.Bottom(0).ToArray();
+                Assert.AreEqual(0, heap2.Length);
             });
         }
         [Test]
@@ -462,6 +486,24 @@ namespace rm.ExtensionsTest
         public void Bottom03()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Bottom(-1); });
+        }
+        [Test]
+        public void Top04()
+        {
+            Assert.True(new[] { 0, 5, 10, 15, 20, 25 }.Select(x => new ComparableClass2 { Value = x })
+                .Top(3, x => x.Value)
+                .OrderBy(x => x.Value)
+                .SequenceEqual(new[] { 15, 20, 25 }.Select(x => new ComparableClass2 { Value = x }),
+                    GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
+        }
+        [Test]
+        public void Bottom04()
+        {
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new ComparableClass2 { Value = x })
+                .Bottom(3, x => x.Value)
+                .OrderBy(x => x.Value)
+                .SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
+                    GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
         }
         [Test]
         [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3 }, new[] { 4, 5 })]
