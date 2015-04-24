@@ -312,7 +312,7 @@ namespace rm.Extensions
         /// Returns a new collection with items shuffled in O(n) time.
         /// </summary>
         /// <remarks>
-        /// Fisher-Yates shuffle
+        /// Fisher-Yates shuffle, revised by Knuth
         /// http://stackoverflow.com/questions/1287567/is-using-random-and-orderby-a-good-shuffle-algorithm
         /// </remarks>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)

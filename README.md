@@ -191,7 +191,7 @@ new[] { 1 }.DoubleOrDefault(x => x > 0);
 ```
 
 ```c#
-// shuffle collection in O(n) time (Fisher-Yates shuffle)
+// shuffle collection in O(n) time (Fisher-Yates shuffle, revised by Knuth)
 var shuffled = new[] { 0, 1, 2, 3 }.Shuffle();
 // shuffled: { 2, 3, 1, 0 }
 ```
