@@ -74,11 +74,102 @@ namespace rm.Extensions
             return WebUtility.UrlDecode(s);
         }
         /// <summary>
-        /// Format string.
+        /// Format string as string.Format() but the parameter index is optional and parameter meta is allowed.
         /// </summary>
+        /// <example>"{} is a {1}".format("this", "test")</example>
         public static string format(this string format, params object[] args)
         {
-            return string.Format(format, args);
+            var buffer = new StringBuilder(format);
+            var i = 0;
+            var param = 0;
+            var paramMetaToIndexMap = new Dictionary<string, string>();
+            while (i < buffer.Length)
+            {
+                // stop at '{' or '}'
+                while (i < buffer.Length && buffer[i] != '{' && buffer[i] != '}')
+                {
+                    i++;
+                }
+                // no more curly
+                if (i == buffer.Length)
+                {
+                    break;
+                }
+                // skip escaped curly "{{" or "}}"
+                if (i + 1 < buffer.Length && buffer[i] == buffer[i + 1])
+                {
+                    i += 2;
+                    continue;
+                }
+                // close curly before open curly, break
+                if (buffer[i] == '}')
+                {
+                    break;
+                }
+                var start = i;
+                while (i < buffer.Length && buffer[i] != '}')
+                {
+                    i++;
+                }
+                // open curly is not matched, break
+                if (i == buffer.Length)
+                {
+                    break;
+                }
+                var end = i;
+                //// at this point buffer[start..end] has format field
+                //// insert parameter index only if not present
+                ////      so insert for:
+                ////      se  s  e  s            e  s    e  s      e  s                e
+                ////      {}  {:2}  {,10:#,##0.00}  {test}  {test:2}  {test,10:#,##0.00}
+                ////      and do not insert for:
+                ////      s e  s   e  s             e
+                ////      {0}  {0:2}  {0,10:#,##0.00}
+                // find the meta substring
+                var metastart = start + 1;
+                var metaend = metastart;
+                while (buffer[metaend] != '}' && buffer[metaend] != ':' && buffer[metaend] != ',')
+                {
+                    metaend++;
+                }
+                var paramMeta = buffer.ToString(metastart, metaend - metastart);
+                // insert param only if meta is not int
+                var increment = true;
+                int result;
+                if (!int.TryParse(paramMeta, out result))
+                {
+                    buffer.Remove(metastart, paramMeta.Length);
+                    // get param index from meta->index map if exists or param index
+                    string paramIndex;
+                    var paramMetaKey = paramMeta.Trim();
+                    if (paramMetaToIndexMap.ContainsKey(paramMetaKey))
+                    {
+                        paramIndex = paramMetaToIndexMap[paramMetaKey];
+                        // do not increment param as param index is reused
+                        increment = false;
+                    }
+                    else
+                    {
+                        paramIndex = param.ToString();
+                        // put param meta in meta->index map
+                        if (paramMetaKey != "")
+                        {
+                            paramMetaToIndexMap.Add(paramMetaKey, paramIndex);
+                        }
+                    }
+                    buffer.Insert(metastart, paramIndex);
+                    // adjust end as buffer is removed from and inserted into
+                    end += -paramMeta.Length + paramIndex.Length;
+                }
+                // increment param even when index is not inserted
+                if (increment)
+                {
+                    param++;
+                }
+                i = end + 1; // i++ does not work
+            }
+            var formatConverted = buffer.ToString();
+            return string.Format(formatConverted, args);
         }
         /// <summary>
         /// Try-parse string to bool, else default value.

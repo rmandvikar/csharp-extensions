@@ -31,7 +31,13 @@ string urldecoded = s.UrlDecode();
 
 ```c#
 // "".format() instead of string.Format()
-"{0}".format("test");
+"{0} is a {1}".format("this", "test");
+// parameter index is optional
+"{} is a {}".format("this", "test");
+"{} is a {1}".format("this", "test"); // mixing is ok
+// parameter meta is allowed
+"The name is {0}. {first} {last}.".format(lastName, firstName, lastName); // adding arg meta is ok
+"The name is {last}. {first} {last}.".format(lastName, firstName); // bit intelligent about repeating arg meta
 ```
 
 ```c#

@@ -93,11 +93,43 @@ namespace rm.ExtensionsTest
             Assert.AreEqual(expected, s.UrlDecode());
         }
         [Test]
-        public void Format01()
+        [TestCase("{} is a {1}", "{0} is a {1}", "this", "test")]
+        [TestCase("{}", "{0}", 1)]
+        [TestCase("{:C}", "{0:C}", 3.14d)]
+        [TestCase("{,10:#,##0.00}", "{0,10:#,##0.00}", 3.14d)]
+        [TestCase("{{}}{,10:#,##0.00}", "{{}}{0,10:#,##0.00}", 3.14d)]
+        [TestCase("}}{{{,10:#,##0.00}", "}}{{{0,10:#,##0.00}", 3.14d)]
+        [TestCase("{{{,10:#,##0.00}}}", "{{{0,10:#,##0.00}}}", 3.14d)]
+        [TestCase("{}{:C}{{{,10:#,##0.00}}}", "{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("{}{1:C}{{{,10:#,##0.00}}}", "{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("no fields", "no fields", 1)]
+        [TestCase("{{", "{{", 1)]
+        [TestCase("}}", "}}", 1)]
+        [TestCase(
+            "{} {} {} by the {}. The {} {} {} are surely {}. So if {} {} {} on the {}, I'm sure {} {} {} {}.",
+            "{0} {1} {2} by the {3}. The {4} {5} {6} are surely {7}. So if {8} {9} {10} on the {11}, I'm sure {12} {13} {14} {15}.",
+            "She", "sells", "seashells", "seashore", "shells", "she", "sells", "seashells", "she", "sells", "shells", "seashore", "she", "sells", "seashore", "shells"
+            )]
+        //with meta
+        [TestCase("{meta}", "{0}", 1)]
+        [TestCase("{meta:C}", "{0:C}", 3.14d)]
+        [TestCase("{meta,10:#,##0.00}", "{0,10:#,##0.00}", 3.14d)]
+        [TestCase("{meta0}{meta1:C}{{{meta2,10:#,##0.00}}}", "{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("{meta0}{1:C}{{{meta1,10:#,##0.00}}}", "{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("The name is {last}. {first} {last}.", "The name is {0}. {1} {0}.", "Bond", "James")]
+        [TestCase("The name is {0}. {first} {last}.", "The name is {0}. {1} {2}.", "Bond", "James", "Bond")]
+        public void Format01(string format, string formatConverted, params object[] args)
         {
-            Assert.AreEqual("", "".format());
-            Assert.AreEqual("test", "{0}".format("test"));
-            Assert.AreEqual("0: 1: 2", "{0}: {1}: {2}".format(0, 1, 2));
+            Assert.AreEqual(string.Format(formatConverted, args), format.format(args));
+        }
+        [Test]
+        [TestCase("{}{1:C}{{{3,10:#,##0.00}}}", "{0}{1:C}{{{3,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("{}{3:C}{{{,10:#,##0.00}}}", "{0}{3:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("{{}{1:C}{{{,10:#,##0.00}}}", "{{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        public void Format02(string format, string formatConverted, params object[] args)
+        {
+            Assert.Throws<FormatException>(() => string.Format(formatConverted, args));
+            Assert.Throws<FormatException>(() => format.format(args));
         }
         [Test]
         [TestCase("", true, true)]
