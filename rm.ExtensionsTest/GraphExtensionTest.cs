@@ -31,6 +31,18 @@ namespace rm.ExtensionsTest
 
             Assert.IsFalse(graph.IsCyclic());
         }
+        [Test(Description = " 1->2->3, 1->3 ")]
+        public void IsCyclic_False_03()
+        {
+            var n1 = new GraphNode("1");
+            var n2 = new GraphNode("2");
+            var n3 = new GraphNode("3");
+            n1.Neighbors = new[] { n2, n3 };
+            n2.Neighbors = new[] { n3 };
+            var graph = new Graph(new[] { n1, n2, n3 });
+
+            Assert.IsFalse(graph.IsCyclic());
+        }
 
         [Test(Description = " 1<->2 ")]
         public void IsCyclic_True_01()

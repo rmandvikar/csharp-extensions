@@ -15,9 +15,9 @@ namespace rm.Extensions
             graph.ThrowIfArgumentNull("graph");
             graph.Nodes.ThrowIfArgumentNull("graph.Nodes");
             var acyclicNodes = new HashSet<string>();
+            var path = new HashSet<string>();
             foreach (var node in graph.Nodes)
             {
-                var path = new HashSet<string>();
                 if (IsCyclic(node, path, acyclicNodes))
                 {
                     return true;
