@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
 
@@ -24,6 +25,12 @@ namespace rm.ExtensionsTest
         {
             var dictionary = a.ToDictionary(x => x, y => y.ToString());
             Assert.AreEqual(expected, dictionary.GetValueOrDefault(key));
+        }
+        [Test]
+        public void AsReadOnly01()
+        {
+            var dictionary = new[] { 0, 1, 2 }.ToDictionary(x => x, y => y.ToString()).AsReadOnly();
+            Assert.Throws<NotSupportedException>(() => dictionary[5] = "5");
         }
     }
 }

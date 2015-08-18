@@ -474,3 +474,8 @@ buffer.AppendLine(format, args);
 var value = dictionary.GetValueOrDefault(key);
 var value = dictionary.GetValueOrDefault(key, other);
 ```
+
+```c#
+// get dictionary as readonly
+var dictionaryReadonly = dictionary.AsReadOnly();
+```

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace rm.Extensions
 {
@@ -27,6 +28,13 @@ namespace rm.Extensions
                 return value;
             }
             return defaultValue;
+        }
+        /// <summary>
+        /// Returns the <paramref name="dictionary"/> as read-only.
+        /// </summary>
+        public static IDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        {
+            return new ReadOnlyDictionary<TKey, TValue>(dictionary);
         }
     }
 }
