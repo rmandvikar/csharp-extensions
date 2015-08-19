@@ -49,7 +49,7 @@ namespace rm.Extensions
             where T : struct
         {
             return EnumInternal<T>.ValueToDescriptionMap
-                .ToDictionary(x => x.Key.GetEnumName(), x => x.Value);
+                .ToDictionary(x => x.Key.GetEnumName(), x => x.Value).AsReadOnly();
         }
         /// <summary>
         /// Get the name (string) for the enum value or throw exception if not exists.
