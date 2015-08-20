@@ -267,6 +267,16 @@ IEnumerable<int> top_n = { 2, 3, 1, 4, 5 }.Top(3);
 IEnumerable<int> bottom_n = { 2, 3, 1, 4, 5 }.Bottom(3);
 // top_n: { 3, 5, 4 }
 // bottom_n: { 3, 1, 2 }
+// get top n or bottom n from IEnumerable
+IEnumerable<Person> top_n = persons.Top(3);
+IEnumerable<Person> bottom_n = persons.Bottom(3);
+// get top n or bottom n by using a key selector or/and comparer
+IEnumerable<Person> oldest_3 = persons.Top(3, x => x.Age);
+IEnumerable<Person> youngest_3 = persons.Bottom(3, x => x.Age);
+IEnumerable<Person> oldest_3 = persons.Top(3, personByAgeComparer);
+IEnumerable<Person> youngest_3 = persons.Bottom(3, personByAgeComparer);
+IEnumerable<Person> oldest_3 = persons.Top(3, x => x.Age, ageComparer);
+IEnumerable<Person> youngest_3 = persons.Bottom(3, x => x.Age, ageComparer);
 ```
 
 ```c#

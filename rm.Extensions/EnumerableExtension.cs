@@ -583,13 +583,41 @@ namespace rm.Extensions
         /// <summary>
         /// Returns top n efficiently.
         /// </summary>
+        public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n)
+            where T : IComparable<T>
+        {
+            return Top(source, n, x => x, Comparer<T>.Default);
+        }
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n,
+            IComparer<T> comparer)
+            where T : IComparable<T>
+        {
+            return Top(source, n, x => x, comparer);
+        }
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
+            Func<T, TKey> keySelector)
+            where TKey : IComparable<TKey>
+        {
+            return Top(source, n, keySelector, Comparer<TKey>.Default);
+        }
+        /// <summary>
+        /// Returns top n efficiently.
+        /// </summary>
         /// <remarks>Uses min-heap, O(elements * logn) time, O(n) space.</remarks>
-        public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n, Func<T, TKey> keySelector)
+        public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             source.ThrowIfArgumentNull("source");
             n.ThrowIfArgumentOutOfRange("n");
             keySelector.ThrowIfArgumentNull("keySelector");
+            comparer.ThrowIfArgumentNull("comparer");
             var heap = new T[n];
             if (n == 0)
             {
@@ -604,10 +632,10 @@ namespace rm.Extensions
                 }
                 if (i >= n)
                 {
-                    if ((keySelector(x).CompareTo(keySelector(heap[0])) > 0)) //x > heap[0]
+                    if (comparer.Compare(keySelector(x), keySelector(heap[0])) > 0) //x > heap[0]
                     {
                         heap[0] = x;
-                        SiftDownMin(heap, 0, keySelector);
+                        SiftDownMin(heap, 0, keySelector, comparer);
                     }
                 }
                 else
@@ -616,28 +644,30 @@ namespace rm.Extensions
                     i++;
                     if (i == n)
                     {
-                        HeapifyMin(heap, keySelector);
+                        HeapifyMin(heap, keySelector, comparer);
                     }
                 }
             }
             if (i < n)
             {
                 heap = heap.Slice(end: i).ToArray();
-                HeapifyMin(heap, keySelector);
+                HeapifyMin(heap, keySelector, comparer);
             }
             return heap;
         }
-        private static void HeapifyMin<T, TKey>(T[] heap, Func<T, TKey> keySelector)
+        private static void HeapifyMin<T, TKey>(T[] heap,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             var i = heap.Length / 2 - 1; // last parent
             while (i >= 0)
             {
-                SiftDownMin(heap, i, keySelector);
+                SiftDownMin(heap, i, keySelector, comparer);
                 i--;
             }
         }
-        private static void SiftDownMin<T, TKey>(T[] heap, int i, Func<T, TKey> keySelector)
+        private static void SiftDownMin<T, TKey>(T[] heap, int i,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             while (i < heap.Length)
@@ -646,12 +676,12 @@ namespace rm.Extensions
                 var right = left + 1;
                 var min = i;
                 if (left < heap.Length
-                    && keySelector(heap[min]).CompareTo(keySelector(heap[left])) > 0) //heap[left] < heap[min]
+                    && comparer.Compare(keySelector(heap[left]), keySelector(heap[min])) < 0) //heap[left] < heap[min]
                 {
                     min = left;
                 }
                 if (right < heap.Length
-                    && keySelector(heap[min]).CompareTo(keySelector(heap[right])) > 0) //heap[right] < heap[min]
+                    && comparer.Compare(keySelector(heap[right]), keySelector(heap[min])) < 0) //heap[right] < heap[min]
                 {
                     min = right;
                 }
@@ -660,19 +690,47 @@ namespace rm.Extensions
                     break;
                 }
                 Helper.Swap(ref heap[min], ref heap[i]);
-                SiftDownMin(heap, min, keySelector);
+                SiftDownMin(heap, min, keySelector, comparer);
             }
         }
         /// <summary>
         /// Returns bottom n efficiently.
         /// </summary>
+        public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n)
+            where T : IComparable<T>
+        {
+            return Bottom(source, n, x => x, Comparer<T>.Default);
+        }
+        /// <summary>
+        /// Returns bottom n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n,
+            IComparer<T> comparer)
+            where T : IComparable<T>
+        {
+            return Bottom(source, n, x => x, comparer);
+        }
+        /// <summary>
+        /// Returns bottom n efficiently.
+        /// </summary>
+        public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
+            Func<T, TKey> keySelector)
+            where TKey : IComparable<TKey>
+        {
+            return Bottom(source, n, keySelector, Comparer<TKey>.Default);
+        }
+        /// <summary>
+        /// Returns bottom n efficiently.
+        /// </summary>
         /// <remarks>Uses max-heap, O(elements * logn) time, O(n) space.</remarks>
-        public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n, Func<T, TKey> keySelector)
+        public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             source.ThrowIfArgumentNull("source");
             n.ThrowIfArgumentOutOfRange("n");
             keySelector.ThrowIfArgumentNull("keySelector");
+            comparer.ThrowIfArgumentNull("comparer");
             var heap = new T[n];
             if (n == 0)
             {
@@ -687,10 +745,10 @@ namespace rm.Extensions
                 }
                 if (i >= n)
                 {
-                    if ((keySelector(x).CompareTo(keySelector(heap[0])) < 0)) //x < heap[0]
+                    if (comparer.Compare(keySelector(x), keySelector(heap[0])) < 0) //x < heap[0]
                     {
                         heap[0] = x;
-                        SiftDownMax(heap, 0, keySelector);
+                        SiftDownMax(heap, 0, keySelector, comparer);
                     }
                 }
                 else
@@ -699,28 +757,30 @@ namespace rm.Extensions
                     i++;
                     if (i == n)
                     {
-                        HeapifyMax(heap, keySelector);
+                        HeapifyMax(heap, keySelector, comparer);
                     }
                 }
             }
             if (i < n)
             {
                 heap = heap.Slice(end: i).ToArray();
-                HeapifyMax(heap, keySelector);
+                HeapifyMax(heap, keySelector, comparer);
             }
             return heap;
         }
-        private static void HeapifyMax<T, TKey>(T[] heap, Func<T, TKey> keySelector)
+        private static void HeapifyMax<T, TKey>(T[] heap,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             var i = heap.Length / 2 - 1; // last parent
             while (i >= 0)
             {
-                SiftDownMax(heap, i, keySelector);
+                SiftDownMax(heap, i, keySelector, comparer);
                 i--;
             }
         }
-        private static void SiftDownMax<T, TKey>(T[] heap, int i, Func<T, TKey> keySelector)
+        private static void SiftDownMax<T, TKey>(T[] heap, int i,
+            Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
             while (i < heap.Length)
@@ -729,12 +789,12 @@ namespace rm.Extensions
                 var right = left + 1;
                 var max = i;
                 if (left < heap.Length
-                    && keySelector(heap[max]).CompareTo(keySelector(heap[left])) < 0) //heap[max] < heap[left]
+                    && comparer.Compare(keySelector(heap[left]), keySelector(heap[max])) > 0) //heap[left] > heap[max]
                 {
                     max = left;
                 }
                 if (right < heap.Length
-                    && keySelector(heap[max]).CompareTo(keySelector(heap[right])) < 0) //heap[max] < heap[right]
+                    && comparer.Compare(keySelector(heap[right]), keySelector(heap[max])) > 0) //heap[right] > heap[max]
                 {
                     max = right;
                 }
@@ -743,24 +803,8 @@ namespace rm.Extensions
                     break;
                 }
                 Helper.Swap(ref heap[max], ref heap[i]);
-                SiftDownMax(heap, max, keySelector);
+                SiftDownMax(heap, max, keySelector, comparer);
             }
-        }
-        /// <summary>
-        /// Returns top n efficiently.
-        /// </summary>
-        public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n)
-            where T : struct, IComparable<T>
-        {
-            return Top(source, n, x => x);
-        }
-        /// <summary>
-        /// Returns bottom n efficiently.
-        /// </summary>
-        public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n)
-            where T : struct, IComparable<T>
-        {
-            return Bottom(source, n, x => x);
         }
 
         /// <summary>

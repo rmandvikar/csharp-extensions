@@ -443,16 +443,28 @@ namespace rm.ExtensionsTest
                 throw new NotImplementedException();
             }
         }
-        class ComparableClass2 : IComparable<ComparableClass2>
+        class ComparableClass2 : IComparable<ComparableClass2>, IEquatable<ComparableClass2>
         {
             public int Value { get; set; }
             public int CompareTo(ComparableClass2 other)
             {
+                if (other == null)
+                {
+                    return 1;
+                }
                 return Value.CompareTo(other.Value);
             }
             public override string ToString()
             {
                 return Value.ToString();
+            }
+            public bool Equals(ComparableClass2 other)
+            {
+                if (other == null)
+                {
+                    return false;
+                }
+                return Value.Equals(other.Value);
             }
         }
         [Test]
@@ -460,7 +472,7 @@ namespace rm.ExtensionsTest
         {
             Assert.DoesNotThrow(() =>
             {
-                var heap1 = new[] { (ComparableClass)null }.Top(3, x => x).ToArray();
+                var heap1 = new[] { (ComparableClass)null }.Top(3).ToArray();
                 Assert.AreEqual(0, heap1.Length);
                 var heap2 = new[] { 1 }.Top(0).ToArray();
                 Assert.AreEqual(0, heap2.Length);
@@ -471,7 +483,7 @@ namespace rm.ExtensionsTest
         {
             Assert.DoesNotThrow(() =>
             {
-                var heap1 = new[] { (ComparableClass)null }.Bottom(3, x => x).ToArray();
+                var heap1 = new[] { (ComparableClass)null }.Bottom(3).ToArray();
                 Assert.AreEqual(0, heap1.Length);
                 var heap2 = new[] { 1 }.Bottom(0).ToArray();
                 Assert.AreEqual(0, heap2.Length);
@@ -488,22 +500,91 @@ namespace rm.ExtensionsTest
             Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Bottom(-1); });
         }
         [Test]
-        public void Top04()
+        public void Top_keyselector01()
         {
             Assert.True(new[] { 0, 5, 10, 15, 20, 25 }.Select(x => new ComparableClass2 { Value = x })
                 .Top(3, x => x.Value)
-                .OrderBy(x => x.Value)
-                .SequenceEqual(new[] { 15, 20, 25 }.Select(x => new ComparableClass2 { Value = x }),
+                .OrderByDescending(x => x.Value)
+                .SequenceEqual(new[] { 25, 20, 15 }.Select(x => new ComparableClass2 { Value = x }),
                     GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
         }
         [Test]
-        public void Bottom04()
+        public void Bottom_keyselector01()
         {
             Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new ComparableClass2 { Value = x })
                 .Bottom(3, x => x.Value)
                 .OrderBy(x => x.Value)
                 .SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
                     GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
+        }
+        class ComparableClass2Comparer : IComparer<ComparableClass2>
+        {
+            public int Compare(ComparableClass2 x, ComparableClass2 y)
+            {
+                return x.Value.CompareTo(y.Value);
+            }
+        }
+        class SampleClass
+        {
+            public ComparableClass2 ComparableClass2 { get; set; }
+        }
+        [Test]
+        public void Top_keyselector02()
+        {
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } })
+                .Top(3, x => x.ComparableClass2)
+                .OrderByDescending(x => x.ComparableClass2)
+                .SequenceEqual(new[] { 25, 20, 15 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
+                    GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
+        }
+        [Test]
+        public void Bottom_keyselector02()
+        {
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } })
+                .Bottom(3, x => x.ComparableClass2)
+                .OrderBy(x => x.ComparableClass2)
+                .SequenceEqual(new[] { 0, 5, 10 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
+                    GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
+        }
+        [Test]
+        public void Top_comparer01()
+        {
+            var comparer = new ComparableClass2Comparer();
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new ComparableClass2 { Value = x })
+                .Top(3, comparer)
+                .OrderByDescending(x => x, comparer)
+                .SequenceEqual(new[] { 25, 20, 15 }.Select(x => new ComparableClass2 { Value = x }),
+                    GenericEqualityComparer<ComparableClass2>.By(x => x)));
+        }
+        [Test]
+        public void Bottom_comparer01()
+        {
+            var comparer = new ComparableClass2Comparer();
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new ComparableClass2 { Value = x })
+                .Bottom(3, comparer)
+                .OrderBy(x => x, comparer)
+                .SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
+                    GenericEqualityComparer<ComparableClass2>.By(x => x)));
+        }
+        [Test]
+        public void Top_keyselector_comparer01()
+        {
+            var comparer = new ComparableClass2Comparer();
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } })
+                .Top(3, x => x.ComparableClass2, comparer)
+                .OrderByDescending(x => x.ComparableClass2, comparer)
+                .SequenceEqual(new[] { 25, 20, 15 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
+                    GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
+        }
+        [Test]
+        public void Bottom_keyselector_comparer01()
+        {
+            var comparer = new ComparableClass2Comparer();
+            Assert.True(new[] { 25, 20, 15, 10, 5, 0 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } })
+                .Bottom(3, x => x.ComparableClass2, comparer)
+                .OrderBy(x => x.ComparableClass2, comparer)
+                .SequenceEqual(new[] { 0, 5, 10 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
+                    GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
         }
         [Test]
         [TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3 }, new[] { 4, 5 })]
