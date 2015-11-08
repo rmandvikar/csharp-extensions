@@ -90,6 +90,12 @@ string result = "this is a test".SubstringTillEnd(4);
 // result: "test"
 ```
 
+```c#
+// substring by specifying start index and end index
+string result = "this".SubstringByIndex(1, 3);
+// result: "hi"
+```
+
 ####ThrowIf extensions:
 
 ```c#

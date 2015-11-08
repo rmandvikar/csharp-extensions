@@ -298,5 +298,20 @@ namespace rm.ExtensionsTest
             Assert.Throws<ArgumentNullException>(() => ((string)null).SubstringTillEnd(1));
             Assert.Throws<ArgumentOutOfRangeException>(() => "123".SubstringTillEnd(-1));
         }
+        [Test]
+        [TestCase("this", 1, 1, "")]
+        [TestCase("this", 1, 3, "hi")]
+        [TestCase("this", 1, 4, "his")]
+        public static void SubstringByIndex01(string s, int start, int end, string expected)
+        {
+            Assert.AreEqual(expected, s.SubstringByIndex(start, end));
+        }
+        [Test]
+        [TestCase("this", 1, 0)]
+        [TestCase("this", 1, 5)]
+        public static void SubstringByIndex02(string s, int start, int end)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => s.SubstringByIndex(start, end));
+        }
     }
 }

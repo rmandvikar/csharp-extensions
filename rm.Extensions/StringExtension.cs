@@ -358,5 +358,15 @@ namespace rm.Extensions
             }
             return source.Substring(source.Length - n);
         }
+        /// <summary>
+        /// Returns substring by specifying start index and end index.
+        /// </summary>
+        public static string SubstringByIndex(this string source, int startIndex, int endIndex)
+        {
+            source.ThrowIfArgumentNull("source");
+            startIndex.ThrowIfArgumentOutOfRange("startIndex");
+            endIndex.ThrowIfArgumentOutOfRange("endIndex", maxRange: source.Length);
+            return source.Substring(startIndex, endIndex - startIndex);
+        }
     }
 }
