@@ -125,7 +125,7 @@ namespace rm.ExtensionsTest
         [Test]
         [TestCase("{}{1:C}{{{3,10:#,##0.00}}}", "{0}{1:C}{{{3,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
         [TestCase("{}{3:C}{{{,10:#,##0.00}}}", "{0}{3:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
-        [TestCase("{{}{1:C}{{{,10:#,##0.00}}}", "{{0}{1:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
+        [TestCase("{{}{1:C}{{{,10:#,##0.00}}}", "{{}{1:C}{{{,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
         public void Format02(string format, string formatConverted, params object[] args)
         {
             Assert.Throws<FormatException>(() => string.Format(formatConverted, args));

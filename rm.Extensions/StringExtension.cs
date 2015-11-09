@@ -85,26 +85,31 @@ namespace rm.Extensions
             var paramMetaToIndexMap = new Dictionary<string, string>();
             while (i < buffer.Length)
             {
-                // stop at '{' or '}'
-                while (i < buffer.Length && buffer[i] != '{' && buffer[i] != '}')
+                // close curly before open curly
+                if (buffer[i] == '}')
+                {
+                    // skip escaped curly "}}", else break
+                    if (i + 1 < buffer.Length && buffer[i + 1] == '}')
+                    {
+                        i += 2;
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                // stop at '{'
+                if (buffer[i] != '{')
                 {
                     i++;
+                    continue;
                 }
-                // no more curly
-                if (i == buffer.Length)
-                {
-                    break;
-                }
-                // skip escaped curly "{{" or "}}"
-                if (i + 1 < buffer.Length && buffer[i] == buffer[i + 1])
+                // skip escaped curly "{{"
+                if (i + 1 < buffer.Length && buffer[i + 1] == '{')
                 {
                     i += 2;
                     continue;
-                }
-                // close curly before open curly, break
-                if (buffer[i] == '}')
-                {
-                    break;
                 }
                 var start = i;
                 while (i < buffer.Length && buffer[i] != '}')
@@ -132,37 +137,37 @@ namespace rm.Extensions
                 {
                     metaend++;
                 }
-                var paramMeta = buffer.ToString(metastart, metaend - metastart);
+                var paramMeta = buffer.ToString(metastart, metaend - metastart).Trim();
                 // insert param only if meta is not int
-                var increment = true;
-                int result;
-                if (!int.TryParse(paramMeta, out result))
+                int ignore;
+                if (!int.TryParse(paramMeta, out ignore))
                 {
-                    buffer.Remove(metastart, paramMeta.Length);
-                    // get param index from meta->index map if exists or param index
                     string paramIndex;
-                    var paramMetaKey = paramMeta.Trim();
-                    if (paramMetaToIndexMap.ContainsKey(paramMetaKey))
+                    // do not insert "" into meta->index map
+                    if (paramMeta == "")
                     {
-                        paramIndex = paramMetaToIndexMap[paramMetaKey];
-                        // do not increment param as param index is reused
-                        increment = false;
+                        paramIndex = param.ToString();
+                        param++;
                     }
                     else
                     {
-                        paramIndex = param.ToString();
-                        // put param meta in meta->index map
-                        if (paramMetaKey != "")
+                        // remove meta
+                        buffer.Remove(metastart, paramMeta.Length);
+                        // insert param index into meta->index map if not exists
+                        if (!paramMetaToIndexMap.ContainsKey(paramMeta))
                         {
-                            paramMetaToIndexMap.Add(paramMetaKey, paramIndex);
+                            paramMetaToIndexMap[paramMeta] = param.ToString();
+                            param++;
                         }
+                        // do not increment param as param index is reused
+                        paramIndex = paramMetaToIndexMap[paramMeta];
                     }
+                    // insert index
                     buffer.Insert(metastart, paramIndex);
                     // adjust end as buffer is removed from and inserted into
                     end += -paramMeta.Length + paramIndex.Length;
                 }
-                // increment param even when index is not inserted
-                if (increment)
+                else
                 {
                     param++;
                 }
