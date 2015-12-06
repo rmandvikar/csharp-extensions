@@ -28,7 +28,9 @@ namespace rm.Extensions
             {
                 return false;
             }
-            return projection(x).Equals(projection(y));
+            // note: projection(x).Equals(projection(y)) uses object.Equals(object), 
+            // instead of TKey.Equals(Tkey), which gives incorrect results.
+            return EqualityComparer<TKey>.Default.Equals(projection(x), projection(y));
         }
         public int GetHashCode(T obj)
         {
