@@ -17,5 +17,15 @@ namespace rm.Extensions
             t1 = t2;
             t2 = temp;
         }
+
+        /// <summary>
+        /// Swap array elements for given indices.
+        /// </summary>
+        public static void Swap<T>(T[] a, int i, int j)
+        {
+            T t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
     }
 }

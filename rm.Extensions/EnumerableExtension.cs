@@ -618,10 +618,10 @@ namespace rm.Extensions
             n.ThrowIfArgumentOutOfRange("n");
             keySelector.ThrowIfArgumentNull("keySelector");
             comparer.ThrowIfArgumentNull("comparer");
-            var heap = new T[n];
+            var minheap = new MinHeap<T, TKey>(n, keySelector, comparer);
             if (n == 0)
             {
-                return heap.AsEnumerable();
+                return minheap;
             }
             var i = 0;
             foreach (var x in source)
@@ -632,66 +632,18 @@ namespace rm.Extensions
                 }
                 if (i >= n)
                 {
-                    if (comparer.Compare(keySelector(x), keySelector(heap[0])) > 0) //x > heap[0]
+                    if (comparer.Compare(keySelector(x), keySelector(minheap.Peek())) > 0) //x > heap[0]
                     {
-                        heap[0] = x;
-                        SiftDownMin(heap, 0, keySelector, comparer);
+                        minheap.Displace(x);
                     }
                 }
                 else
                 {
-                    heap[i] = x;
+                    minheap.Append(x);
                     i++;
-                    if (i == n)
-                    {
-                        HeapifyMin(heap, keySelector, comparer);
-                    }
                 }
             }
-            if (i < n)
-            {
-                heap = heap.Slice(end: i).ToArray();
-                HeapifyMin(heap, keySelector, comparer);
-            }
-            return heap;
-        }
-        private static void HeapifyMin<T, TKey>(T[] heap,
-            Func<T, TKey> keySelector, IComparer<TKey> comparer)
-            where TKey : IComparable<TKey>
-        {
-            var i = heap.Length / 2 - 1; // last parent
-            while (i >= 0)
-            {
-                SiftDownMin(heap, i, keySelector, comparer);
-                i--;
-            }
-        }
-        private static void SiftDownMin<T, TKey>(T[] heap, int i,
-            Func<T, TKey> keySelector, IComparer<TKey> comparer)
-            where TKey : IComparable<TKey>
-        {
-            while (i < heap.Length)
-            {
-                var left = 2 * i + 1;
-                var right = left + 1;
-                var min = i;
-                if (left < heap.Length
-                    && comparer.Compare(keySelector(heap[left]), keySelector(heap[min])) < 0) //heap[left] < heap[min]
-                {
-                    min = left;
-                }
-                if (right < heap.Length
-                    && comparer.Compare(keySelector(heap[right]), keySelector(heap[min])) < 0) //heap[right] < heap[min]
-                {
-                    min = right;
-                }
-                if (min == i)
-                {
-                    break;
-                }
-                Helper.Swap(ref heap[min], ref heap[i]);
-                SiftDownMin(heap, min, keySelector, comparer);
-            }
+            return minheap;
         }
         /// <summary>
         /// Returns bottom n efficiently.
@@ -731,10 +683,10 @@ namespace rm.Extensions
             n.ThrowIfArgumentOutOfRange("n");
             keySelector.ThrowIfArgumentNull("keySelector");
             comparer.ThrowIfArgumentNull("comparer");
-            var heap = new T[n];
+            var maxheap = new MaxHeap<T, TKey>(n, keySelector, comparer);
             if (n == 0)
             {
-                return heap.AsEnumerable();
+                return maxheap;
             }
             var i = 0;
             foreach (var x in source)
@@ -745,66 +697,18 @@ namespace rm.Extensions
                 }
                 if (i >= n)
                 {
-                    if (comparer.Compare(keySelector(x), keySelector(heap[0])) < 0) //x < heap[0]
+                    if (comparer.Compare(keySelector(x), keySelector(maxheap.Peek())) < 0) //x < heap[0]
                     {
-                        heap[0] = x;
-                        SiftDownMax(heap, 0, keySelector, comparer);
+                        maxheap.Displace(x);
                     }
                 }
                 else
                 {
-                    heap[i] = x;
+                    maxheap.Append(x);
                     i++;
-                    if (i == n)
-                    {
-                        HeapifyMax(heap, keySelector, comparer);
-                    }
                 }
             }
-            if (i < n)
-            {
-                heap = heap.Slice(end: i).ToArray();
-                HeapifyMax(heap, keySelector, comparer);
-            }
-            return heap;
-        }
-        private static void HeapifyMax<T, TKey>(T[] heap,
-            Func<T, TKey> keySelector, IComparer<TKey> comparer)
-            where TKey : IComparable<TKey>
-        {
-            var i = heap.Length / 2 - 1; // last parent
-            while (i >= 0)
-            {
-                SiftDownMax(heap, i, keySelector, comparer);
-                i--;
-            }
-        }
-        private static void SiftDownMax<T, TKey>(T[] heap, int i,
-            Func<T, TKey> keySelector, IComparer<TKey> comparer)
-            where TKey : IComparable<TKey>
-        {
-            while (i < heap.Length)
-            {
-                var left = 2 * i + 1;
-                var right = left + 1;
-                var max = i;
-                if (left < heap.Length
-                    && comparer.Compare(keySelector(heap[left]), keySelector(heap[max])) > 0) //heap[left] > heap[max]
-                {
-                    max = left;
-                }
-                if (right < heap.Length
-                    && comparer.Compare(keySelector(heap[right]), keySelector(heap[max])) > 0) //heap[right] > heap[max]
-                {
-                    max = right;
-                }
-                if (max == i)
-                {
-                    break;
-                }
-                Helper.Swap(ref heap[max], ref heap[i]);
-                SiftDownMax(heap, max, keySelector, comparer);
-            }
+            return maxheap;
         }
 
         /// <summary>
