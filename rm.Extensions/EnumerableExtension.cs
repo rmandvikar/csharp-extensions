@@ -21,8 +21,8 @@ namespace rm.Extensions
         internal static IEnumerable<IEnumerable<T>> Chunk_bad1<T>(this IEnumerable<T> source,
             int chunkSize)
         {
-            source.ThrowIfArgumentNull("source");
-            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            source.ThrowIfArgumentNull(nameof(source));
+            chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
             // to avoid inefficiency due to Count()
             var totalCount = source.Count();
             for (int start = 0; start < totalCount; start += chunkSize)
@@ -39,8 +39,8 @@ namespace rm.Extensions
         private static IEnumerable<T> Chunk_bad1<T>(this IEnumerable<T> source,
             int chunkSize, int start, int totalCount)
         {
-            source.ThrowIfArgumentNull("source");
-            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            source.ThrowIfArgumentNull(nameof(source));
+            chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
             for (int i = 0; i < chunkSize && start + i < totalCount; i++)
             {
                 // note: source.ElementAt(index) is inefficient
@@ -57,8 +57,8 @@ namespace rm.Extensions
         internal static IEnumerable<IEnumerable<T>> Chunk_bad2<T>(this IEnumerable<T> source,
             int chunkSize)
         {
-            source.ThrowIfArgumentNull("source");
-            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            source.ThrowIfArgumentNull(nameof(source));
+            chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
             var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -88,8 +88,8 @@ namespace rm.Extensions
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
             int chunkSize)
         {
-            source.ThrowIfArgumentNull("source");
-            chunkSize.ThrowIfArgumentOutOfRange("chunkSize");
+            source.ThrowIfArgumentNull(nameof(source));
+            chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
             var count = 0;
             var chunk = new List<T>(chunkSize);
             foreach (var item in source)
@@ -122,8 +122,8 @@ namespace rm.Extensions
         /// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int parts)
         {
-            source.ThrowIfArgumentNull("source");
-            parts.ThrowIfArgumentOutOfRange("parts");
+            source.ThrowIfArgumentNull(nameof(source));
+            parts.ThrowIfArgumentOutOfRange(nameof(parts));
             // requires more space for objects
             //var splits_index = source.Select((x, index) => new { x, index = index })
             //    .GroupBy(x => x.index % parts)
@@ -139,7 +139,7 @@ namespace rm.Extensions
         public static bool IsSorted<T>(this IEnumerable<T> source)
             where T : IComparable, IComparable<T>
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             // make an array to avoid inefficiency due to ElementAt(index)
             var sourceArray = source.ToArray();
             if (sourceArray.Length <= 1)
@@ -177,7 +177,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<T> Double<T>(this IEnumerable<T> source)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             return XOrDefaultInternal(source, count: 2, emptyCheck: false);
         }
         /// <summary>
@@ -186,8 +186,8 @@ namespace rm.Extensions
         public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
             Func<T, bool> predicate)
         {
-            source.ThrowIfArgumentNull("source");
-            predicate.ThrowIfArgumentNull("predicate");
+            source.ThrowIfArgumentNull(nameof(source));
+            predicate.ThrowIfArgumentNull(nameof(predicate));
             return Double(source.Where(predicate));
         }
         /// <summary>
@@ -195,7 +195,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             return XOrDefaultInternal(source, count: 2, emptyCheck: true);
         }
         /// <summary>
@@ -205,8 +205,8 @@ namespace rm.Extensions
         public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
             Func<T, bool> predicate)
         {
-            source.ThrowIfArgumentNull("source");
-            predicate.ThrowIfArgumentNull("predicate");
+            source.ThrowIfArgumentNull(nameof(source));
+            predicate.ThrowIfArgumentNull(nameof(predicate));
             return DoubleOrDefault(source.Where(predicate));
         }
         /// <summary>
@@ -216,8 +216,8 @@ namespace rm.Extensions
         private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
             int count, bool emptyCheck)
         {
-            source.ThrowIfArgumentNull("source");
-            count.ThrowIfArgumentOutOfRange("count");
+            source.ThrowIfArgumentNull(nameof(source));
+            count.ThrowIfArgumentOutOfRange(nameof(count));
             if (emptyCheck && source.IsNullOrEmpty())
             {
                 return null;
@@ -237,7 +237,7 @@ namespace rm.Extensions
         /// <remarks>Based on int Enumerable.Count() method.</remarks>
         public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             var collection = source as ICollection<TSource>;
             if (collection != null)
             {
@@ -275,7 +275,7 @@ namespace rm.Extensions
         /// <remarks>Based on int Enumerable.Count() method.</remarks>
         public static bool HasCountOfAtLeast<TSource>(this IEnumerable<TSource> source, int count)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             var collection = source as ICollection<TSource>;
             if (collection != null)
             {
@@ -317,8 +317,8 @@ namespace rm.Extensions
         /// </remarks>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
         {
-            source.ThrowIfArgumentNull("source");
-            rng.ThrowIfArgumentNull("rng");
+            source.ThrowIfArgumentNull(nameof(source));
+            rng.ThrowIfArgumentNull(nameof(rng));
             var items = source.ToArray();
             for (int i = items.Length - 1; i >= 0; i--)
             {
@@ -361,7 +361,7 @@ namespace rm.Extensions
         public static IEnumerable<T> Slice<T>(this T[] array,
             int? start = null, int? end = null, int step = 1)
         {
-            array.ThrowIfArgumentNull("array");
+            array.ThrowIfArgumentNull(nameof(array));
             int _start, _end;
             // step
             if (step == 0)
@@ -439,7 +439,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<string> Scrabble(this IEnumerable<string> words)
         {
-            words.ThrowIfArgumentNull("words");
+            words.ThrowIfArgumentNull(nameof(words));
             var wordsArray = words.Where(x => !x.IsNullOrEmpty()).ToArray();
             // preallocate
             var list = new List<string>(wordsArray.Length.ScrabbleCount());
@@ -494,10 +494,10 @@ namespace rm.Extensions
         }
         public static IEnumerable<IEnumerable<T>> Permutation<T>(this IEnumerable<T> source, int r)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             if (!source.HasCountOfAtLeast(r))
             {
-                throw new ArgumentOutOfRangeException("r");
+                throw new ArgumentOutOfRangeException(nameof(r));
             }
             var input = source.ToArray();
             var output = new List<IEnumerable<T>>(input.Length.Permutation(r));
@@ -538,10 +538,10 @@ namespace rm.Extensions
         }
         public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source, int r)
         {
-            source.ThrowIfArgumentNull("source");
+            source.ThrowIfArgumentNull(nameof(source));
             if (!source.HasCountOfAtLeast(r))
             {
-                throw new ArgumentOutOfRangeException("r");
+                throw new ArgumentOutOfRangeException(nameof(r));
             }
             var input = source.ToArray();
             var output = new List<IEnumerable<T>>(input.Length.Combination(r));
@@ -614,10 +614,10 @@ namespace rm.Extensions
             Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
-            source.ThrowIfArgumentNull("source");
-            n.ThrowIfArgumentOutOfRange("n");
-            keySelector.ThrowIfArgumentNull("keySelector");
-            comparer.ThrowIfArgumentNull("comparer");
+            source.ThrowIfArgumentNull(nameof(source));
+            n.ThrowIfArgumentOutOfRange(nameof(n));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
+            comparer.ThrowIfArgumentNull(nameof(comparer));
             var minheap = new MinHeap<T, TKey>(n, keySelector, comparer);
             if (n == 0)
             {
@@ -679,10 +679,10 @@ namespace rm.Extensions
             Func<T, TKey> keySelector, IComparer<TKey> comparer)
             where TKey : IComparable<TKey>
         {
-            source.ThrowIfArgumentNull("source");
-            n.ThrowIfArgumentOutOfRange("n");
-            keySelector.ThrowIfArgumentNull("keySelector");
-            comparer.ThrowIfArgumentNull("comparer");
+            source.ThrowIfArgumentNull(nameof(source));
+            n.ThrowIfArgumentOutOfRange(nameof(n));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
+            comparer.ThrowIfArgumentNull(nameof(comparer));
             var maxheap = new MaxHeap<T, TKey>(n, keySelector, comparer);
             if (n == 0)
             {
@@ -717,9 +717,9 @@ namespace rm.Extensions
         public static IEnumerable<T> ExceptBy<T, TKey>(this IEnumerable<T> source, IEnumerable<T> second,
             Func<T, TKey> keySelector)
         {
-            source.ThrowIfArgumentNull("source");
-            second.ThrowIfArgumentNull("second");
-            keySelector.ThrowIfArgumentNull("keySelector");
+            source.ThrowIfArgumentNull(nameof(source));
+            second.ThrowIfArgumentNull(nameof(second));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
             return source.Except(second,
                 // calls new GenericEqualityComparer<T, TKey>(keySelector)
                 GenericEqualityComparer<T>.By(keySelector)
@@ -731,8 +731,8 @@ namespace rm.Extensions
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source,
             Func<T, TKey> keySelector)
         {
-            source.ThrowIfArgumentNull("source");
-            keySelector.ThrowIfArgumentNull("keySelector");
+            source.ThrowIfArgumentNull(nameof(source));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
             return source.Distinct(
                 // calls new GenericEqualityComparer<T, TKey>(keySelector)
                 GenericEqualityComparer<T>.By(keySelector)
@@ -751,9 +751,9 @@ namespace rm.Extensions
         public static IOrderedEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source,
             Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
         {
-            source.ThrowIfArgumentNull("source");
-            keySelector.ThrowIfArgumentNull("keySelector");
-            compare.ThrowIfArgumentNull("compare");
+            source.ThrowIfArgumentNull(nameof(source));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
+            compare.ThrowIfArgumentNull(nameof(compare));
             return source.OrderBy(keySelector, new GenericComparer<TKey>(compare));
         }
         /// <summary>
@@ -762,9 +762,9 @@ namespace rm.Extensions
         public static IOrderedEnumerable<T> OrderByDescending<T, TKey>(this IEnumerable<T> source,
             Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
         {
-            source.ThrowIfArgumentNull("source");
-            keySelector.ThrowIfArgumentNull("keySelector");
-            compare.ThrowIfArgumentNull("compare");
+            source.ThrowIfArgumentNull(nameof(source));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
+            compare.ThrowIfArgumentNull(nameof(compare));
             return source.OrderByDescending(keySelector, new GenericComparer<TKey>(compare));
         }
     }

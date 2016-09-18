@@ -12,8 +12,8 @@ namespace rm.Extensions
         /// </summary>
         public static bool IsCyclic(this IGraph graph)
         {
-            graph.ThrowIfArgumentNull("graph");
-            graph.Nodes.ThrowIfArgumentNull("graph.Nodes");
+            graph.ThrowIfArgumentNull(nameof(graph));
+            graph.Nodes.ThrowIfArgumentNull(nameof(graph.Nodes));
             var acyclicNodes = new HashSet<string>();
             var path = new HashSet<string>();
             foreach (var node in graph.Nodes)
@@ -34,11 +34,11 @@ namespace rm.Extensions
         /// <returns>Returns true if graph node is cyclic.</returns>
         private static bool IsCyclic(IGraphNode node, ISet<string> path, ISet<string> acyclicNodes)
         {
-            node.ThrowIfArgumentNull("node");
-            path.ThrowIfArgumentNull("path");
-            acyclicNodes.ThrowIfArgumentNull("acyclicNodes");
-            node.Id.ThrowIfArgumentNull("node.Id");
-            node.Neighbors.ThrowIfArgumentNull("node.Neighbors");
+            node.ThrowIfArgumentNull(nameof(node));
+            path.ThrowIfArgumentNull(nameof(path));
+            acyclicNodes.ThrowIfArgumentNull(nameof(acyclicNodes));
+            node.Id.ThrowIfArgumentNull(nameof(node.Id));
+            node.Neighbors.ThrowIfArgumentNull(nameof(node.Neighbors));
             if (acyclicNodes.Contains(node.Id))
             {
                 return false;

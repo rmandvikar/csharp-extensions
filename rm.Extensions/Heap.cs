@@ -66,9 +66,9 @@ namespace rm.Extensions
         /// <param name="comparer">Comparer for T's key.</param>
         protected HeapBase(int size, Func<T, TKey> keySelector, IComparer<TKey> comparer)
         {
-            size.ThrowIfArgumentOutOfRange("size");
-            keySelector.ThrowIfArgumentNull("keySelector");
-            comparer.ThrowIfArgumentNull("comparer");
+            size.ThrowIfArgumentOutOfRange(nameof(size));
+            keySelector.ThrowIfArgumentNull(nameof(keySelector));
+            comparer.ThrowIfArgumentNull(nameof(comparer));
             this.size = size;
             this.heap = new T[size];
             this.keySelector = keySelector;
@@ -139,7 +139,7 @@ namespace rm.Extensions
         /// <remarks>Displace() avoids having to call Delete() and Insert() separately.</remarks>
         public T Displace(T x)
         {
-            x.ThrowIfArgumentNull("x");
+            x.ThrowIfArgumentNull(nameof(x));
             if (count == 0)
             {
                 throw new InvalidOperationException("Heap is empty.");

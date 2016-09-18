@@ -29,7 +29,7 @@ namespace rm.Extensions
         /// <remarks>http://hash.online-convert.com/</remarks>
         public static string Checksum(this Uri uri, Hasher type = Hasher.sha1)
         {
-            uri.ThrowIfArgumentNull("uri");
+            uri.ThrowIfArgumentNull(nameof(uri));
             switch (type)
             {
                 case Hasher.sha1:
@@ -53,7 +53,7 @@ namespace rm.Extensions
             {
                 using (var stream = webclient.OpenRead(uri))
                 {
-                    stream.ThrowIfNull("stream");
+                    stream.ThrowIfNull(nameof(stream));
                     var hash = BitConverter.ToString(hasher.ComputeHash(stream)).Replace("-", "").ToLower();
                     return hash;
                 }

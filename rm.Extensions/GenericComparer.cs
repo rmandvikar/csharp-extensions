@@ -12,7 +12,7 @@ namespace rm.Extensions
 
         public GenericComparer(Func<T, T, int> compare)
         {
-            compare.ThrowIfArgumentNull("compare");
+            compare.ThrowIfArgumentNull(nameof(compare));
             this.compare = compare;
         }
 

@@ -15,7 +15,7 @@ namespace rm.Extensions
         public static string ToQueryString(this NameValueCollection collection,
             bool prefixQuestionMark = true)
         {
-            collection.ThrowIfArgumentNull();
+            collection.ThrowIfArgumentNull(nameof(collection));
             if (collection.Keys.Count == 0)
             {
                 return "";
@@ -30,8 +30,8 @@ namespace rm.Extensions
             {
                 var key = collection.Keys[i];
                 var values = collection.GetValues(key);
-                key.ThrowIfNull();
-                values.ThrowIfNull();
+                key.ThrowIfNull(nameof(key));
+                values.ThrowIfNull(nameof(values));
                 foreach (var value in values)
                 {
                     if (append)

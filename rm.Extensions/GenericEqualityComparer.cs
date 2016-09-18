@@ -13,7 +13,7 @@ namespace rm.Extensions
 
         public GenericEqualityComparer(Func<T, TKey> projection)
         {
-            projection.ThrowIfArgumentNull("projection");
+            projection.ThrowIfArgumentNull(nameof(projection));
             this.projection = projection;
         }
 

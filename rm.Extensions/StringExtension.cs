@@ -229,7 +229,7 @@ namespace rm.Extensions
         private static IEnumerable<string> MungeUnmunge(this string password,
             IDictionary<char, char[]> map)
         {
-            password.ThrowIfArgumentNull("password");
+            password.ThrowIfArgumentNull(nameof(password));
             var list = new List<string>();
             MungeUnmunge(password, map, 0, new StringBuilder(), list);
             return list.AsEnumerable();
@@ -284,7 +284,7 @@ namespace rm.Extensions
         /// </summary>
         public static IEnumerable<string> Scrabble(this string word)
         {
-            word.ThrowIfArgumentNull("word");
+            word.ThrowIfArgumentNull(nameof(word));
             return word.Select(x => x.ToString()).Scrabble();
         }
         /// <summary>
@@ -350,8 +350,8 @@ namespace rm.Extensions
         /// </summary>
         public static string SubstringTillEnd(this string source, int n)
         {
-            source.ThrowIfArgumentNull("source");
-            n.ThrowIfArgumentOutOfRange("n");
+            source.ThrowIfArgumentNull(nameof(source));
+            n.ThrowIfArgumentOutOfRange(nameof(n));
             if (n >= source.Length)
             {
                 return source;
@@ -363,9 +363,9 @@ namespace rm.Extensions
         /// </summary>
         public static string SubstringByIndex(this string source, int startIndex, int endIndex)
         {
-            source.ThrowIfArgumentNull("source");
-            startIndex.ThrowIfArgumentOutOfRange("startIndex");
-            endIndex.ThrowIfArgumentOutOfRange("endIndex", maxRange: source.Length);
+            source.ThrowIfArgumentNull(nameof(source));
+            startIndex.ThrowIfArgumentOutOfRange(nameof(startIndex));
+            endIndex.ThrowIfArgumentOutOfRange(nameof(endIndex), maxRange: source.Length);
             return source.Substring(startIndex, endIndex - startIndex);
         }
     }
