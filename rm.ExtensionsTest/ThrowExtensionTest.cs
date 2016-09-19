@@ -27,9 +27,13 @@ namespace rm.ExtensionsTest
                 o.ThrowIfNull(m);
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (NullReferenceException ex)
             {
-                Assert.AreEqual(m, ex.Message);
+                Assert.IsTrue(ex.Message.Contains(m));
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
             }
         }
         [Test]
@@ -58,6 +62,39 @@ namespace rm.ExtensionsTest
         public void ThrowIfArgumentNull02()
         {
             Assert.DoesNotThrow(() => { new object().ThrowIfArgumentNull(); });
+        }
+        [TestCase((object)null, "ex message")]
+        public void ThrowIfArgumentNull03(object o, string m)
+        {
+            try
+            {
+                o.ThrowIfArgumentNull(m);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.IsTrue(ex.Message.Contains(m));
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+        }
+        [Test]
+        public void ThrowIfArgumentNull04()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new[] { new object(), null }.ThrowIfArgumentNull();
+            });
+        }
+        [Test]
+        public void ThrowIfArgumentNull05()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                new[] { new object(), new object() }.ThrowIfArgumentNull();
+            });
         }
 
         [Test]

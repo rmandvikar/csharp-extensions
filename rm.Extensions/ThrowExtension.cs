@@ -38,7 +38,7 @@ namespace rm.Extensions
         /// <summary>
         /// Throws exception if any of the object arguments is null.
         /// </summary>
-        public static void ThrowIfNullArgument(this IEnumerable<object> objects)
+        public static void ThrowIfArgumentNull(this IEnumerable<object> objects)
         {
             foreach (var o in objects)
             {
