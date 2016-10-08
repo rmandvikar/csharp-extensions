@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Wrapped.cs" />
     <Compile Include="GenericComparer.cs" />
     <Compile Include="DictionaryExtension.cs" />
     <Compile Include="Heap.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="ThrowExtension.cs" />
     <Compile Include="TimeSpanExtension.cs" />
     <Compile Include="UriExtension.cs" />
+    <Compile Include="WrappedExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -64,6 +64,7 @@
     <Compile Include="ThrowExtensionTest.cs" />
     <Compile Include="TimeSpanExtensionTest.cs" />
     <Compile Include="UriExtensionTest.cs" />
+    <Compile Include="WrappedExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

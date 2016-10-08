@@ -505,3 +505,11 @@ var value = dictionary.GetValueOrDefault(key, other);
 // get dictionary as readonly
 var dictionaryReadonly = dictionary.AsReadOnly();
 ```
+
+####Wrapped extensions:
+
+```c#
+// wrap (box) any type to avoid using pass by ref parameters
+var intw = new Wrapped<int>(1); // or 1.Wrap();
+// intw.Value = 1
+```
