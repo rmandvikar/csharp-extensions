@@ -35,8 +35,6 @@ namespace rm.Extensions
         private static bool IsCyclic(IGraphNode node, ISet<string> path, ISet<string> acyclicNodes)
         {
             node.ThrowIfArgumentNull(nameof(node));
-            path.ThrowIfArgumentNull(nameof(path));
-            acyclicNodes.ThrowIfArgumentNull(nameof(acyclicNodes));
             node.Id.ThrowIfArgumentNull(nameof(node.Id));
             node.Neighbors.ThrowIfArgumentNull(nameof(node.Neighbors));
             if (acyclicNodes.Contains(node.Id))
