@@ -101,34 +101,34 @@ string result = "this".SubstringByIndex(1, 3);
 ```c#
 public void SomeMethod(object obj1, object obj2) 
 {
-    // throws ArgumentNullException if object is null
-    obj1.ThrowIfArgumentNull("obj1");
-    obj2.ThrowIfArgumentNull("obj2");
-    // OR 
-    new[] { obj1, obj2 }.ThrowIfArgumentNull();
-    
-    // ...
-    
-    object obj = DoSomething();
-    // throws NullReferenceException if object is null
-    obj.ThrowIfNull("obj");
+	// throws ArgumentNullException if object is null
+	obj1.ThrowIfArgumentNull("obj1");
+	obj2.ThrowIfArgumentNull("obj2");
+	// OR 
+	new[] { obj1, obj2 }.ThrowIfArgumentNull();
+	
+	// ...
+	
+	object obj = DoSomething();
+	// throws NullReferenceException if object is null
+	obj.ThrowIfNull("obj");
 }
 ```
 
 ```c#
 public void SomeMethod(string s1, string s2) 
 {
-    // throws ArgumentNullException or EmptyException if string is null or empty
-    s1.ThrowIfNullOrEmptyArgument("s1"); // or s1.ThrowIfNullOrWhiteSpaceArgument("s1")
-    s2.ThrowIfNullOrEmptyArgument("s2");
-    // OR 
-    new[] { s1, s2 }.ThrowIfNullOrEmptyArgument();
-    
-    // ...
-    
-    string s = DoSomething();
-    // throws NullReferenceException or EmptyException if string is null or empty.
-    s.ThrowIfNullOrEmpty("s"); // or s1.ThrowIfNullOrWhiteSpace("s")
+	// throws ArgumentNullException or EmptyException if string is null or empty
+	s1.ThrowIfNullOrEmptyArgument("s1"); // or s1.ThrowIfNullOrWhiteSpaceArgument("s1")
+	s2.ThrowIfNullOrEmptyArgument("s2");
+	// OR 
+	new[] { s1, s2 }.ThrowIfNullOrEmptyArgument();
+	
+	// ...
+	
+	string s = DoSomething();
+	// throws NullReferenceException or EmptyException if string is null or empty.
+	s.ThrowIfNullOrEmpty("s"); // or s1.ThrowIfNullOrWhiteSpace("s")
 }
 ```
 
@@ -214,24 +214,24 @@ var a = new[] { 0, 1, 2, 3, 4 }
 var slice = a.Slice(step: 2);
 // slice: { 0, 2, 4 }
 
-a.Slice(start, end); // items start through end-1
-a.Slice(start); // items start through the rest of the array
-a.Slice(0, end); // items from the beginning through end-1
-a.Slice(); // a copy of the whole array
-a.Slice(start, end, step); // start through not past end, by step
-a.Slice(-1); // last item in the array
-a.Slice(-2); // last two items in the array
-a.Slice(-3, -2); // third last item in the array
-a.Slice(0, -2); // everything except the last two items
-a.Slice(step: -1); // copy with array reversed
+a.Slice(start, end);		// items start through end-1
+a.Slice(start);				// items start through the rest of the array
+a.Slice(0, end);			// items from the beginning through end-1
+a.Slice();					// a copy of the whole array
+a.Slice(start, end, step);	// start through not past end, by step
+a.Slice(-1);				// last item in the array
+a.Slice(-2);				// last two items in the array
+a.Slice(-3, -2);			// third last item in the array
+a.Slice(0, -2);				// everything except the last two items
+a.Slice(step: -1);			// copy with array reversed
 
 // help
-a.Slice(end: 2)      // 1st 2
-a.Slice(2)           // except 1st 2
-a.Slice(-2)          // last 2
-a.Slice(0, -2)       // except last 2
-a.Slice(1, 1 + 1)    // 2nd char
-a.Slice(-2, -2 + 1)  // 2nd last char
+a.Slice(end: 2)			// 1st 2
+a.Slice(2)				// except 1st 2
+a.Slice(-2)				// last 2
+a.Slice(0, -2)			// except last 2
+a.Slice(1, 1 + 1)		// 2nd char
+a.Slice(-2, -2 + 1)		// 2nd last char
 ```
 
 ```c#
@@ -292,7 +292,7 @@ source.ExceptBy(second, x => x.Member);
 source.DistinctBy(x => x.Member);
 // same for source.OrderBy(keySelector, comparer)
 source.OrderBy(x => x.Property,
-    (p1, p2) => p1.CompareTo(p2) // where p1, p2 are of same type as x.Property
+	(p1, p2) => p1.CompareTo(p2) // where p1, p2 are of same type as x.Property
 );
 ```
 
@@ -317,9 +317,9 @@ Color color;
 ```c#
 enum Color
 {
-    [Description("Red color")] Red = 1, 
-    Green, 
-    [Description("Blue color")] Blue
+	[Description("Red color")] Red = 1, 
+	Green, 
+	[Description("Blue color")] Blue
 }
 string redDesc = Color.Red.GetDescription();
 string greenDesc = Color.Green.GetDescription();
@@ -346,14 +346,14 @@ if (Color.Red.ToString() == "Red") { /**/ }
 ```c#
 enum Color
 {
-    [Description("Red color")] Red = 1, 
-    Green, 
-    [Description("Blue color")] Blue
+	[Description("Red color")] Red = 1, 
+	Green, 
+	[Description("Blue color")] Blue
 }
 IDictionary<string, string> colorsMap = EnumExtension.GetEnumNameToDescriptionMap<Color>();
 // build a select list
 IEnumerable<ListItem> selectOptions = colorsMap
-    .Select(x => new ListItem() { text: x.Value, value: x.Key });
+	.Select(x => new ListItem() { text: x.Value, value: x.Key });
 //  <select>
 //    <option value="Red">Red color</option>
 //    <option value="Green">Green</option>
@@ -364,9 +364,9 @@ IEnumerable<ListItem> selectOptions = colorsMap
 ```c#
 enum Color
 {
-    [Description("Red color")] Red = 1, 
-    Green, 
-    [Description("Blue color")] Blue
+	[Description("Red color")] Red = 1, 
+	Green, 
+	[Description("Blue color")] Blue
 }
 string redName = "Red color".GetEnumNameFromDescription<Color>()
 // redName: "Red"
@@ -375,9 +375,9 @@ string redName = "Red color".GetEnumNameFromDescription<Color>()
 ```c#
 enum Color
 {
-    [Description("Red color")] Red = 1, 
-    Green, 
-    [Description("Blue color")] Blue
+	[Description("Red color")] Red = 1, 
+	Green, 
+	[Description("Blue color")] Blue
 }
 string colorjson = EnumExtension.GetJson<Color>();
 // colorjson: @"{
@@ -393,28 +393,28 @@ enum Grade { Toddler, Pre-K, Kindergarten, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 // work-around: use Description attribute
 enum Grade 
 {
-    Toddler = 1, 
-    [Description("Pre-K")] PreK, 
-    Kindergarten, 
-    [Description("1")] One, 
-    [Description("2")] Two, 
-    [Description("3")] Three, 
-    [Description("4")] Four, 
-    [Description("5")] Five, 
-    [Description("6")] Six, 
-    [Description("7")] Seven, 
-    [Description("8")] Eight, 
-    [Description("9")] Nine, 
-    [Description("10")] Ten, 
-    [Description("11")] Eleven, 
-    [Description("12")] Twelve, 
-    College
+	Toddler = 1, 
+	[Description("Pre-K")] PreK, 
+	Kindergarten, 
+	[Description("1")] One, 
+	[Description("2")] Two, 
+	[Description("3")] Three, 
+	[Description("4")] Four, 
+	[Description("5")] Five, 
+	[Description("6")] Six, 
+	[Description("7")] Seven, 
+	[Description("8")] Eight, 
+	[Description("9")] Nine, 
+	[Description("10")] Ten, 
+	[Description("11")] Eleven, 
+	[Description("12")] Twelve, 
+	College
 }
 
 // to sort gradesUnsorted, use GetEnumValueFromDescription<T>() and GetDescription<T>() methods
 string[] gradesUnsorted = new[] { "Pre-K", "1", "College", "2", "Toddler" };
 Grade[] grades = gradesUnsorted
-    .Select(x => x.GetEnumValueFromDescription<Grade>()).ToArray();
+	.Select(x => x.GetEnumValueFromDescription<Grade>()).ToArray();
 Array.Sort(grades);
 string[] gradesSorted = grades.Select(x => x.GetDescription());
 // gradesSorted: { "Toddler", "Pre-K", "1", "2", "College" } 
@@ -447,8 +447,8 @@ TimeSpan ts = 10.Days();
 ```c#
 // calculate uri's checksum (sha1, md5)
 var uri = new Uri(@"https://www.google.com/images/srpr/logo11w.png") // url
-    // OR new Uri(@"D:\temp\images\logo.png"); // local file
-    // OR new Uri(new Uri(@"D:\temp\"), @".\images\logo.png"); // dir and relative path
+	// OR new Uri(@"D:\temp\images\logo.png"); // local file
+	// OR new Uri(new Uri(@"D:\temp\"), @".\images\logo.png"); // dir and relative path
 string sha1 = uri.Checksum(Hasher.sha1);
 string md5 = uri.Checksum(Hasher.md5);
 // sha1: 349841408d1aa1f5a8892686fbdf54777afc0b2c
