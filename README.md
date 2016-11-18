@@ -515,3 +515,17 @@ var dictionaryReadonly = dictionary.AsReadOnly();
 var intw = new Wrapped<int>(1); // or 1.Wrap();
 // intw.Value = 1
 ```
+
+#### BitSet:
+
+```c#
+BitSet bitset = new BitSet(10); // 0 to 10 inclusive
+bitset.Add(5); // add 5
+bitset.Add(6);
+bitset.Remove(5); // remove 5
+bitset.Remove(3);
+bitset.Toggle(3); // toggle 3
+bool has2 = bitset.Has(2); // if has 2
+bitset.Clear(); // remove all
+foreach(int item in bitset) { /**/ }
+```
