@@ -105,13 +105,15 @@ public void SomeMethod(object obj1, object obj2)
 	obj1.ThrowIfArgumentNull("obj1");
 	obj2.ThrowIfArgumentNull("obj2");
 	// OR 
-	new[] { obj1, obj2 }.ThrowIfArgumentNull();
+	new[] { obj1, obj2 }.ThrowIfAnyArgumentNull();
 	
 	// ...
 	
 	object obj = DoSomething();
 	// throws NullReferenceException if object is null
 	obj.ThrowIfNull("obj");
+	// OR 
+	new[] { obj1, obj2 }.ThrowIfAnyNull();
 }
 ```
 

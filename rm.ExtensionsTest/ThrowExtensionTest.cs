@@ -41,7 +41,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.Throws<NullReferenceException>(() =>
 			{
-				new[] { new object(), null }.ThrowIfNull();
+				new[] { new object(), null }.ThrowIfAnyNull();
 			});
 		}
 		[Test]
@@ -49,7 +49,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.DoesNotThrow(() =>
 			{
-				new[] { new object(), new object() }.ThrowIfNull();
+				new[] { new object(), new object() }.ThrowIfAnyNull();
 			});
 		}
 		[Test]
@@ -85,7 +85,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.Throws<ArgumentNullException>(() =>
 			{
-				new[] { new object(), null }.ThrowIfArgumentNull();
+				new[] { new object(), null }.ThrowIfAnyArgumentNull();
 			});
 		}
 		[Test]
@@ -93,7 +93,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.DoesNotThrow(() =>
 			{
-				new[] { new object(), new object() }.ThrowIfArgumentNull();
+				new[] { new object(), new object() }.ThrowIfAnyArgumentNull();
 			});
 		}
 

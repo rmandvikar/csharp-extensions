@@ -13,7 +13,7 @@ namespace rm.Extensions
 		/// Throws exception if the object is null.
 		/// </summary>
 		/// <param name="exMessage">Exception message.</param>
-		public static void ThrowIfNull(this object o, string exMessage = "")
+		public static void ThrowIfNull<T>(this T o, string exMessage = "")
 		{
 			Ex.ThrowIfNull(o == null, exMessage);
 		}
@@ -21,14 +21,14 @@ namespace rm.Extensions
 		/// Throws exception if the object argument is null.
 		/// </summary>
 		/// <param name="exMessage">Exception message.</param>
-		public static void ThrowIfArgumentNull(this object o, string exMessage = "")
+		public static void ThrowIfArgumentNull<T>(this T o, string exMessage = "")
 		{
 			Ex.ThrowIfArgumentNull(o == null, exMessage);
 		}
 		/// <summary>
 		/// Throws exception if any of the objects is null.
 		/// </summary>
-		public static void ThrowIfNull(this IEnumerable<object> objects)
+		public static void ThrowIfAnyNull<T>(this IEnumerable<T> objects)
 		{
 			foreach (var o in objects)
 			{
@@ -38,7 +38,7 @@ namespace rm.Extensions
 		/// <summary>
 		/// Throws exception if any of the object arguments is null.
 		/// </summary>
-		public static void ThrowIfArgumentNull(this IEnumerable<object> objects)
+		public static void ThrowIfAnyArgumentNull<T>(this IEnumerable<T> objects)
 		{
 			foreach (var o in objects)
 			{
