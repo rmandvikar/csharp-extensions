@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitSetTest.cs" />
     <Compile Include="DateTimeExtensionTest.cs" />
     <Compile Include="DecimalExtensionTest.cs" />
     <Compile Include="DictionaryExtensionTest.cs" />

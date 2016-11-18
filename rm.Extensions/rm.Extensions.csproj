@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitSet.cs" />
     <Compile Include="Wrapped.cs" />
     <Compile Include="GenericComparer.cs" />
     <Compile Include="DictionaryExtension.cs" />
