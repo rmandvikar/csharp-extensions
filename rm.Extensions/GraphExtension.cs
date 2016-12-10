@@ -29,7 +29,7 @@ namespace rm.Extensions
 		/// Returns true if graph node is cyclic.
 		/// </summary>
 		/// <param name="node">Graph node.</param>
-		/// <param name="path">Path from a graph node to this <paramref name="graph node"/>.</param>
+		/// <param name="path">Path from a graph node to this <paramref name="node"/>.</param>
 		/// <param name="acyclicNodes">Nodes from which a cycle does not exist.</param>
 		/// <returns>Returns true if graph node is cyclic.</returns>
 		private static bool IsCyclic(IGraphNode node, ISet<string> path, ISet<string> acyclicNodes)
