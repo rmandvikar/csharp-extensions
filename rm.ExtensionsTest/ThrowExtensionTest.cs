@@ -211,5 +211,22 @@ namespace rm.ExtensionsTest
 		{
 			Assert.DoesNotThrow(() => { s.ThrowIfNullOrWhiteSpaceArgument(); });
 		}
+
+		[Test]
+		public void IsNotVoidReturn()
+		{
+			Assert.IsNotNull(new object().ThrowIfNull());
+			Assert.IsNotNull(new object().ThrowIfArgumentNull());
+			Assert.IsNotNull(new[] { new object() }.ThrowIfAnyNull());
+			Assert.IsNotNull(new[] { new object() }.ThrowIfAnyArgumentNull());
+			Assert.IsNotNull("s".ThrowIfNullOrEmpty());
+			Assert.IsNotNull("s".ThrowIfNullOrEmptyArgument());
+			Assert.IsNotNull(new[] { "s", "t" }.ThrowIfNullOrEmpty());
+			Assert.IsNotNull(new[] { "s", "t" }.ThrowIfNullOrEmptyArgument());
+			Assert.IsNotNull("s".ThrowIfNullOrWhiteSpace());
+			Assert.IsNotNull("s".ThrowIfNullOrWhiteSpaceArgument());
+			Assert.IsNotNull(0.ThrowIfArgumentOutOfRange());
+			Assert.IsNotNull(((uint)0).ThrowIfArgumentOutOfRange());
+		}
 	}
 }
