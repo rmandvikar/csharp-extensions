@@ -17,6 +17,7 @@ namespace rm.Extensions
 		{
 			return Enum.TryParse<T>(name, ignoreCase, out result);
 		}
+
 		/// <summary>
 		/// Parse the string to enum of type T.
 		/// </summary>
@@ -34,6 +35,7 @@ namespace rm.Extensions
 		{
 			return EnumInternal<T>.ValueToNameMap.Select(x => x.Key).ToArray();
 		}
+
 		/// <summary>
 		/// Get names (strings) for type T enum.
 		/// </summary>
@@ -42,6 +44,7 @@ namespace rm.Extensions
 		{
 			return EnumInternal<T>.NameToValueMap.Select(x => x.Key).ToArray();
 		}
+
 		/// <summary>
 		/// Get enum name (string) -> description (string) map for type T enum.
 		/// </summary>
@@ -51,6 +54,7 @@ namespace rm.Extensions
 			return EnumInternal<T>.ValueToDescriptionMap
 				.ToDictionary(x => x.Key.GetEnumName(), x => x.Value).AsReadOnly();
 		}
+
 		/// <summary>
 		/// Get the name (string) for the enum value or throw exception if not exists.
 		/// </summary>
@@ -64,6 +68,7 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
 		/// <summary>
 		/// Get enum name (string) for description or throw exception if not exists.
 		/// </summary>
@@ -77,6 +82,7 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
 		/// <summary>
 		/// Get the value for the enum name (string) or throw exception if not exists.
 		/// </summary>
@@ -90,6 +96,7 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
 		/// <summary>
 		/// Get the value for the enum description (string) or throw exception if not exists.
 		/// </summary>
@@ -103,6 +110,7 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
 		/// <summary>
 		/// Get the description (DescriptionAttribute) for the enum value or throw exception if not exists.
 		/// </summary>
@@ -116,6 +124,7 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
 		/// <summary>
 		/// Get enum json as name, description.
 		/// </summary>

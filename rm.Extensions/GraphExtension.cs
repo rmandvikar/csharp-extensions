@@ -25,6 +25,7 @@ namespace rm.Extensions
 			}
 			return false;
 		}
+
 		/// <summary>
 		/// Returns true if graph node is cyclic.
 		/// </summary>
@@ -71,6 +72,7 @@ namespace rm.Extensions
 		/// </summary>
 		IEnumerable<IGraphNode> Nodes { get; }
 	}
+
 	/// <summary>
 	/// Defines Graph node.
 	/// </summary>
@@ -80,6 +82,7 @@ namespace rm.Extensions
 		/// Node's Id.
 		/// </summary>
 		string Id { get; }
+
 		/// <summary>
 		/// Node's neighbors.
 		/// </summary>

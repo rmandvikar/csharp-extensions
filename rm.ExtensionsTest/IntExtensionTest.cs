@@ -16,6 +16,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, n.Factorial());
 		}
+
 		[Test]
 		public void Factorial02()
 		{
@@ -29,6 +30,7 @@ namespace rm.ExtensionsTest
 				100.Factorial();
 			});
 		}
+
 		[Test]
 		[TestCase(10, 4, 5040)]
 		[TestCase(3, 3, 6)]
@@ -37,6 +39,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, n.Permutation(r));
 		}
+
 		[Test]
 		[TestCase(10, 4, 210)]
 		[TestCase(3, 3, 1)]
@@ -45,6 +48,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, n.Combination(r));
 		}
+
 		[Test]
 		[TestCase(2, 4)]
 		[TestCase(4, 64)]
@@ -53,6 +57,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, n.ScrabbleCount());
 		}
+
 		[Test]
 		[TestCase(2, 0, "2")]
 		[TestCase(1000, 0, "1k")]

@@ -16,6 +16,7 @@ namespace rm.Extensions
 		{
 			return dictionary.GetValueOrDefault(key, default(TValue));
 		}
+
 		/// <summary>
 		/// Returns value for key if exists or <paramref name="defaultValue"/>.
 		/// </summary>
@@ -29,6 +30,7 @@ namespace rm.Extensions
 			}
 			return defaultValue;
 		}
+
 		/// <summary>
 		/// Returns the <paramref name="dictionary"/> as read-only.
 		/// </summary>

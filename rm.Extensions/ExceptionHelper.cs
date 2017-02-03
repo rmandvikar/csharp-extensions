@@ -17,6 +17,7 @@ namespace rm.Extensions
 				throw new NullReferenceException(exMessage);
 			}
 		}
+
 		/// <summary>
 		/// Throw ArgumentNullException if true with message.
 		/// </summary>
@@ -27,6 +28,7 @@ namespace rm.Extensions
 				throw new ArgumentNullException(exMessage);
 			}
 		}
+
 		/// <summary>
 		/// Throw EmptyException if true with message.
 		/// </summary>
@@ -37,6 +39,7 @@ namespace rm.Extensions
 				throw new EmptyException(exMessage);
 			}
 		}
+
 		/// <summary>
 		/// Throw ArgumentOutOfRangeException if true with message.
 		/// </summary>

@@ -17,6 +17,7 @@ namespace rm.Extensions
 		{
 			Ex.ThrowIfNull(o == null, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if the object argument is null.
 		/// </summary>
@@ -25,6 +26,7 @@ namespace rm.Extensions
 		{
 			Ex.ThrowIfArgumentNull(o == null, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if any of the objects is null.
 		/// </summary>
@@ -35,6 +37,7 @@ namespace rm.Extensions
 				o.ThrowIfNull();
 			}
 		}
+
 		/// <summary>
 		/// Throws exception if any of the object arguments is null.
 		/// </summary>
@@ -45,6 +48,7 @@ namespace rm.Extensions
 				o.ThrowIfArgumentNull();
 			}
 		}
+
 		/// <summary>
 		/// Throws exception if the string is null or empty.
 		/// </summary>
@@ -54,6 +58,7 @@ namespace rm.Extensions
 			Ex.ThrowIfNull(s == null, exMessage);
 			Ex.ThrowIfEmpty(s.Length == 0, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if the string argument is null or empty.
 		/// </summary>
@@ -63,6 +68,7 @@ namespace rm.Extensions
 			Ex.ThrowIfArgumentNull(s == null, exMessage);
 			Ex.ThrowIfEmpty(s.Length == 0, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if any of the strings is null or empty.
 		/// </summary>
@@ -73,6 +79,7 @@ namespace rm.Extensions
 				s.ThrowIfNullOrEmpty();
 			}
 		}
+
 		/// <summary>
 		/// Throws exception if any of the string arguments is null or empty.
 		/// </summary>
@@ -83,6 +90,7 @@ namespace rm.Extensions
 				s.ThrowIfNullOrEmptyArgument();
 			}
 		}
+
 		/// <summary>
 		/// Throws exception if the string is null or whitespace.
 		/// </summary>
@@ -92,6 +100,7 @@ namespace rm.Extensions
 			Ex.ThrowIfNull(s == null, exMessage);
 			Ex.ThrowIfEmpty(s.Trim().Length == 0, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if the string argument is null or whitespace.
 		/// </summary>
@@ -101,6 +110,7 @@ namespace rm.Extensions
 			Ex.ThrowIfArgumentNull(s == null, exMessage);
 			Ex.ThrowIfEmpty(s.Trim().Length == 0, exMessage);
 		}
+
 		/// <summary>
 		/// Throws exception if index is out of range.
 		/// </summary>

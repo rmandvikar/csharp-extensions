@@ -39,6 +39,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(expected, nvc.ToQueryString());
 			Assert.AreEqual(expected.Replace("?", ""), nvc.ToQueryString(false));
 		}
+
 		[Test]
 		[TestCase(null, "v")]
 		[TestCase("k", null)]

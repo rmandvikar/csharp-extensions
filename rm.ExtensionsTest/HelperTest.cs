@@ -18,6 +18,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(2, t1);
 			Assert.AreEqual(1, t2);
 		}
+
 		[Test]
 		public void Swap02()
 		{
@@ -30,6 +31,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(c2copy, c1);
 			Assert.AreEqual(c1copy, c2);
 		}
+
 		[Test]
 		public void Swap03()
 		{

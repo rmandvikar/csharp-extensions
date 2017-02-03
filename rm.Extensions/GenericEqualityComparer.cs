@@ -18,6 +18,7 @@ namespace rm.Extensions
 		}
 
 		#region IEqualityComparer<T> methods
+
 		public bool Equals(T x, T y)
 		{
 			if (x == null && y == null)
@@ -32,12 +33,15 @@ namespace rm.Extensions
 			// instead of TKey.Equals(Tkey), which gives incorrect results.
 			return EqualityComparer<TKey>.Default.Equals(projection(x), projection(y));
 		}
+
 		public int GetHashCode(T obj)
 		{
 			return projection(obj).GetHashCode();
 		}
+
 		#endregion
 	}
+
 	/// <summary>
 	/// Helper class to create GenericEqualityComparer{T, TKey}.
 	/// </summary>

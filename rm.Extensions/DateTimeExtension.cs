@@ -12,6 +12,7 @@ namespace rm.Extensions
 		/// UTC date format string.
 		/// </summary>
 		public static readonly string UtcDateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
+
 		/// <summary>
 		/// Min value for Sql datetime to save in sql db.
 		/// </summary>
@@ -20,6 +21,7 @@ namespace rm.Extensions
 				DateTime.Parse(SqlDateTime.MinValue.ToString()),
 				DateTimeKind.Utc
 				);
+
 		/// <summary>
 		/// Get the UTC datetime format for the date.
 		/// </summary>
@@ -29,6 +31,7 @@ namespace rm.Extensions
 		{
 			return date.ToUniversalTime().ToString(UtcDateFormat);
 		}
+
 		/// <summary>
 		/// Min value for Sql datetime.
 		/// </summary>
@@ -36,6 +39,7 @@ namespace rm.Extensions
 		{
 			return SqlDateTimeMinUtc;
 		}
+
 		/// <summary>
 		/// Specify datetime's kind as UTC.
 		/// </summary>

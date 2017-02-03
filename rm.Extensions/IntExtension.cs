@@ -23,6 +23,7 @@ namespace rm.Extensions
 				return product;
 			}
 		}
+
 		/// <summary>
 		/// nPr
 		/// </summary>
@@ -40,6 +41,7 @@ namespace rm.Extensions
 				return (int)result;
 			}
 		}
+
 		/// <summary>
 		/// nCr
 		/// </summary>
@@ -57,6 +59,7 @@ namespace rm.Extensions
 				return (int)result;
 			}
 		}
+
 		/// <summary>
 		/// Scrabble count for n. 
 		/// </summary>
@@ -73,6 +76,7 @@ namespace rm.Extensions
 				return sum;
 			}
 		}
+
 		/// <summary>
 		/// Round int as k, m, g.
 		/// </summary>

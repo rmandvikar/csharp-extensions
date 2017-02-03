@@ -12,6 +12,7 @@ namespace rm.Extensions
 		sha1 = 1,
 		md5
 	}
+
 	/// <summary>
 	/// Uri extensions.
 	/// </summary>
@@ -46,6 +47,7 @@ namespace rm.Extensions
 					throw new ArgumentOutOfRangeException("Unknown hash algorithm type.");
 			}
 		}
+
 		private static string Checksum(HashAlgorithm hasher, Uri uri)
 		{
 			// webclient works for uris and local files

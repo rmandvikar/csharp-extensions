@@ -20,6 +20,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(9, wi.Value);
 			Assert.IsTrue(ReferenceEquals(wi, wiReference));
 		}
+
 		private void Change(Wrapped<int> wi)
 		{
 			wi.Value = 9;

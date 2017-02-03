@@ -32,6 +32,7 @@ namespace rm.Extensions
 				yield return source.Chunk_bad1(chunkSize, start, totalCount);
 			}
 		}
+
 		/// <summary>
 		/// Yield the next chunkSize elements starting at start and break if no more elements left.
 		/// </summary>
@@ -47,6 +48,7 @@ namespace rm.Extensions
 				yield return source.ElementAt(start + i);
 			}
 		}
+
 		/// <summary>
 		/// Split the collection into collections of size chunkSize.
 		/// </summary>
@@ -65,6 +67,7 @@ namespace rm.Extensions
 				yield return Chunk_bad2(chunkSize, enumerator);
 			}
 		}
+
 		/// <summary>
 		/// Yield the next chunkSize elements till the enumerator has any.
 		/// </summary>
@@ -78,6 +81,7 @@ namespace rm.Extensions
 				count++;
 			} while (count < chunkSize && enumerator.MoveNext());
 		}
+
 		/// <summary>
 		/// Split the collection into collections of size chunkSize.
 		/// </summary>
@@ -116,6 +120,7 @@ namespace rm.Extensions
 		{
 			return source == null || !source.Any();
 		}
+
 		/// <summary>
 		/// Split a collection into n parts.
 		/// </summary>
@@ -133,6 +138,7 @@ namespace rm.Extensions
 				.Select(g => g.Select(x => x));
 			return splits;
 		}
+
 		/// <summary>
 		/// Returns true if list is ascendingly or descendingly sorted.
 		/// </summary>
@@ -172,6 +178,7 @@ namespace rm.Extensions
 			isSorted = sourceArray.Length == i;
 			return isSorted;
 		}
+
 		/// <summary>
 		/// Returns the only two elements of a sequence.
 		/// </summary>
@@ -180,6 +187,7 @@ namespace rm.Extensions
 			source.ThrowIfArgumentNull(nameof(source));
 			return XOrDefaultInternal(source, count: 2, emptyCheck: false);
 		}
+
 		/// <summary>
 		///  Returns the only two elements of a sequence that satisfy a specified condition.
 		/// </summary>
@@ -190,6 +198,7 @@ namespace rm.Extensions
 			predicate.ThrowIfArgumentNull(nameof(predicate));
 			return Double(source.Where(predicate));
 		}
+
 		/// <summary>
 		/// Returns the only two elements of a sequence, or a default value if the sequence is empty.
 		/// </summary>
@@ -198,6 +207,7 @@ namespace rm.Extensions
 			source.ThrowIfArgumentNull(nameof(source));
 			return XOrDefaultInternal(source, count: 2, emptyCheck: true);
 		}
+
 		/// <summary>
 		/// Returns the only two elements of a sequence that satisfy a specified condition 
 		/// or a default value if no such elements exists.
@@ -209,6 +219,7 @@ namespace rm.Extensions
 			predicate.ThrowIfArgumentNull(nameof(predicate));
 			return DoubleOrDefault(source.Where(predicate));
 		}
+
 		/// <summary>
 		/// Returns the only <paramref name="count"/> elements of a sequence 
 		/// or a default value if no such elements exists depending on <paramref name="emptyCheck"/>.
@@ -231,6 +242,7 @@ namespace rm.Extensions
 				string.Format("The input sequence does not contain {0} elements.", count)
 				);
 		}
+
 		/// <summary>
 		/// Returns true if source has exactly <paramref name="count"/> elements efficiently.
 		/// </summary>
@@ -269,6 +281,7 @@ namespace rm.Extensions
 			}
 			return true;
 		}
+
 		/// <summary>
 		/// Returns true if source has at least <paramref name="count"/> elements efficiently.
 		/// </summary>
@@ -308,6 +321,7 @@ namespace rm.Extensions
 			}
 			return false; // < count
 		}
+
 		/// <summary>
 		/// Returns a new collection with items shuffled in O(n) time.
 		/// </summary>
@@ -328,6 +342,7 @@ namespace rm.Extensions
 				items[swapIndex] = items[i];
 			}
 		}
+
 		/// <summary>
 		/// Returns a new collection with items shuffled in O(n) time.
 		/// </summary>
@@ -335,6 +350,7 @@ namespace rm.Extensions
 		{
 			return Shuffle(source, new Random());
 		}
+
 		/// <summary>
 		/// Slice an array as Python.
 		/// </summary>
@@ -434,6 +450,7 @@ namespace rm.Extensions
 				}
 			}
 		}
+
 		/// <summary>
 		/// Returns a new collection with words scrabbled like the game.
 		/// </summary>
@@ -446,6 +463,7 @@ namespace rm.Extensions
 			Scrabble(wordsArray, new bool[wordsArray.Length], new StringBuilder(), 0, list);
 			return list.AsEnumerable();
 		}
+
 		/// <summary>
 		/// Recursive method to scrabble.
 		/// </summary>
@@ -480,6 +498,7 @@ namespace rm.Extensions
 				used[i] = false;
 			}
 		}
+
 		/// <summary>
 		/// Convert a collection to HashSet.
 		/// </summary>
@@ -492,6 +511,7 @@ namespace rm.Extensions
 		{
 			return source.Permutation(source.Count());
 		}
+
 		public static IEnumerable<IEnumerable<T>> Permutation<T>(this IEnumerable<T> source, int r)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
@@ -507,6 +527,7 @@ namespace rm.Extensions
 			Permute(input, r, output, buffer, used, depth);
 			return output.AsEnumerable();
 		}
+
 		private static void Permute<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
 			bool[] used, int depth)
 		{
@@ -532,10 +553,12 @@ namespace rm.Extensions
 				used[i] = false;
 			}
 		}
+
 		public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source)
 		{
 			return source.Combination(source.Count());
 		}
+
 		public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source, int r)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
@@ -551,6 +574,7 @@ namespace rm.Extensions
 			Combine(input, r, output, buffer, depth, start);
 			return output.AsEnumerable();
 		}
+
 		private static void Combine<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
 			int depth, int start)
 		{
@@ -575,6 +599,7 @@ namespace rm.Extensions
 		{
 			return !source.Any();
 		}
+
 		public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
 		{
 			return !source.Any(predicate);
@@ -588,6 +613,7 @@ namespace rm.Extensions
 		{
 			return Top(source, n, x => x, Comparer<T>.Default);
 		}
+
 		/// <summary>
 		/// Returns top n efficiently.
 		/// </summary>
@@ -597,6 +623,7 @@ namespace rm.Extensions
 		{
 			return Top(source, n, x => x, comparer);
 		}
+
 		/// <summary>
 		/// Returns top n efficiently.
 		/// </summary>
@@ -606,6 +633,7 @@ namespace rm.Extensions
 		{
 			return Top(source, n, keySelector, Comparer<TKey>.Default);
 		}
+
 		/// <summary>
 		/// Returns top n efficiently.
 		/// </summary>
@@ -645,6 +673,7 @@ namespace rm.Extensions
 			}
 			return minheap;
 		}
+
 		/// <summary>
 		/// Returns bottom n efficiently.
 		/// </summary>
@@ -653,6 +682,7 @@ namespace rm.Extensions
 		{
 			return Bottom(source, n, x => x, Comparer<T>.Default);
 		}
+
 		/// <summary>
 		/// Returns bottom n efficiently.
 		/// </summary>
@@ -662,6 +692,7 @@ namespace rm.Extensions
 		{
 			return Bottom(source, n, x => x, comparer);
 		}
+
 		/// <summary>
 		/// Returns bottom n efficiently.
 		/// </summary>
@@ -671,6 +702,7 @@ namespace rm.Extensions
 		{
 			return Bottom(source, n, keySelector, Comparer<TKey>.Default);
 		}
+
 		/// <summary>
 		/// Returns bottom n efficiently.
 		/// </summary>
@@ -725,6 +757,7 @@ namespace rm.Extensions
 				GenericEqualityComparer<T>.By(keySelector)
 				);
 		}
+
 		/// <summary>
 		/// Returns source.Distinct(comparer) in a linqified way.
 		/// </summary>
@@ -738,6 +771,7 @@ namespace rm.Extensions
 				GenericEqualityComparer<T>.By(keySelector)
 				);
 		}
+
 		/// <summary>
 		/// Returns empty if enumerable is null else same enumerable.
 		/// </summary>
@@ -745,6 +779,7 @@ namespace rm.Extensions
 		{
 			return source ?? Enumerable.Empty<T>();
 		}
+
 		/// <summary>
 		/// Returns source.OrderBy(keySelector, comparer) in a linqified way.
 		/// </summary>
@@ -756,6 +791,7 @@ namespace rm.Extensions
 			compare.ThrowIfArgumentNull(nameof(compare));
 			return source.OrderBy(keySelector, new GenericComparer<TKey>(compare));
 		}
+
 		/// <summary>
 		/// Returns source.OrderByDescending(keySelector, comparer) in a linqified way.
 		/// </summary>

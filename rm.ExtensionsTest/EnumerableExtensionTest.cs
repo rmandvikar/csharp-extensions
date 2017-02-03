@@ -22,10 +22,12 @@ namespace rm.ExtensionsTest
 				Console.WriteLine();
 			}
 		}
+
 		private void Print<T>(T[] a)
 		{
 			Console.WriteLine(string.Join(", ", a));
 		}
+
 		[Test]
 		public void Chunk_bad2_01()
 		{
@@ -41,6 +43,7 @@ namespace rm.ExtensionsTest
 				}
 			}
 		}
+
 		[Test]
 		public void Chunk01()
 		{
@@ -52,6 +55,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(4, chunks.ElementAt(1).First());
 			Assert.AreEqual(7, chunks.ElementAt(2).First());
 		}
+
 		[Test]
 		public void Chunk02()
 		{
@@ -60,6 +64,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(1, chunks.Count());
 			Assert.AreEqual(3, chunks.ElementAt(0).First());
 		}
+
 		[Test]
 		public void Chunk03()
 		{
@@ -72,6 +77,7 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(chunks_rev.Count() - i, chunks_rev.ElementAt(i).ElementAt(0));
 			}
 		}
+
 		[Test]
 		public void IsNullOrEmpty01()
 		{
@@ -79,6 +85,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(new int[0].IsNullOrEmpty());
 			Assert.IsTrue(((IEnumerable<int>)null).IsNullOrEmpty());
 		}
+
 		[Test]
 		public void Split01()
 		{
@@ -89,6 +96,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(splits.ElementAt(0).SequenceEqual(new[] { 1, 4, 7, 10 }));
 			Assert.IsTrue(splits.ElementAt(2).SequenceEqual(new[] { 3, 6, 9 }));
 		}
+
 		[Test]
 		public void IsSorted01()
 		{
@@ -100,6 +108,7 @@ namespace rm.ExtensionsTest
 			var sourceUnsorted = new[] { 1, 3, 2 };
 			Assert.IsFalse(sourceUnsorted.IsSorted());
 		}
+
 		[Test]
 		public void IsSorted02()
 		{
@@ -112,6 +121,7 @@ namespace rm.ExtensionsTest
 			var sourceAllSame = new[] { 5, 5, 5 };
 			Assert.IsTrue(sourceAllSame.IsSorted());
 		}
+
 		[Test]
 		public void Double01()
 		{
@@ -122,6 +132,7 @@ namespace rm.ExtensionsTest
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.Double(); });
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.Double(); });
 		}
+
 		[Test]
 		public void Double02()
 		{
@@ -132,6 +143,7 @@ namespace rm.ExtensionsTest
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.Double(x => x > 0); });
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.Double(x => x > 0); });
 		}
+
 		[Test]
 		public void DoubleOrDefault01()
 		{
@@ -142,6 +154,7 @@ namespace rm.ExtensionsTest
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(); });
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(); });
 		}
+
 		[Test]
 		public void DoubleOrDefault02()
 		{
@@ -152,6 +165,7 @@ namespace rm.ExtensionsTest
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1 }.DoubleOrDefault(x => x > 0); });
 			Assert.Throws<InvalidOperationException>(() => { new[] { 1, 2, 3 }.DoubleOrDefault(x => x > 0); });
 		}
+
 		[Test]
 		public void Shuffle01()
 		{
@@ -173,6 +187,7 @@ namespace rm.ExtensionsTest
 			}
 			Assert.Less(count, tries);
 		}
+
 		[Test]
 		public void Slice00_help()
 		{
@@ -190,6 +205,7 @@ namespace rm.ExtensionsTest
 			// 2nd last char
 			Assert.AreEqual(a.Slice(-2, -2 + 1).ToArray(), new[] { '4' });
 		}
+
 		[Test]
 		// normal cases
 		[TestCase(3, 5, 1, 3, 4)]
@@ -237,6 +253,7 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(last, slice.Last());
 			}
 		}
+
 		[Test]
 		public void Slice02()
 		{
@@ -250,6 +267,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(a.First(), slice2.Last());
 			Assert.AreEqual(a.Last(), slice2.First());
 		}
+
 		[Test]
 		[TestCase(null, null, 1)]
 		public void Slice03(int? s, int? e, int i)
@@ -259,6 +277,7 @@ namespace rm.ExtensionsTest
 			Print(slice);
 			Assert.AreEqual(0, slice.Count());
 		}
+
 		[Test]
 		[TestCase(null, null, 1, 1)]
 		public void Slice04(int? s, int? e, int i, int count)
@@ -268,6 +287,7 @@ namespace rm.ExtensionsTest
 			Print(slice);
 			Assert.AreEqual(count, slice.Count());
 		}
+
 		[Test]
 		[TestCase("this", "is", "a", "test")]
 		[TestCase("this", "test", "")]
@@ -284,6 +304,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(result.Count(), result.Distinct().Count());
 			Assert.AreEqual(words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount(), result.Count());
 		}
+
 		[Test]
 		[TestCase("words", "word", "", null)]
 		[TestCase("this", "is", "a", "test")]
@@ -296,6 +317,7 @@ namespace rm.ExtensionsTest
 				Assert.IsTrue(set.Contains(word));
 			}
 		}
+
 		private IEnumerable<int> GetEnumerable(int start, int count)
 		{
 			for (int i = start; i <= count; i++)
@@ -303,6 +325,7 @@ namespace rm.ExtensionsTest
 				yield return i;
 			}
 		}
+
 		[Test]
 		public void HasCount01()
 		{
@@ -311,6 +334,7 @@ namespace rm.ExtensionsTest
 			Assert.False(Enumerable.Range(1, 1000000000).HasCount(2));
 			Assert.True(new int[0].HasCount(0));
 		}
+
 		[Test]
 		public void HasCount02()
 		{
@@ -319,6 +343,7 @@ namespace rm.ExtensionsTest
 			Assert.False(GetEnumerable(1, 1000000000).HasCount(2));
 			Assert.True(GetEnumerable(1, 0).HasCount(0));
 		}
+
 		[Test]
 		public void HasCountOfAtLeast01()
 		{
@@ -327,6 +352,7 @@ namespace rm.ExtensionsTest
 			Assert.True(Enumerable.Range(1, 1000000000).HasCountOfAtLeast(2));
 			Assert.True(new int[0].HasCountOfAtLeast(0));
 		}
+
 		[Test]
 		public void HasCountOfAtLeast02()
 		{
@@ -335,6 +361,7 @@ namespace rm.ExtensionsTest
 			Assert.True(GetEnumerable(1, 1000000000).HasCountOfAtLeast(2));
 			Assert.True(GetEnumerable(1, 0).HasCountOfAtLeast(0));
 		}
+
 		[Test]
 		[Category("slow")]
 		public void HasCountX01()
@@ -349,6 +376,7 @@ namespace rm.ExtensionsTest
 			Assert.True(Enumerable.Range(1, 1000000).Count() > 2);
 			Console.WriteLine("Count done in {0}.", DateTime.UtcNow.Subtract(ts).Round());
 		}
+
 		[Test]
 		[TestCase(4, 2, 12)]
 		[TestCase(4, 1, 4)]
@@ -360,6 +388,7 @@ namespace rm.ExtensionsTest
 			var result = input.Permutation(r);
 			Assert.AreEqual(count, result.Count());
 		}
+
 		[Test]
 		[TestCase(3, 2, 3)]
 		[TestCase(3, 1, 3)]
@@ -371,6 +400,7 @@ namespace rm.ExtensionsTest
 			var result = input.Combination(r);
 			Assert.AreEqual(count, result.Count());
 		}
+
 		[Test]
 		[TestCase(new int[] { }, true)]
 		[TestCase(new int[] { 1 }, false)]
@@ -378,6 +408,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, source.IsEmpty());
 		}
+
 		[Test]
 		public void IsEmpty02()
 		{
@@ -386,6 +417,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(GetEnumerable(1, 10000000).IsEmpty(x => x > 10000000));
 			Assert.Throws<ArgumentNullException>(() => ((int[])null).IsEmpty());
 		}
+
 		[Test]
 		[TestCase(3, 1, 4, 6, 7, 9)]
 		[TestCase(3, 9, 1, 4, 6, 7)]
@@ -411,6 +443,7 @@ namespace rm.ExtensionsTest
 			Console.WriteLine(string.Join(",", args));
 			Assert.True(sortresult.SequenceEqual(result));
 		}
+
 		[Test]
 		[TestCase(3, 1, 4, 6, 7, 9)]
 		[TestCase(3, 9, 1, 4, 6, 7)]
@@ -436,6 +469,7 @@ namespace rm.ExtensionsTest
 			Console.WriteLine(string.Join(",", args));
 			Assert.True(sortresult.SequenceEqual(result));
 		}
+
 		class ComparableClass : IComparable<ComparableClass>
 		{
 			public int CompareTo(ComparableClass other)
@@ -443,9 +477,11 @@ namespace rm.ExtensionsTest
 				throw new NotImplementedException();
 			}
 		}
+
 		class ComparableClass2 : IComparable<ComparableClass2>, IEquatable<ComparableClass2>
 		{
 			public int Value { get; set; }
+
 			public int CompareTo(ComparableClass2 other)
 			{
 				if (other == null)
@@ -454,10 +490,12 @@ namespace rm.ExtensionsTest
 				}
 				return Value.CompareTo(other.Value);
 			}
+
 			public override string ToString()
 			{
 				return Value.ToString();
 			}
+
 			public bool Equals(ComparableClass2 other)
 			{
 				if (other == null)
@@ -467,6 +505,7 @@ namespace rm.ExtensionsTest
 				return Value.Equals(other.Value);
 			}
 		}
+
 		[Test]
 		public void Top02()
 		{
@@ -478,6 +517,7 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(0, heap2.Length);
 			});
 		}
+
 		[Test]
 		public void Bottom02()
 		{
@@ -489,16 +529,19 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(0, heap2.Length);
 			});
 		}
+
 		[Test]
 		public void Top03()
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Top(-1); });
 		}
+
 		[Test]
 		public void Bottom03()
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => { new[] { 1 }.Bottom(-1); });
 		}
+
 		[Test]
 		public void Top_keyselector01()
 		{
@@ -508,6 +551,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 25, 20, 15 }.Select(x => new ComparableClass2 { Value = x }),
 					GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
 		}
+
 		[Test]
 		public void Bottom_keyselector01()
 		{
@@ -517,6 +561,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
 					GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
 		}
+
 		class ComparableClass2Comparer : IComparer<ComparableClass2>
 		{
 			public int Compare(ComparableClass2 x, ComparableClass2 y)
@@ -524,10 +569,12 @@ namespace rm.ExtensionsTest
 				return x.Value.CompareTo(y.Value);
 			}
 		}
+
 		class SampleClass
 		{
 			public ComparableClass2 ComparableClass2 { get; set; }
 		}
+
 		[Test]
 		public void Top_keyselector02()
 		{
@@ -537,6 +584,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 25, 20, 15 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
 					GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
 		}
+
 		[Test]
 		public void Bottom_keyselector02()
 		{
@@ -546,6 +594,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 0, 5, 10 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
 					GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
 		}
+
 		[Test]
 		public void Top_comparer01()
 		{
@@ -556,6 +605,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 25, 20, 15 }.Select(x => new ComparableClass2 { Value = x }),
 					GenericEqualityComparer<ComparableClass2>.By(x => x)));
 		}
+
 		[Test]
 		public void Bottom_comparer01()
 		{
@@ -566,6 +616,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
 					GenericEqualityComparer<ComparableClass2>.By(x => x)));
 		}
+
 		[Test]
 		public void Top_keyselector_comparer01()
 		{
@@ -576,6 +627,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 25, 20, 15 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
 					GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
 		}
+
 		[Test]
 		public void Bottom_keyselector_comparer01()
 		{
@@ -586,6 +638,7 @@ namespace rm.ExtensionsTest
 				.SequenceEqual(new[] { 0, 5, 10 }.Select(x => new SampleClass { ComparableClass2 = new ComparableClass2 { Value = x } }),
 					GenericEqualityComparer<SampleClass>.By(x => x.ComparableClass2)));
 		}
+
 		[Test]
 		[TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3 }, new[] { 4, 5 })]
 		[TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 2, 3 }, new[] { 1, 4, 5 })]
@@ -602,6 +655,7 @@ namespace rm.ExtensionsTest
 				Assert.Contains(item, except.Select(x => x.prop).ToList());
 			}
 		}
+
 		[Test]
 		public void ExceptBy02()
 		{
@@ -609,6 +663,7 @@ namespace rm.ExtensionsTest
 				new int?[] { 1, 2 }.ExceptBy(new int?[] { 1 }, (Func<int?, int>)null)
 				);
 		}
+
 		[Test]
 		public void ExceptBy03()
 		{
@@ -616,6 +671,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(except.Count() == 1);
 			Assert.IsTrue(except.Contains(1));
 		}
+
 		[Test]
 		[TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3, 4, 5 })]
 		[TestCase(new[] { 1, 1, 2 }, new[] { 1, 2 })]
@@ -629,6 +685,7 @@ namespace rm.ExtensionsTest
 				Assert.Contains(item, distinct.Select(x => x.prop).ToList());
 			}
 		}
+
 		[Test]
 		public void DistinctBy02()
 		{
@@ -636,6 +693,7 @@ namespace rm.ExtensionsTest
 				new int?[] { 1, 2 }.DistinctBy((Func<int?, int>)null)
 				);
 		}
+
 		[Test]
 		public void DistinctBy03()
 		{
@@ -644,12 +702,14 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(distinct.Contains(1));
 			Assert.IsTrue(distinct.Contains((int?)null));
 		}
+
 		[Test]
 		public void OrEmpty01()
 		{
 			Assert.AreEqual(new[] { 1 }, new[] { 1 }.OrEmpty());
 			Assert.AreEqual(new int[0], ((int[])null).OrEmpty());
 		}
+
 		[Test]
 		[TestCase(new[] { 1, 4, 5, 2, 3 }, new[] { 1, 2, 3, 4, 5 }, true)]
 		[TestCase(new[] { 1, 1, 2 }, new[] { 1, 1, 2 }, true)]
@@ -662,6 +722,7 @@ namespace rm.ExtensionsTest
 			var order = source.OrderBy(x => x.prop, (prop1, prop2) => prop1.CompareTo(prop2));
 			Assert.AreEqual(result, expected.Select(x => new { prop = x.ToString() }).SequenceEqual(order));
 		}
+
 		[Test]
 		[TestCase(new[] { 1, 4, 5, 2, 3 }, new[] { 5, 4, 3, 2, 1 }, true)]
 		[TestCase(new[] { 1, 1, 2 }, new[] { 2, 1, 1 }, true)]

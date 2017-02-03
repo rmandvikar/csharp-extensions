@@ -15,6 +15,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.IsTrue(s.IsNullOrEmpty());
 		}
+
 		[Test]
 		[TestCase("s")]
 		[TestCase("  ")]
@@ -22,6 +23,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.IsFalse(s.IsNullOrEmpty());
 		}
+
 		[Test]
 		[TestCase((string)null)]
 		[TestCase("  ")]
@@ -30,12 +32,14 @@ namespace rm.ExtensionsTest
 		{
 			Assert.IsTrue(s.IsNullOrWhiteSpace());
 		}
+
 		[Test]
 		[TestCase("s")]
 		public void IsNullOrWhiteSpace02(string s)
 		{
 			Assert.IsFalse(s.IsNullOrWhiteSpace());
 		}
+
 		[Test]
 		[TestCase((string)null, "")]
 		[TestCase("s", "s")]
@@ -45,6 +49,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.OrEmpty());
 		}
+
 		[Test]
 		[TestCase((string)null, "default", "default")]
 		[TestCase("", "default", "default")]
@@ -54,6 +59,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.Or(or));
 		}
+
 		[Test]
 		[TestCase("<", "&lt;")]
 		[TestCase("s", "s")]
@@ -64,6 +70,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.HtmlEncode());
 		}
+
 		[Test]
 		[TestCase("&lt;", "<")]
 		[TestCase("s", "s")]
@@ -74,6 +81,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.HtmlDecode());
 		}
+
 		[Test]
 		[TestCase(" ", "+")]
 		[TestCase("s", "s")]
@@ -83,6 +91,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.UrlEncode());
 		}
+
 		[Test]
 		[TestCase("+", " ")]
 		[TestCase("s", "s")]
@@ -92,6 +101,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.UrlDecode());
 		}
+
 		[Test]
 		[TestCase("{} is a {1}", "{0} is a {1}", "this", "test")]
 		[TestCase("{}", "{0}", 1)]
@@ -122,6 +132,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(string.Format(formatConverted, args), format.format(args));
 		}
+
 		[Test]
 		[TestCase("{}{1:C}{{{3,10:#,##0.00}}}", "{0}{1:C}{{{3,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
 		[TestCase("{}{3:C}{{{,10:#,##0.00}}}", "{0}{3:C}{{{2,10:#,##0.00}}}", 1, 3.14d, 3.14d)]
@@ -131,6 +142,7 @@ namespace rm.ExtensionsTest
 			Assert.Throws<FormatException>(() => string.Format(formatConverted, args));
 			Assert.Throws<FormatException>(() => format.format(args));
 		}
+
 		[Test]
 		[TestCase("", true, true)]
 		[TestCase("true", false, true)]
@@ -142,6 +154,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(result, value.ToBool(defaultValue));
 		}
+
 		[Test]
 		[TestCase("password", "p@$$w0rd")]
 		[TestCase("ai", "@1", "@!")]
@@ -153,6 +166,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(munges.Length, result.Count);
 			Assert.IsTrue(munges.SequenceEqual(result));
 		}
+
 		[Test]
 		[TestCase("p@$$w0rd", "password")]
 		[TestCase("@1", "ai", "al")]
@@ -164,6 +178,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(unmunges.Length, result.Count);
 			Assert.IsTrue(unmunges.SequenceEqual(result));
 		}
+
 		[Test]
 		[TestCase("this")]
 		[TestCase("on")]
@@ -181,6 +196,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(result.Count(), result.Distinct().Count());
 			Assert.AreEqual(word.Length.ScrabbleCount(), result.Count());
 		}
+
 		[Test]
 		[TestCase("2013-04-01T03:42:14-04:00", "4/1/2013 7:42:14 AM")]
 		[TestCase("2012-02-29T23:00:00-04:00", "3/1/2012 3:00:00 AM")]
@@ -191,6 +207,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(expected, result.ToString());
 			Assert.AreEqual(expected, result.ToUniversalTime().ToString());
 		}
+
 		[Test]
 		[TestCase("war and peace", "War And Peace")]
 		[TestCase("but FBI is working", "But FBI Is Working")]
@@ -200,6 +217,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.ToTitleCase());
 		}
+
 		private void Permutation(string s, int r, int count, string[] spotchecks)
 		{
 			var permutations = s.Permutation(r);
@@ -216,6 +234,7 @@ namespace rm.ExtensionsTest
 			}
 			Console.WriteLine("permutations = {0}", permutations.Count());
 		}
+
 		[Test]
 		[Category("slow")]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 4, 358800, new[] { "abcd", "wxyz" })]
@@ -223,6 +242,7 @@ namespace rm.ExtensionsTest
 		{
 			Permutation(s, r, count, spotchecks);
 		}
+
 		[Test]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 2, 650, new[] { "ab", "yz" })]
 		[TestCase("abcd", 4, 24, new[] { "abcd", "dcba" })]
@@ -230,12 +250,14 @@ namespace rm.ExtensionsTest
 		{
 			Permutation(s, r, count, spotchecks);
 		}
+
 		[Test]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
 		public void Permutation03(string s, int r)
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => s.Permutation(r));
 		}
+
 		private void Combination(string s, int r, int count, string[] spotchecks)
 		{
 			var combinations = s.Combination(r);
@@ -252,6 +274,7 @@ namespace rm.ExtensionsTest
 			}
 			Console.WriteLine("combinations = {0}", combinations.Count());
 		}
+
 		[Test]
 		[Category("slow")]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 25, 26, new[] { "abcdefghijklmnopqrstuvwxy", "bcdefghijklmnopqrstuvwxyz" })]
@@ -259,18 +282,21 @@ namespace rm.ExtensionsTest
 		{
 			Combination(s, r, count, spotchecks);
 		}
+
 		[Test]
 		[TestCase("abc", 2, 3, new[] { "ab", "ac", "bc" })]
 		public void Combination02(string s, int r, int count, string[] spotchecks)
 		{
 			Combination(s, r, count, spotchecks);
 		}
+
 		[Test]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
 		public void Combination03(string s, int r)
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => s.Combination(r));
 		}
+
 		[Test]
 		[TestCase("founder@company.com|devs@company.com,testers@company.com;ceo@company.com,|;",
 			new[] { "devs@company.com", "testers@company.com", "founder@company.com", "ceo@company.com" })]
@@ -281,6 +307,7 @@ namespace rm.ExtensionsTest
 			Assert.True(result.Count() == items.Count());
 			Assert.True(items.Except(result).IsEmpty());
 		}
+
 		[Test]
 		[TestCase("123", 1, "3")]
 		[TestCase("123", 3, "123")]
@@ -292,12 +319,14 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.SubstringTillEnd(n));
 		}
+
 		[Test]
 		public static void SubstringTillEnd02()
 		{
 			Assert.Throws<ArgumentNullException>(() => ((string)null).SubstringTillEnd(1));
 			Assert.Throws<ArgumentOutOfRangeException>(() => "123".SubstringTillEnd(-1));
 		}
+
 		[Test]
 		[TestCase("this", 1, 1, "")]
 		[TestCase("this", 1, 3, "hi")]
@@ -306,6 +335,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(expected, s.SubstringByIndex(start, end));
 		}
+
 		[Test]
 		[TestCase("this", 1, 0)]
 		[TestCase("this", 1, 5)]

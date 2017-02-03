@@ -24,6 +24,7 @@ namespace rm.ExtensionsTest
 			var ts = new TimeSpan(d, h, m, s, ms);
 			Assert.AreEqual(result, ts.Round());
 		}
+
 		[Test]
 		[TestCase(1.9d, "1s")]
 		[TestCase(1.009d, "1s")]
@@ -32,6 +33,7 @@ namespace rm.ExtensionsTest
 			var ts = TimeSpan.FromSeconds(s);
 			Assert.AreEqual(result, ts.Round());
 		}
+
 		[Test]
 		[TestCase(10)]
 		[TestCase(100)]
@@ -40,6 +42,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(n, n.Days().TotalDays);
 		}
+
 		[Test]
 		[TestCase(10)]
 		[TestCase(100)]
@@ -48,6 +51,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(n, n.Hours().TotalHours);
 		}
+
 		[Test]
 		[TestCase(10)]
 		[TestCase(100)]
@@ -56,6 +60,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(n, n.Minutes().TotalMinutes);
 		}
+
 		[Test]
 		[TestCase(10)]
 		[TestCase(100)]
@@ -64,6 +69,7 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(n, n.Seconds().TotalSeconds);
 		}
+
 		[Test]
 		[TestCase(10)]
 		[TestCase(100)]

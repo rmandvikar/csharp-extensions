@@ -19,6 +19,7 @@ namespace rm.ExtensionsTest
 
 			Assert.IsFalse(graph.IsCyclic());
 		}
+
 		[Test(Description = " 1<-2<-3 ")]
 		public void IsCyclic_False_02()
 		{
@@ -31,6 +32,7 @@ namespace rm.ExtensionsTest
 
 			Assert.IsFalse(graph.IsCyclic());
 		}
+
 		[Test(Description = " 1->2->3, 1->3 ")]
 		public void IsCyclic_False_03()
 		{
@@ -55,6 +57,7 @@ namespace rm.ExtensionsTest
 
 			Assert.IsTrue(graph.IsCyclic());
 		}
+
 		[Test(Description = " 1->2->3, 3->1 ")]
 		public void IsCyclic_True_02()
 		{
@@ -68,6 +71,7 @@ namespace rm.ExtensionsTest
 
 			Assert.IsTrue(graph.IsCyclic());
 		}
+
 		[Test(Description = " 1->2<->3, 2->4, 4->3 ")]
 		public void IsCyclic_True_03()
 		{
@@ -83,6 +87,7 @@ namespace rm.ExtensionsTest
 
 			Assert.IsTrue(graph.IsCyclic());
 		}
+
 		[Test(Description = " 1->2, 3->4, 4->3 ")]
 		public void IsCyclic_True_04()
 		{
@@ -109,6 +114,7 @@ namespace rm.ExtensionsTest
 		#region IGraph methods
 		public IEnumerable<IGraphNode> Nodes { get; private set; }
 		#endregion
+
 		/// <summary>
 		/// ctor.
 		/// </summary>
@@ -117,16 +123,22 @@ namespace rm.ExtensionsTest
 			this.Nodes = nodes;
 		}
 	}
+
 	/// <summary>
 	/// Graph node.
 	/// </summary>
 	public class GraphNode : IGraphNode
 	{
 		#region IGraphNode methods
+
 		public string Id { get; private set; }
+
 		public IEnumerable<IGraphNode> Neighbors { get; set; }
+
 		#endregion
+
 		private static readonly IEnumerable<IGraphNode> emptyGraphNodes = new GraphNode[0];
+
 		/// <summary>
 		/// ctor.
 		/// </summary>
@@ -135,6 +147,7 @@ namespace rm.ExtensionsTest
 			this.Id = id;
 			this.Neighbors = neighbors ?? emptyGraphNodes;
 		}
+
 		public override string ToString()
 		{
 			return Id;

@@ -45,6 +45,7 @@ namespace rm.Extensions
 			}
 			return "{0}ms".format(ts.Milliseconds);
 		}
+
 		/// <summary>
 		/// n Days.
 		/// </summary>
@@ -52,6 +53,7 @@ namespace rm.Extensions
 		{
 			return TimeSpan.FromDays(n);
 		}
+
 		/// <summary>
 		/// n Hours.
 		/// </summary>
@@ -59,6 +61,7 @@ namespace rm.Extensions
 		{
 			return TimeSpan.FromHours(n);
 		}
+
 		/// <summary>
 		/// n Minutes.
 		/// </summary>
@@ -66,6 +69,7 @@ namespace rm.Extensions
 		{
 			return TimeSpan.FromMinutes(n);
 		}
+
 		/// <summary>
 		/// n Seconds.
 		/// </summary>
@@ -73,6 +77,7 @@ namespace rm.Extensions
 		{
 			return TimeSpan.FromSeconds(n);
 		}
+
 		/// <summary>
 		/// n Milliseconds.
 		/// </summary>

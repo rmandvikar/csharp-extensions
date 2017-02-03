@@ -7,6 +7,7 @@
 	public class Wrapped<T>
 	{
 		public T Value { get; set; }
+
 		public Wrapped(T value)
 		{
 			Value = value;

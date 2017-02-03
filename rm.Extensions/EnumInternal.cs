@@ -18,26 +18,31 @@ namespace rm.Extensions
 		/// </summary>
 		internal static readonly IDictionary<string, T> NameToValueMap =
 		   new Dictionary<string, T>();
+
 		/// <summary>
 		/// enum value -> enum name
 		/// </summary>
 		internal static readonly IDictionary<T, string> ValueToNameMap =
 		   new Dictionary<T, string>();
+
 		/// <summary>
 		/// enum value -> description
 		/// </summary>
 		internal static readonly IDictionary<T, string> ValueToDescriptionMap =
 			new Dictionary<T, string>();
+
 		/// <summary>
 		/// enum description -> value
 		/// </summary>
 		internal static readonly IDictionary<string, T> DescriptionToValueMap =
 			new Dictionary<string, T>();
+
 		/// <summary>
 		/// enum type name -> json
 		/// </summary>
 		internal static readonly IDictionary<string, string> TypeNameToJsonMap =
 			new Dictionary<string, string>();
+
 		/// <summary>
 		/// Build maps.
 		/// </summary>
@@ -65,6 +70,7 @@ namespace rm.Extensions
 			buffer.AppendFormat("{0}}}", Environment.NewLine);
 			TypeNameToJsonMap.Add(typeof(T).FullName, buffer.ToString());
 		}
+
 		/// <summary>
 		/// Get description (DescriptionAttribute) for enum value or string representation if not exists.
 		/// </summary>

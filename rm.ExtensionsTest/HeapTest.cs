@@ -11,6 +11,7 @@ namespace rm.ExtensionsTest
 		{
 			public int Age { get; set; }
 		}
+
 		// tests Siftdown() internally.
 		[Test]
 		public void Append01()
@@ -24,6 +25,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(person1, minheap.Peek());
 			Assert.AreNotEqual(person2, minheap.Peek());
 		}
+
 		// tests SiftUp() internally.
 		[Test]
 		public void Insert01()
@@ -36,6 +38,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(person1, maxheap.Peek());
 			Assert.AreNotEqual(person2, maxheap.Peek());
 		}
+
 		[Test]
 		public void Insert02()
 		{
@@ -57,6 +60,7 @@ namespace rm.ExtensionsTest
 			maxheap.Insert(1);
 			Assert.AreEqual(3, maxheap.Count());
 		}
+
 		[Test]
 		public void Delete01()
 		{
@@ -76,6 +80,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(1, maxheap.Delete());
 			Assert.AreEqual(1, maxheap.Count());
 		}
+
 		[Test]
 		public void Displace01()
 		{
@@ -95,6 +100,7 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(2, maxheap.Count());
 			Assert.AreEqual(3, maxheap.Peek());
 		}
+
 		[Test]
 		public void Peek01()
 		{

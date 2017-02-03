@@ -17,10 +17,12 @@ namespace rm.Extensions
 		}
 
 		#region IComparer<T> methods
+
 		public int Compare(T x, T y)
 		{
 			return compare(x, y);
 		}
+
 		#endregion
 	}
 }

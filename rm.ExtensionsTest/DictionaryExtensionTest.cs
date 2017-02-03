@@ -17,6 +17,7 @@ namespace rm.ExtensionsTest
 			var dictionary = a.ToDictionary(x => x);
 			Assert.AreEqual(expected, dictionary.GetValueOrDefault(key));
 		}
+
 		[Test]
 		[TestCase(new[] { 1, 2 }, 3, null)]
 		[TestCase(new[] { 1, 2 }, 1, "1")]
@@ -26,6 +27,7 @@ namespace rm.ExtensionsTest
 			var dictionary = a.ToDictionary(x => x, y => y.ToString());
 			Assert.AreEqual(expected, dictionary.GetValueOrDefault(key));
 		}
+
 		[Test]
 		public void AsReadOnly01()
 		{

@@ -20,6 +20,7 @@ namespace rm.Extensions
 		{
 			return string.IsNullOrEmpty(s);
 		}
+
 		/// <summary>
 		/// Returns true if string is null, empty or only whitespaces.
 		/// </summary>
@@ -27,6 +28,7 @@ namespace rm.Extensions
 		{
 			return string.IsNullOrWhiteSpace(s);
 		}
+
 		/// <summary>
 		/// Returns specified value if string is null/empty/whitespace else same string.
 		/// </summary>
@@ -38,6 +40,7 @@ namespace rm.Extensions
 			}
 			return or;
 		}
+
 		/// <summary>
 		/// Returns empty if string is null/empty/whitespace else same string.
 		/// </summary>
@@ -45,6 +48,7 @@ namespace rm.Extensions
 		{
 			return s.Or("");
 		}
+
 		/// <summary>
 		/// Returns html-encoded string.
 		/// </summary>
@@ -52,6 +56,7 @@ namespace rm.Extensions
 		{
 			return WebUtility.HtmlEncode(s);
 		}
+
 		/// <summary>
 		/// Returns html-decoded string.
 		/// </summary>
@@ -59,6 +64,7 @@ namespace rm.Extensions
 		{
 			return WebUtility.HtmlDecode(s);
 		}
+
 		/// <summary>
 		/// Returns url-encoded string.
 		/// </summary>
@@ -66,6 +72,7 @@ namespace rm.Extensions
 		{
 			return WebUtility.UrlEncode(s);
 		}
+
 		/// <summary>
 		/// Returns url-decoded string.
 		/// </summary>
@@ -73,6 +80,7 @@ namespace rm.Extensions
 		{
 			return WebUtility.UrlDecode(s);
 		}
+
 		/// <summary>
 		/// Format string as string.Format() but the parameter index is optional and parameter meta is allowed.
 		/// </summary>
@@ -176,6 +184,7 @@ namespace rm.Extensions
 			var formatConverted = buffer.ToString();
 			return string.Format(formatConverted, args);
 		}
+
 		/// <summary>
 		/// Try-parse string to bool, else default value.
 		/// </summary>
@@ -213,16 +222,19 @@ namespace rm.Extensions
 			}.ToList().ForEach(x => mungeSubstitutions.Add(new KeyValuePair<char, char>(x[0], x[1])));
 			return mungeSubstitutions;
 		}
+
 		/// <summary>
 		/// key->value[] map.
 		/// </summary>
 		private static IDictionary<char, char[]> mungeMap = mungeSubstitutions.GroupBy(x => x.Key)
 			.ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToArray());
+
 		/// <summary>
 		/// value->key[] map.
 		/// </summary>
 		private static IDictionary<char, char[]> unmungeMap = mungeSubstitutions.GroupBy(x => x.Value)
 			.ToDictionary(g => g.Key, g => g.Select(x => x.Key).ToArray());
+
 		/// <summary>
 		/// Munges or unmunges password as per substitution map.
 		/// </summary>
@@ -234,6 +246,7 @@ namespace rm.Extensions
 			MungeUnmunge(password, map, 0, new StringBuilder(), list);
 			return list.AsEnumerable();
 		}
+
 		/// <summary>
 		/// Recursive method to munge/unmunge.
 		/// </summary>
@@ -263,6 +276,7 @@ namespace rm.Extensions
 				buffer.Length--;
 			}
 		}
+
 		/// <summary>
 		/// Munge a password.
 		/// </summary>
@@ -271,6 +285,7 @@ namespace rm.Extensions
 		{
 			return MungeUnmunge(password, mungeMap);
 		}
+
 		/// <summary>
 		/// Unmunge a (munged) password.
 		/// </summary>
@@ -287,6 +302,7 @@ namespace rm.Extensions
 			word.ThrowIfArgumentNull(nameof(word));
 			return word.Select(x => x.ToString()).Scrabble();
 		}
+
 		/// <summary>
 		/// Parse a string in UTC format as DateTime.
 		/// </summary>
@@ -294,6 +310,7 @@ namespace rm.Extensions
 		{
 			return DateTimeOffset.Parse(s).UtcDateTime;
 		}
+
 		/// <summary>
 		/// Convert a string to title case.
 		/// </summary>
@@ -312,6 +329,7 @@ namespace rm.Extensions
 			return s.ToCharArray().Permutation(r)
 				.Select(x => new string(x.ToArray()));
 		}
+
 		/// <summary>
 		/// Get permutations of string.
 		/// </summary>
@@ -320,6 +338,7 @@ namespace rm.Extensions
 		{
 			return s.Permutation(s.Length);
 		}
+
 		/// <summary>
 		/// Get combinations of string for particular r.
 		/// </summary>
@@ -329,6 +348,7 @@ namespace rm.Extensions
 			return s.ToCharArray().Combination(r)
 				.Select(x => new string(x.ToArray()));
 		}
+
 		/// <summary>
 		/// Get combinations of string.
 		/// </summary>
@@ -345,6 +365,7 @@ namespace rm.Extensions
 		{
 			return s.Split(new[] { ",", ";", "|" }, StringSplitOptions.RemoveEmptyEntries);
 		}
+
 		/// <summary>
 		/// Returns substring till end of length <paramref name="n"/>.
 		/// </summary>
@@ -358,6 +379,7 @@ namespace rm.Extensions
 			}
 			return source.Substring(source.Length - n);
 		}
+
 		/// <summary>
 		/// Returns substring by specifying start index and end index.
 		/// </summary>

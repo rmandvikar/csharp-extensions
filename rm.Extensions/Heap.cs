@@ -16,23 +16,28 @@ namespace rm.Extensions
 		/// Insert <paramref name="x"/> into heap.
 		/// </summary>
 		void Insert(T x);
+
 		/// <summary>
 		/// Append <paramref name="x"/> to heap without maintaining the heap property.
 		/// </summary>
 		void Append(T x);
+
 		/// <summary>
 		/// Delete top of heap.
 		/// </summary>
 		T Delete();
+
 		/// <summary>
 		/// Capture the current top to return it and replace it with <paramref name="x"/> and sift down.
 		/// </summary>
 		/// <remarks>Displace() avoids having to call Delete() and Insert() separately.</remarks>
 		T Displace(T x);
+
 		/// <summary>
 		/// Peek top of heap.
 		/// </summary>
 		T Peek();
+
 		/// <summary>
 		/// Return count of heap.
 		/// </summary>
@@ -317,6 +322,7 @@ namespace rm.Extensions
 		public MinHeap(int size, Func<T, TKey> keySelector)
 			: this(size, keySelector, Comparer<TKey>.Default)
 		{ }
+
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
@@ -357,6 +363,7 @@ namespace rm.Extensions
 		public MinHeap(int size)
 			: this(size, Comparer<T>.Default)
 		{ }
+
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
@@ -385,6 +392,7 @@ namespace rm.Extensions
 		public MaxHeap(int size, Func<T, TKey> keySelector)
 			: this(size, keySelector, Comparer<TKey>.Default)
 		{ }
+
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>
@@ -425,6 +433,7 @@ namespace rm.Extensions
 		public MaxHeap(int size)
 			: this(size, Comparer<T>.Default)
 		{ }
+
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>

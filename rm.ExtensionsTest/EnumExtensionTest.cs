@@ -12,6 +12,7 @@ namespace rm.ExtensionsTest
 		C = 1,
 		F
 	}
+
 	public enum Color
 	{
 		[Sc.Description("Red color")]
@@ -20,6 +21,7 @@ namespace rm.ExtensionsTest
 		[Sc.Description("Blue color")]
 		Blue
 	}
+
 	public enum Grade
 	{
 		Toddler = 1,
@@ -52,7 +54,9 @@ namespace rm.ExtensionsTest
 		Twelve,
 		College
 	}
+
 	public enum EmptyEnum { }
+
 	[TestFixture]
 	public class EnumExtensionTest
 	{
@@ -61,11 +65,13 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(Color.Red, "Red".Parse<Color>());
 		}
+
 		[Test]
 		public void Parse02()
 		{
 			Assert.Throws<ArgumentException>(() => { "Red".Parse<Temperature>(); });
 		}
+
 		[Test]
 		public void TryParse01()
 		{
@@ -73,6 +79,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue("Red".TryParse<Color>(out color));
 			Assert.AreEqual(Color.Red, color);
 		}
+
 		[Test]
 		public void TryParse02()
 		{
@@ -81,12 +88,14 @@ namespace rm.ExtensionsTest
 			Assert.AreNotEqual(Color.Red, t);
 			Assert.AreEqual(0, (int)t);
 		}
+
 		[Test]
 		public void GetDescription01()
 		{
 			Assert.AreEqual("Red color", Color.Red.GetDescription());
 			Assert.AreEqual(Color.Green.ToString(), Color.Green.GetDescription());
 		}
+
 		[Test]
 		public void GetDescription02()
 		{
@@ -99,6 +108,7 @@ namespace rm.ExtensionsTest
 				"T".Parse<Temperature>().GetDescription();
 			});
 		}
+
 		[Test]
 		public void GetEnumValue01()
 		{
@@ -108,6 +118,7 @@ namespace rm.ExtensionsTest
 				"OutOfRange".GetEnumValue<Color>();
 			});
 		}
+
 		[Test]
 		public void GetEnumValues01()
 		{
@@ -117,6 +128,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(colors.Contains(Color.Green));
 			Assert.IsTrue(colors.Contains(Color.Blue));
 		}
+
 		[Test(Description = "GetEnumValue() v/s Enum.ToString() speed test.")]
 		[Category("slow")]
 		public void GetEnumValue02()
@@ -144,6 +156,7 @@ namespace rm.ExtensionsTest
 			// fastest
 			speedTest(() => { return Color.Red.GetEnumName() == "Red"; }, "GetEnumName()");
 		}
+
 		[Test]
 		public void GetEnumNames01()
 		{
@@ -153,6 +166,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(colors.Contains(Color.Green.ToString()));
 			Assert.IsTrue(colors.Contains(Color.Blue.ToString()));
 		}
+
 		[Test]
 		public void GetEnumNameToDescriptionMap01()
 		{
@@ -168,6 +182,7 @@ namespace rm.ExtensionsTest
 				new KeyValuePair<string, string>(Color.Blue.ToString(), Color.Blue.GetDescription())
 				));
 		}
+
 		[Test]
 		public void GetEnumNameFromDescription01()
 		{
@@ -177,6 +192,7 @@ namespace rm.ExtensionsTest
 				"OutOfRange".GetEnumNameFromDescription<Color>();
 			});
 		}
+
 		[Test]
 		public void GetJson01()
 		{
@@ -186,6 +202,7 @@ namespace rm.ExtensionsTest
 			dynamic j = expected;
 			Assert.AreEqual(expected, json);
 		}
+
 		[Test]
 		public void GetJson02()
 		{
@@ -195,6 +212,7 @@ namespace rm.ExtensionsTest
 			dynamic j = expected;
 			Assert.AreEqual(expected, json);
 		}
+
 		[Test]
 		public void Sorting01()
 		{
