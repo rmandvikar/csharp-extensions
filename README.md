@@ -2,7 +2,7 @@ csharp-extensions
 =================
 
 
-####string extensions:
+#### string extensions:
 
 ```c#
 var s = "";
@@ -96,7 +96,7 @@ string result = "this".SubstringByIndex(1, 3);
 // result: "hi"
 ```
 
-####ThrowIf extensions:
+#### ThrowIf extensions:
 
 ```c#
 public void SomeMethod(object obj1, object obj2) 
@@ -134,7 +134,7 @@ public void SomeMethod(string s1, string s2)
 }
 ```
 
-####DateTime extensions:
+#### DateTime extensions:
 
 ```c#
 // gives date in UTC format string
@@ -156,7 +156,7 @@ DateTime date = DateTime.Parse("4/1/2014 12:00:00 AM").AsUtcKind();
 // date: 4/1/2014 12:00:00 AM, Kind: Utc
 ```
 
-####IEnumerable extensions:
+#### IEnumerable extensions:
 
 ```c#
 // creates chunks of given collection of specified size
@@ -305,7 +305,7 @@ foreach (var item in source.OrEmpty()) { /**/ }
 if (source != null) { foreach (var item in source) { /**/ } }
 ```
 
-####Enum extensions:
+#### Enum extensions:
 
 ```c#
 enum Color { Red = 1, Green, Blue };
@@ -422,7 +422,7 @@ string[] gradesSorted = grades.Select(x => x.GetDescription());
 // gradesSorted: { "Toddler", "Pre-K", "1", "2", "College" } 
 ```
 
-####NameValueCollection extensions:
+#### NameValueCollection extensions:
 
 ```c#
 // get query string for name-value collection
@@ -431,7 +431,7 @@ string query = nvc.ToQueryString(); // OR nvc.ToQueryString(prefixQuestionMark: 
 // query: "?k1%2C=v1&k2=v2" // OR "k1%2C=v1&k2=v2"
 ```
 
-####TimeSpan extensions:
+#### TimeSpan extensions:
 
 ```c#
 // round timespan as ms, s, m, h, d, wk, mth, y.
@@ -444,7 +444,7 @@ string round = TimeSpan.FromDays(10).Round();
 TimeSpan ts = 10.Days();
 ```
 
-####Uri extensions:
+#### Uri extensions:
 
 ```c#
 // calculate uri's checksum (sha1, md5)
@@ -457,21 +457,21 @@ string md5 = uri.Checksum(Hasher.md5);
 // md5: 57e396baedfe1a034590339082b9abce
 ```
 
-####Helper methods:
+#### Helper methods:
 
 ```c#
 // swap two values or references
 Helper.Swap(ref a, ref b);
 ```
 
-####decimal extensions:
+#### decimal extensions:
 
 ```c#
 // truncate decimal to specified digits
 12.349m.TruncateTo(2); // 12.34m
 ```
 
-####int extensions:
+#### int extensions:
 
 ```c#
 // round int as k, m, g
@@ -481,21 +481,21 @@ Helper.Swap(ref a, ref b);
 1500.Round(1); // "1.5k"
 ```
 
-####Graph extensions:
+#### Graph extensions:
 
 ```c#
 // if graph is cyclic (used for deadlock detection)
 bool isCyclic = graph.IsCyclic();
 ```
 
-####StringBuilder extensions:
+#### StringBuilder extensions:
 
 ```c#
 // instead of buffer.AppendLine(string.Format(format, args))
 buffer.AppendLine(format, args);
 ```
 
-####Dictionary extensions:
+#### Dictionary extensions:
 
 ```c#
 // for key in dictionary, get value if exists or default / specified value
@@ -508,7 +508,7 @@ var value = dictionary.GetValueOrDefault(key, other);
 var dictionaryReadonly = dictionary.AsReadOnly();
 ```
 
-####Wrapped extensions:
+#### Wrapped extensions:
 
 ```c#
 // wrap (box) any type to avoid using pass by ref parameters
