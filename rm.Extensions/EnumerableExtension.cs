@@ -239,7 +239,7 @@ namespace rm.Extensions
 				return source;
 			}
 			throw new InvalidOperationException(
-				string.Format("The input sequence does not contain {0} elements.", count)
+				$"The input sequence does not contain {count} elements."
 				);
 		}
 
