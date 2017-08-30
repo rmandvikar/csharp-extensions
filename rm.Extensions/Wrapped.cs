@@ -14,7 +14,7 @@
 		}
 
 		///// <summary>
-		///// Convert T to Wrapped{T}.
+		///// Converts T to Wrapped{T}.
 		///// </summary>
 		///// <remarks>
 		///// This does NOT work as a new instance is returned.
@@ -30,7 +30,7 @@
 		//}
 
 		///// <summary>
-		///// Convert Wrapped{T} to T.
+		///// Converts Wrapped{T} to T.
 		///// </summary>
 		///// <remarks>
 		///// This works. But not allowing due to inconsistency (see above conversion operator limitation).

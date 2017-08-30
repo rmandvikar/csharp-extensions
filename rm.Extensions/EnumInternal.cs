@@ -44,7 +44,7 @@ namespace rm.Extensions
 			new Dictionary<string, string>();
 
 		/// <summary>
-		/// Build maps.
+		/// Builds maps.
 		/// </summary>
 		static EnumInternal()
 		{
@@ -72,7 +72,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get description (DescriptionAttribute) for enum value or string representation if not exists.
+		/// Gets description (DescriptionAttribute) for enum value or string representation if not exists.
 		/// </summary>
 		private static string GetDescription(T enumValue)
 		{

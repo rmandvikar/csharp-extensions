@@ -10,7 +10,7 @@ namespace rm.Extensions
 	public static class NameValueCollectionExtension
 	{
 		/// <summary>
-		/// Get query string for name value collection.
+		/// Gets query string for name value collection.
 		/// </summary>
 		public static string ToQueryString(this NameValueCollection collection,
 			bool prefixQuestionMark = true)

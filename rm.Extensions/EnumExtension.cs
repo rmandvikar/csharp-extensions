@@ -10,7 +10,7 @@ namespace rm.Extensions
 	public static class EnumExtension
 	{
 		/// <summary>
-		/// TryParse the string to enum of type T.
+		/// TryParses the string to enum of type <typeparamref name="T"/>.
 		/// </summary>
 		public static bool TryParse<T>(this string name, out T result, bool ignoreCase = false)
 			where T : struct
@@ -19,7 +19,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Parse the string to enum of type T.
+		/// Parses the string to enum of type <typeparamref name="T"/>.
 		/// </summary>
 		public static T Parse<T>(this string name, bool ignoreCase = false)
 			where T : struct
@@ -28,7 +28,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get values for type T enum.
+		/// Gets values for type <typeparamref name="T"/> enum.
 		/// </summary>
 		public static T[] GetEnumValues<T>()
 			where T : struct
@@ -37,7 +37,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get names (strings) for type T enum.
+		/// Gets names (strings) for type <typeparamref name="T"/> enum.
 		/// </summary>
 		public static string[] GetEnumNames<T>()
 			where T : struct
@@ -46,7 +46,8 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get enum name (string) -> description (string) map for type T enum.
+		/// Gets enum name (string) -> description (string) map for
+		/// type <typeparamref name="T"/> enum.
 		/// </summary>
 		public static IDictionary<string, string> GetEnumNameToDescriptionMap<T>()
 			where T : struct
@@ -56,7 +57,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get the name (string) for the enum value or throw exception if not exists.
+		/// Gets the name (string) for the enum value or throws exception if not exists.
 		/// </summary>
 		public static string GetEnumName<T>(this T enumValue)
 			where T : struct
@@ -70,7 +71,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get enum name (string) for description or throw exception if not exists.
+		/// Gets enum name (string) for description or throws exception if not exists.
 		/// </summary>
 		public static string GetEnumNameFromDescription<T>(this string description)
 			where T : struct
@@ -84,7 +85,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get the value for the enum name (string) or throw exception if not exists.
+		/// Gets the value for the enum name (string) or throws exception if not exists.
 		/// </summary>
 		public static T GetEnumValue<T>(this string name)
 			where T : struct
@@ -98,7 +99,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get the value for the enum description (string) or throw exception if not exists.
+		/// Gets the value for the enum description (string) or throws exception if not exists.
 		/// </summary>
 		public static T GetEnumValueFromDescription<T>(this string description)
 			where T : struct
@@ -112,7 +113,8 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get the description (DescriptionAttribute) for the enum value or throw exception if not exists.
+		/// Gets the description (DescriptionAttribute) for the enum value
+		/// or throws exception if not exists.
 		/// </summary>
 		public static string GetDescription<T>(this T enumValue)
 			where T : struct
@@ -126,7 +128,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get enum json as name, description.
+		/// Gets enum json as name, description.
 		/// </summary>
 		public static string GetJson<T>()
 			where T : struct

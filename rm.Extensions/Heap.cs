@@ -13,33 +13,33 @@ namespace rm.Extensions
 		where TKey : IComparable<TKey>
 	{
 		/// <summary>
-		/// Insert <paramref name="x"/> into heap.
+		/// Inserts <paramref name="x"/> into heap.
 		/// </summary>
 		void Insert(T x);
 
 		/// <summary>
-		/// Append <paramref name="x"/> to heap without maintaining the heap property.
+		/// Appends <paramref name="x"/> to heap without maintaining the heap property.
 		/// </summary>
 		void Append(T x);
 
 		/// <summary>
-		/// Delete top of heap.
+		/// Deletes top of heap.
 		/// </summary>
 		T Delete();
 
 		/// <summary>
-		/// Capture the current top to return it and replace it with <paramref name="x"/> and sift down.
+		/// Captures the current top to return it and replace it with <paramref name="x"/> and sift down.
 		/// </summary>
 		/// <remarks>Displace() avoids having to call Delete() and Insert() separately.</remarks>
 		T Displace(T x);
 
 		/// <summary>
-		/// Peek top of heap.
+		/// Peeks top of heap.
 		/// </summary>
 		T Peek();
 
 		/// <summary>
-		/// Return count of heap.
+		/// Returns count of heap.
 		/// </summary>
 		int Count();
 	}
@@ -87,7 +87,7 @@ namespace rm.Extensions
 		#region IHeap<T> methods
 
 		/// <summary>
-		/// Insert <paramref name="x"/> into heap.
+		/// Inserts <paramref name="x"/> into heap.
 		/// </summary>
 		public void Insert(T x)
 		{
@@ -105,7 +105,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Append <paramref name="x"/> to heap without maintaining the heap property.
+		/// Appends <paramref name="x"/> to heap without maintaining the heap property.
 		/// </summary>
 		public void Append(T x)
 		{
@@ -119,7 +119,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Delete top of heap.
+		/// Deletes top of heap.
 		/// </summary>
 		public T Delete()
 		{
@@ -139,7 +139,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Capture the current top to return it and replace it with <paramref name="x"/> and sift down.
+		/// Captures the current top to return it and replace it with <paramref name="x"/> and sift down.
 		/// </summary>
 		/// <remarks>Displace() avoids having to call Delete() and Insert() separately.</remarks>
 		public T Displace(T x)
@@ -160,7 +160,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Peek top of heap.
+		/// Peeks top of heap.
 		/// </summary>
 		public T Peek()
 		{
@@ -176,7 +176,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Return count of heap.
+		/// Returns count of heap.
 		/// </summary>
 		public int Count()
 		{
@@ -209,7 +209,7 @@ namespace rm.Extensions
 		#region private methods
 
 		/// <summary>
-		/// Sift down from start to end of heap.
+		/// Sifts down from start to end of heap.
 		/// </summary>
 		private void SiftDown(int start)
 		{
@@ -237,7 +237,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Sift up from end to start of heap.
+		/// Sifts up from end to start of heap.
 		/// </summary>
 		private void SiftUp(int end)
 		{
@@ -255,7 +255,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Heapify using sift up.
+		/// Heapifies using sift up.
 		/// </summary>
 		/// <remarks>O(nlogn) time.</remarks>
 		private void HeapifySiftUp()
@@ -269,7 +269,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Heapify using sift down.
+		/// Heapifies using sift down.
 		/// </summary>
 		/// <remarks>O(n) time.</remarks>
 		private void HeapifySiftDown()
@@ -283,7 +283,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Heapify.
+		/// Heapifies.
 		/// </summary>
 		private void Heapify()
 		{
@@ -297,7 +297,7 @@ namespace rm.Extensions
 		#region abstract methods
 
 		/// <summary>
-		/// Return true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
+		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
 		/// </summary>
 		protected abstract bool IsInHeapProperty(int i, int parent);
 
@@ -338,7 +338,7 @@ namespace rm.Extensions
 		#region HeapBase<T, TKey> methods
 
 		/// <summary>
-		/// Return true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
+		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
 		/// </summary>
 		protected override bool IsInHeapProperty(int i, int parent)
 		{
@@ -408,7 +408,7 @@ namespace rm.Extensions
 		#region HeapBase<T, TKey> methods
 
 		/// <summary>
-		/// Return true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
+		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
 		/// </summary>
 		protected override bool IsInHeapProperty(int i, int parent)
 		{

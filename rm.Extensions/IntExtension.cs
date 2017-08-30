@@ -8,7 +8,7 @@ namespace rm.Extensions
 	public static class IntExtension
 	{
 		/// <summary>
-		/// n!
+		/// Gets n!.
 		/// </summary>
 		public static double Factorial(this int n)
 		{
@@ -25,7 +25,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// nPr
+		/// Gets nPr.
 		/// </summary>
 		public static int Permutation(this int n, int r)
 		{
@@ -43,7 +43,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// nCr
+		/// Gets nCr.
 		/// </summary>
 		public static int Combination(this int n, int r)
 		{
@@ -61,7 +61,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Scrabble count for n. 
+		/// Gets scrabble count for n. 
 		/// </summary>
 		/// <remarks>nP1 + nP2 + ... + nPn</remarks>
 		public static int ScrabbleCount(this int n)
@@ -78,7 +78,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Round int as k, m, g.
+		/// Rounds int as "k" for kilo, "m" for mega, "g" for giga.
 		/// </summary>
 		public static string Round(this int n, uint digits = 0)
 		{

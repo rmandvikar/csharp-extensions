@@ -8,7 +8,7 @@ namespace rm.Extensions
 	public static class DecimalExtension
 	{
 		/// <summary>
-		/// Truncate decimal to digits.
+		/// Truncates decimal <paramref name="n"/> to <paramref name="digits"/>.
 		/// </summary>
 		public static decimal TruncateTo(this decimal n, uint digits)
 		{

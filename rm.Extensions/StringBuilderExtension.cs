@@ -8,7 +8,7 @@ namespace rm.Extensions
 	public static class StringBuilderExtension
 	{
 		/// <summary>
-		/// Append formatted args followed by newline.
+		/// Appends formatted args followed by newline.
 		/// </summary>
 		public static StringBuilder AppendLine(this StringBuilder sb, string format, params object[] args)
 		{

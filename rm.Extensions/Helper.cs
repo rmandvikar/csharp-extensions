@@ -8,7 +8,7 @@ namespace rm.Extensions
 	public static class Helper
 	{
 		/// <summary>
-		/// Swap paramters.
+		/// Swaps paramters.
 		/// </summary>
 		/// <example>Helper.Swap(a, b);</example>
 		public static void Swap<T>(ref T t1, ref T t2)
@@ -19,7 +19,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Swap array elements for given indices.
+		/// Swaps array elements for given indices.
 		/// </summary>
 		public static void Swap<T>(T[] a, int i, int j)
 		{

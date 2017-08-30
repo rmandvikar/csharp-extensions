@@ -8,7 +8,7 @@ namespace rm.Extensions
 	internal class ExceptionHelper
 	{
 		/// <summary>
-		/// Throw NullReferenceException if true with message.
+		/// Throws NullReferenceException if true with message.
 		/// </summary>
 		internal static void ThrowIfNull(bool throwEx, string exMessage)
 		{
@@ -19,7 +19,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Throw ArgumentNullException if true with message.
+		/// Throws ArgumentNullException if true with message.
 		/// </summary>
 		internal static void ThrowIfArgumentNull(bool throwEx, string exMessage)
 		{
@@ -30,7 +30,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Throw EmptyException if true with message.
+		/// Throws EmptyException if true with message.
 		/// </summary>
 		internal static void ThrowIfEmpty(bool throwEx, string exMessage)
 		{
@@ -41,7 +41,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Throw ArgumentOutOfRangeException if true with message.
+		/// Throws ArgumentOutOfRangeException if true with message.
 		/// </summary>
 		internal static void ThrowIfArgumentOutOfRange(bool throwEx, string exMessage)
 		{

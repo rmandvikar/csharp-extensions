@@ -19,7 +19,7 @@ namespace rm.Extensions
 	public static class UriExtension
 	{
 		/// <summary>
-		/// Calculate checksum / hash (sha1 or md5) for uri (url or local file).
+		/// Calculates checksum / hash (sha1 or md5) for uri (url or local file).
 		/// <para>
 		/// hash: sha1 20 bytes, md5 hash 16 bytes
 		/// </para>

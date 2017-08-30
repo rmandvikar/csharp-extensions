@@ -39,7 +39,7 @@ namespace rm.Extensions
 		#region ctors
 
 		/// <summary>
-		/// Create a BitSet for 0 to max, both inclusive.
+		/// Creates a BitSet for 0 to max, both inclusive.
 		/// </summary>
 		/// <param name="max">Max (inclusive), including 0.</param>
 		public BitSet(uint max)
@@ -51,7 +51,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Create a BitSet for 0 to max, both inclusive.
+		/// Creates a BitSet for 0 to max, both inclusive.
 		/// </summary>
 		/// <param name="max">Max (inclusive), including 0.</param>
 		public BitSet(int max)
@@ -63,7 +63,7 @@ namespace rm.Extensions
 		#region methods
 
 		/// <summary>
-		/// Return true if BitSet contains <paramref name="n"/>.
+		/// Returns true if BitSet contains <paramref name="n"/>.
 		/// </summary>
 		public bool Has(uint n)
 		{
@@ -74,7 +74,8 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Return true if BitSet has the flags[<paramref name="index"/>]'s <paramref name="offset"/> bit set.
+		/// Returns true if BitSet has the flags[<paramref name="index"/>]'s
+		/// <paramref name="offset"/> bit set.
 		/// </summary>
 		private bool Has(uint index, int offset)
 		{
@@ -82,7 +83,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Return true if BitSet contains <paramref name="n"/>.
+		/// Returns true if BitSet contains <paramref name="n"/>.
 		/// </summary>
 		public bool Has(int n)
 		{
@@ -91,7 +92,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Add <paramref name="n"/>.
+		/// Adds <paramref name="n"/>.
 		/// </summary>
 		public void Add(uint n)
 		{
@@ -107,7 +108,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Add <paramref name="n"/>.
+		/// Adds <paramref name="n"/>.
 		/// </summary>
 		public void Add(int n)
 		{
@@ -116,9 +117,9 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Remove <paramref name="n"/>.
+		/// Removes <paramref name="n"/>.
 		/// </summary>
-		/// <returns>Return true if removed else false.</returns>
+		/// <returns>Returns true if removed else false.</returns>
 		public bool Remove(uint n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n), maxRange: Max);
@@ -134,9 +135,9 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Remove <paramref name="n"/>.
+		/// Removes <paramref name="n"/>.
 		/// </summary>
-		/// <returns>Return true if removed else false.</returns>
+		/// <returns>Returns true if removed else false.</returns>
 		public bool Remove(int n)
 		{
 			Ex.ThrowIfArgumentOutOfRange(!(0 <= n && n <= Max), nameof(n));
@@ -144,7 +145,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Toggle <paramref name="n"/>.
+		/// Toggles <paramref name="n"/>.
 		/// </summary>
 		public void Toggle(uint n)
 		{
@@ -156,7 +157,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Toggle <paramref name="n"/>.
+		/// Toggles <paramref name="n"/>.
 		/// </summary>
 		public void Toggle(int n)
 		{
@@ -165,7 +166,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Clear the BitSet.
+		/// Clears the BitSet.
 		/// </summary>
 		/// <remarks>This is expensive.</remarks>
 		public void Clear()

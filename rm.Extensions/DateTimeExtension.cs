@@ -4,7 +4,7 @@ using System.Data.SqlTypes;
 namespace rm.Extensions
 {
 	/// <summary>
-	/// Date extensions.
+	/// DateTime extensions.
 	/// </summary>
 	public static class DateTimeExtension
 	{
@@ -23,7 +23,7 @@ namespace rm.Extensions
 				);
 
 		/// <summary>
-		/// Get the UTC datetime format for the date.
+		/// Gets the UTC datetime format for the date.
 		/// </summary>
 		/// <param name="date"></param>
 		/// <returns></returns>
@@ -33,7 +33,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Min value for Sql datetime.
+		/// Gets the min value for Sql datetime.
 		/// </summary>
 		public static DateTime ToSqlDateTimeMinUtc(this DateTime date)
 		{
@@ -41,7 +41,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Specify datetime's kind as UTC.
+		/// Specifies datetime's kind as UTC.
 		/// </summary>
 		/// <param name="datetime"></param>
 		/// <returns></returns>

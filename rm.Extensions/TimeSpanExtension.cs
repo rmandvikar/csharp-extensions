@@ -8,7 +8,7 @@ namespace rm.Extensions
 	public static class TimespanExtension
 	{
 		/// <summary>
-		/// Round timespan.
+		/// Rounds timespan.
 		/// <para>
 		/// Ex: ms, s, h, d, wk, mth, y.
 		/// </para>
@@ -47,7 +47,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// n Days.
+		/// Gets timespan with <paramref name="n"/> days.
 		/// </summary>
 		public static TimeSpan Days(this int n)
 		{
@@ -55,7 +55,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// n Hours.
+		/// Gets timespan with <paramref name="n"/> hours.
 		/// </summary>
 		public static TimeSpan Hours(this int n)
 		{
@@ -63,7 +63,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// n Minutes.
+		/// Gets timespan with <paramref name="n"/> minutes.
 		/// </summary>
 		public static TimeSpan Minutes(this int n)
 		{
@@ -71,7 +71,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// n Seconds.
+		/// Gets timespan with <paramref name="n"/> seconds.
 		/// </summary>
 		public static TimeSpan Seconds(this int n)
 		{
@@ -79,7 +79,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// n Milliseconds.
+		/// Gets timespan with <paramref name="n"/> milliseconds.
 		/// </summary>
 		public static TimeSpan Milliseconds(this int n)
 		{

@@ -9,7 +9,7 @@ namespace rm.Extensions
 	public static class DictionaryExtension
 	{
 		/// <summary>
-		/// Returns value for key if exists or default{TValue}.
+		/// Returns value for key if exists or default{<typeparamref name="TValue"/>}.
 		/// </summary>
 		public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
 			TKey key)

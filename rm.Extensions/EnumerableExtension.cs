@@ -12,7 +12,7 @@ namespace rm.Extensions
 	public static class EnumerableExtension
 	{
 		/// <summary>
-		/// Split the collection into collections of size chunkSize.
+		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
 		/// <remarks>
 		/// Uses yield return. But uses ElementAt(index) which is inefficient.
@@ -34,7 +34,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Yield the next chunkSize elements starting at start and break if no more elements left.
+		/// Yields the next chunkSize elements starting at start and break if no more elements left.
 		/// </summary>
 		[Obsolete]
 		private static IEnumerable<T> Chunk_bad1<T>(this IEnumerable<T> source,
@@ -50,7 +50,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Split the collection into collections of size chunkSize.
+		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
 		/// <remarks>
 		/// Uses yield return and enumerator. But does not work with other methods as Count(), ElementAt(index), etc.
@@ -69,7 +69,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Yield the next chunkSize elements till the enumerator has any.
+		/// Yields the next chunkSize elements till the enumerator has any.
 		/// </summary>
 		[Obsolete]
 		private static IEnumerable<T> Chunk_bad2<T>(int chunkSize, IEnumerator<T> enumerator)
@@ -83,7 +83,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Split the collection into collections of size chunkSize.
+		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
 		/// <remarks>
 		/// Uses yield return but buffers the chunk before returning. Works with other methods 
@@ -122,7 +122,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Split a collection into n parts.
+		/// Splits a collection into n parts.
 		/// </summary>
 		/// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>
 		public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int parts)
@@ -352,7 +352,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Slice an array as Python.
+		/// Slices an array as Python.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="array"></param>
@@ -465,7 +465,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Recursive method to scrabble.
+		/// Scrabbles recursively.
 		/// </summary>
 		/// <param name="words">Words to scrabble.</param>
 		/// <param name="used">Bool array to determine already used word in <paramref name="words"/>.</param>
@@ -500,7 +500,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Convert a collection to HashSet.
+		/// Converts a collection to HashSet.
 		/// </summary>
 		public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
 		{

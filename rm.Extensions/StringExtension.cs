@@ -82,7 +82,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Format string as string.Format() but the parameter index is optional and parameter meta is allowed.
+		/// Formats string as string.Format() but the parameter index is optional and parameter meta is allowed.
 		/// </summary>
 		/// <example>"{} is a {1}".format("this", "test")</example>
 		public static string format(this string format, params object[] args)
@@ -186,7 +186,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Try-parse string to bool, else default value.
+		/// Try-parses string to bool, else default value.
 		/// </summary>
 		public static bool ToBool(this string value, bool defaultValue)
 		{
@@ -199,7 +199,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Munge substitutions.
+		/// Munges substitutions.
 		/// </summary>
 		private static List<KeyValuePair<char, char>> mungeSubstitutions = GetMungeSubstitutions();
 		private static List<KeyValuePair<char, char>> GetMungeSubstitutions()
@@ -248,7 +248,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Recursive method to munge/unmunge.
+		/// Munges or unmunges recursively.
 		/// </summary>
 		/// <param name="password">Password to munge/unmunge.</param>
 		/// <param name="map">Substitution map.</param>
@@ -278,7 +278,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Munge a password.
+		/// Munges a password.
 		/// </summary>
 		/// <remarks>http://en.wikipedia.org/wiki/Munged_password</remarks>
 		public static IEnumerable<string> Munge(this string password)
@@ -287,7 +287,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Unmunge a (munged) password.
+		/// Unmunges a (munged) password.
 		/// </summary>
 		public static IEnumerable<string> Unmunge(this string password)
 		{
@@ -304,7 +304,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Parse a string in UTC format as DateTime.
+		/// Parses a string in UTC format as DateTime.
 		/// </summary>
 		public static DateTime ParseAsUtc(this string s)
 		{
@@ -312,7 +312,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Convert a string to title case.
+		/// Converts a string to title case.
 		/// </summary>
 		/// <example>"war and peace" -> "War And Peace"</example>
 		public static string ToTitleCase(this string s)
@@ -321,7 +321,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get permutations of string for particular r.
+		/// Gets permutations of string for particular r.
 		/// </summary>
 		/// <remarks>nPr permutations</remarks>
 		public static IEnumerable<string> Permutation(this string s, int r)
@@ -331,7 +331,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get permutations of string.
+		/// Gets permutations of string.
 		/// </summary>
 		/// <remarks>nPn permutations</remarks>
 		public static IEnumerable<string> Permutation(this string s)
@@ -340,7 +340,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get combinations of string for particular r.
+		/// Gets combinations of string for particular r.
 		/// </summary>
 		/// <remarks>nCr combinations</remarks>
 		public static IEnumerable<string> Combination(this string s, int r)
@@ -350,7 +350,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Get combinations of string.
+		/// Gets combinations of string.
 		/// </summary>
 		/// <remarks>nCn combinations</remarks>
 		public static IEnumerable<string> Combination(this string s)
@@ -359,7 +359,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Split csv string using common delimiters.
+		/// Splits csv string using common delimiters.
 		/// </summary>
 		public static IEnumerable<string> SplitCsv(this string s)
 		{
