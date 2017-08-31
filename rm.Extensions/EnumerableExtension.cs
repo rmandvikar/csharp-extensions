@@ -250,6 +250,7 @@ namespace rm.Extensions
 		public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
+			count.ThrowIfArgumentOutOfRange(nameof(count));
 			var collection = source as ICollection<TSource>;
 			if (collection != null)
 			{
@@ -289,6 +290,7 @@ namespace rm.Extensions
 		public static bool HasCountOfAtLeast<TSource>(this IEnumerable<TSource> source, int count)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
+			count.ThrowIfArgumentOutOfRange(nameof(count));
 			var collection = source as ICollection<TSource>;
 			if (collection != null)
 			{
@@ -504,6 +506,7 @@ namespace rm.Extensions
 		/// </summary>
 		public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
 		{
+			source.ThrowIfArgumentNull(nameof(source));
 			return new HashSet<T>(source);
 		}
 
@@ -515,6 +518,7 @@ namespace rm.Extensions
 		public static IEnumerable<IEnumerable<T>> Permutation<T>(this IEnumerable<T> source, int r)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
+			r.ThrowIfArgumentOutOfRange(nameof(r));
 			if (!source.HasCountOfAtLeast(r))
 			{
 				throw new ArgumentOutOfRangeException(nameof(r));
@@ -597,11 +601,14 @@ namespace rm.Extensions
 
 		public static bool IsEmpty<T>(this IEnumerable<T> source)
 		{
+			source.ThrowIfArgumentNull(nameof(source));
 			return !source.Any();
 		}
 
 		public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
 		{
+			source.ThrowIfArgumentNull(nameof(source));
+			predicate.ThrowIfArgumentNull(nameof(predicate));
 			return !source.Any(predicate);
 		}
 
