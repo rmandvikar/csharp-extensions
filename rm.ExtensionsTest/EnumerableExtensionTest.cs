@@ -318,9 +318,9 @@ namespace rm.ExtensionsTest
 			}
 		}
 
-		private IEnumerable<int> GetEnumerable(int start, int count)
+		private IEnumerable<int> GetEnumerable(int start, int end)
 		{
-			for (int i = start; i <= count; i++)
+			for (int i = start; i <= end; i++)
 			{
 				yield return i;
 			}
@@ -342,6 +342,24 @@ namespace rm.ExtensionsTest
 			Assert.False(GetEnumerable(1, 1).HasCount(2));
 			Assert.False(GetEnumerable(1, 1000000000).HasCount(2));
 			Assert.True(GetEnumerable(1, 0).HasCount(0));
+		}
+
+		[Test]
+		public void HasCountPredicate01()
+		{
+			Assert.True(new[] { -1, 0, 1, 2 }.HasCount(x => x > 0, 2));
+			Assert.False(new[] { -1, 0, 1 }.HasCount(x => x > 0, 2));
+			Assert.False(Enumerable.Range(1, 1000000000).HasCount(x => x > 5, 2));
+			Assert.True(new int[0].HasCount(x => x > 0, 0));
+		}
+
+		[Test]
+		public void HasCountPredicate02()
+		{
+			Assert.True(GetEnumerable(-1, 2).HasCount(x => x > 0, 2));
+			Assert.False(GetEnumerable(-1, 1).HasCount(x => x > 0, 2));
+			Assert.False(GetEnumerable(1, 1000000000).HasCount(x => x > 5, 2));
+			Assert.True(GetEnumerable(1, 0).HasCount(x => x > 5, 0));
 		}
 
 		[Test]

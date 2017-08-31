@@ -246,7 +246,9 @@ namespace rm.Extensions
 		/// <summary>
 		/// Returns true if source has exactly <paramref name="count"/> elements efficiently.
 		/// </summary>
-		/// <remarks>Based on int Enumerable.Count() method.</remarks>
+		/// <remarks>
+		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+		/// </remarks>
 		public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
@@ -284,9 +286,53 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns true if source has exactly <paramref name="count"/> elements
+		/// that satisfy a specified condition efficiently.
+		/// </summary>
+		/// <remarks>
+		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+		/// Intentionally not fused with <see cref="HasCount{TSource}(IEnumerable{TSource}, int)"/>
+		/// method.
+		/// </remarks>
+		public static bool HasCount<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate,
+			int count)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			predicate.ThrowIfArgumentNull(nameof(predicate));
+			count.ThrowIfArgumentOutOfRange(nameof(count));
+			int num = 0;
+			checked
+			{
+				using (var enumerator = source.GetEnumerator())
+				{
+					while (enumerator.MoveNext())
+					{
+						var item = enumerator.Current;
+						if (!predicate(item))
+						{
+							continue;
+						}
+						num++;
+						if (num > count)
+						{
+							return false;
+						}
+					}
+				}
+			}
+			if (num < count)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
 		/// Returns true if source has at least <paramref name="count"/> elements efficiently.
 		/// </summary>
-		/// <remarks>Based on int Enumerable.Count() method.</remarks>
+		/// <remarks>
+		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+		/// </remarks>
 		public static bool HasCountOfAtLeast<TSource>(this IEnumerable<TSource> source, int count)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
