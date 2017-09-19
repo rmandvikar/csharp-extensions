@@ -375,6 +375,13 @@ string redName = "Red color".GetEnumNameFromDescription<Color>()
 ```
 
 ```c#
+bool hasValue = 0.IsDefined<Color>();
+// hasValue: false
+bool hasValue = 1.IsDefined<Color>();
+// hasValue: true
+```
+
+```c#
 enum Color
 {
 	[Description("Red color")] Red = 1, 

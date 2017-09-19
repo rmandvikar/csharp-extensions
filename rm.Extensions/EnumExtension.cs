@@ -140,5 +140,15 @@ namespace rm.Extensions
 			}
 			throw new ArgumentOutOfRangeException();
 		}
+
+		/// <summary>
+		/// Generic method for <see cref="Enum.IsDefined(Type, object)"/>.
+		/// </summary>
+		public static bool IsDefined<T>(this int value)
+			where T : struct
+		{
+			// avoid Enum.IsDefined(typeof(T), value) due to boxing
+			return EnumInternal<T>.ValueIntToValueMap.ContainsKey(value);
+		}
 	}
 }

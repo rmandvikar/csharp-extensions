@@ -44,6 +44,12 @@ namespace rm.Extensions
 			new Dictionary<string, string>();
 
 		/// <summary>
+		/// value int -> enum value
+		/// </summary>
+		internal static readonly IDictionary<int, T> ValueIntToValueMap =
+			new Dictionary<int, T>();
+
+		/// <summary>
 		/// Builds maps.
 		/// </summary>
 		static EnumInternal()
@@ -66,6 +72,8 @@ namespace rm.Extensions
 				DescriptionToValueMap.Add(description, enumValue);
 				buffer.AppendFormat("{0}{1}{2}: \"{3}\"",
 					Environment.NewLine, "\t", enumName, description);
+				var valueInt = (int)Convert.ChangeType(enumValue, typeof(T));
+				ValueIntToValueMap.Add(valueInt, enumValue);
 			}
 			buffer.AppendFormat("{0}}}", Environment.NewLine);
 			TypeNameToJsonMap.Add(typeof(T).FullName, buffer.ToString());

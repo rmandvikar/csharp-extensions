@@ -226,5 +226,13 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual("Toddler, Pre-K, 1, 2, College", gradesSortedFlat);
 			Console.WriteLine("sort: {0}", gradesSortedFlat);
 		}
+
+		[Test]
+		public void IsDefined01()
+		{
+			Assert.IsFalse(0.IsDefined<Color>());
+			Assert.IsFalse(100.IsDefined<Color>());
+			Assert.IsTrue(((int)Color.Red).IsDefined<Color>());
+		}
 	}
 }
