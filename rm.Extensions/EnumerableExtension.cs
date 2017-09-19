@@ -856,5 +856,37 @@ namespace rm.Extensions
 			compare.ThrowIfArgumentNull(nameof(compare));
 			return source.OrderByDescending(keySelector, new GenericComparer<TKey>(compare));
 		}
+
+		/// <summary>
+		/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource})"/> without exception.
+		/// </summary>
+		public static bool TrySingle<T>(this IEnumerable<T> source, out T singleT)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			if (source.HasCount(1))
+			{
+				singleT = source.Single();
+				return true;
+			}
+			singleT = default(T);
+			return false;
+		}
+
+		/// <summary>
+		/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource}, Func{TSource, bool})"/>
+		/// without exception.
+		/// </summary>
+		public static bool TrySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T singleT)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			predicate.ThrowIfArgumentNull(nameof(predicate));
+			if (source.HasCount(predicate, 1))
+			{
+				singleT = source.Single(predicate);
+				return true;
+			}
+			singleT = default(T);
+			return false;
+		}
 	}
 }

@@ -305,6 +305,11 @@ foreach (var item in source.OrEmpty()) { /**/ }
 if (source != null) { foreach (var item in source) { /**/ } }
 ```
 
+```c#
+// TrySingle() to get single without exception
+if (source.TrySingle(out singleT)) { ... }
+```
+
 #### Enum extensions:
 
 ```c#

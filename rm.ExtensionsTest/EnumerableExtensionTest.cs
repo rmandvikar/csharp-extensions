@@ -753,5 +753,33 @@ namespace rm.ExtensionsTest
 			var order = source.OrderByDescending(x => x.prop, (prop1, prop2) => prop1.CompareTo(prop2));
 			Assert.AreEqual(result, expected.Select(x => new { prop = x.ToString() }).SequenceEqual(order));
 		}
+
+		[Test]
+		[TestCase(new[] { 1, 2 }, 0, false)]
+		[TestCase(new[] { 1 }, 1, true)]
+		[TestCase(new int[] { }, 0, false)]
+		public void TrySingle01(int[] source, int singleTExpected, bool result)
+		{
+			int singleT;
+			Assert.AreEqual(result, source.TrySingle(out singleT));
+			if (result)
+			{
+				Assert.AreEqual(singleTExpected, singleT);
+			}
+		}
+
+		[Test]
+		[TestCase(new[] { 1, 2, 3 }, 0, false)]
+		[TestCase(new[] { 1, 2 }, 2, true)]
+		[TestCase(new int[] { }, 0, false)]
+		public void TrySinglePredicate01(int[] source, int singleTExpected, bool result)
+		{
+			int singleT;
+			Assert.AreEqual(result, source.TrySingle(x => x > 1, out singleT));
+			if (result)
+			{
+				Assert.AreEqual(singleTExpected, singleT);
+			}
+		}
 	}
 }
