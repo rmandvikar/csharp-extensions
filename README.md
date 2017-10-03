@@ -507,6 +507,11 @@ bool isCyclic = graph.IsCyclic();
 buffer.AppendLine(format, args);
 ```
 
+```c#
+// reverse StringBuilder in-place
+buffer.Reverse();
+```
+
 #### Dictionary extensions:
 
 ```c#
