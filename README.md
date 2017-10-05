@@ -310,6 +310,14 @@ if (source != null) { foreach (var item in source) { /**/ } }
 if (source.TrySingle(out singleT)) { ... }
 ```
 
+#### IList extensions:
+
+```c#
+// RemoveLast() to remove last item(s) in list
+list.RemoveLast();
+list.RemoveLast(2);
+```
+
 #### Enum extensions:
 
 ```c#

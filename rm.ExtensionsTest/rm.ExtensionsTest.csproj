@@ -59,6 +59,7 @@
     <Compile Include="HeapTest.cs" />
     <Compile Include="HelperTest.cs" />
     <Compile Include="IntExtensionTest.cs" />
+    <Compile Include="ListExtensionTest.cs" />
     <Compile Include="NameValueCollectionExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringBuilderExtensionTest.cs" />
