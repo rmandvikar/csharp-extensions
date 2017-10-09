@@ -52,7 +52,7 @@ namespace rm.Extensions
 	{
 		#region members
 
-		protected int size;
+		protected int capacity;
 		protected T[] heap;
 		protected int count;
 		protected Func<T, TKey> keySelector;
@@ -66,16 +66,16 @@ namespace rm.Extensions
 		/// <summary>
 		/// HeapBase ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="keySelector">T's key to heapify against.</param>
 		/// <param name="comparer">Comparer for T's key.</param>
-		protected HeapBase(int size, Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		protected HeapBase(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
 		{
-			size.ThrowIfArgumentOutOfRange(nameof(size));
+			capacity.ThrowIfArgumentOutOfRange(nameof(capacity));
 			keySelector.ThrowIfArgumentNull(nameof(keySelector));
 			comparer.ThrowIfArgumentNull(nameof(comparer));
-			this.size = size;
-			this.heap = new T[size];
+			this.capacity = capacity;
+			this.heap = new T[capacity];
 			this.keySelector = keySelector;
 			this.comparer = comparer;
 		}
@@ -91,7 +91,7 @@ namespace rm.Extensions
 		/// </summary>
 		public void Insert(T x)
 		{
-			if (count == size)
+			if (count == capacity)
 			{
 				throw new InvalidOperationException("Heap is full.");
 			}
@@ -109,7 +109,7 @@ namespace rm.Extensions
 		/// </summary>
 		public void Append(T x)
 		{
-			if (count == size)
+			if (count == capacity)
 			{
 				throw new InvalidOperationException("Heap is full.");
 			}
@@ -317,20 +317,20 @@ namespace rm.Extensions
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="keySelector">T's key to heapify against.</param>
-		public MinHeap(int size, Func<T, TKey> keySelector)
-			: this(size, keySelector, Comparer<TKey>.Default)
+		public MinHeap(int capacity, Func<T, TKey> keySelector)
+			: this(capacity, keySelector, Comparer<TKey>.Default)
 		{ }
 
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="keySelector">T's key to heapify against.</param>
 		/// <param name="comparer">Comparer for T's key.</param>
-		public MinHeap(int size, Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			: base(size, keySelector, comparer)
+		public MinHeap(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
+			: base(capacity, keySelector, comparer)
 		{ }
 
 		#endregion
@@ -359,18 +359,18 @@ namespace rm.Extensions
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
-		public MinHeap(int size)
-			: this(size, Comparer<T>.Default)
+		/// <param name="capacity">Capacity of heap.</param>
+		public MinHeap(int capacity)
+			: this(capacity, Comparer<T>.Default)
 		{ }
 
 		/// <summary>
 		/// MinHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="comparer">Comparer for T.</param>
-		public MinHeap(int size, IComparer<T> comparer)
-			: base(size, x => x, comparer)
+		public MinHeap(int capacity, IComparer<T> comparer)
+			: base(capacity, x => x, comparer)
 		{ }
 
 		#endregion
@@ -387,20 +387,20 @@ namespace rm.Extensions
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="keySelector">T's key to heapify against.</param>
-		public MaxHeap(int size, Func<T, TKey> keySelector)
-			: this(size, keySelector, Comparer<TKey>.Default)
+		public MaxHeap(int capacity, Func<T, TKey> keySelector)
+			: this(capacity, keySelector, Comparer<TKey>.Default)
 		{ }
 
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="keySelector">T's key to heapify against.</param>
 		/// <param name="comparer">Comparer for T's key.</param>
-		public MaxHeap(int size, Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			: base(size, keySelector, comparer)
+		public MaxHeap(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
+			: base(capacity, keySelector, comparer)
 		{ }
 
 		#endregion
@@ -429,18 +429,18 @@ namespace rm.Extensions
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
-		public MaxHeap(int size)
-			: this(size, Comparer<T>.Default)
+		/// <param name="capacity">Capacity of heap.</param>
+		public MaxHeap(int capacity)
+			: this(capacity, Comparer<T>.Default)
 		{ }
 
 		/// <summary>
 		/// MaxHeap ctor.
 		/// </summary>
-		/// <param name="size">Size of heap.</param>
+		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="comparer">Comparer for T.</param>
-		public MaxHeap(int size, IComparer<T> comparer)
-			: base(size, x => x, comparer)
+		public MaxHeap(int capacity, IComparer<T> comparer)
+			: base(capacity, x => x, comparer)
 		{ }
 
 		#endregion

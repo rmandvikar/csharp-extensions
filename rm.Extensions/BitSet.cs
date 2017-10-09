@@ -46,8 +46,8 @@ namespace rm.Extensions
 		{
 			max.ThrowIfArgumentOutOfRange(nameof(max));
 			Max = max;
-			int size = (int)((max >> 5) + 1);
-			flags = new int[size];
+			int capacity = (int)((max >> 5) + 1);
+			flags = new int[capacity];
 		}
 
 		/// <summary>
