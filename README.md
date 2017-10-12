@@ -80,7 +80,7 @@ string result = "war and peace".ToTitleCase();
 
 ```c#
 // split a csv string
-string result = "a,b;c|d".SplitCsv();
+string[] result = "a,b;c|d".SplitCsv().ToArray();
 // result: [ "a", "b", "c", "d" ]
 ```
 
