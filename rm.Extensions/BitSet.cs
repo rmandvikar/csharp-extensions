@@ -185,14 +185,14 @@ namespace rm.Extensions
 			var ycount = 0;
 			for (uint i = 0; i <= Max; i++)
 			{
+				if (ycount == Count)
+				{
+					yield break;
+				}
 				if (Has(i))
 				{
 					yield return i;
 					ycount++;
-					if (ycount == Count)
-					{
-						yield break;
-					}
 				}
 			}
 		}

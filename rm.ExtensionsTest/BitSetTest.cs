@@ -161,7 +161,7 @@ namespace rm.ExtensionsTest
 		public void IEnumerable01()
 		{
 			var bitset = new BitSet(255);
-			var inputs = new[] { 0, 100, 200, 255 };
+			var inputs = new[] { 0, 30, 31, 32, 33, 100, 200, 255 };
 			foreach (var item in inputs)
 			{
 				bitset.Add(item);
@@ -178,7 +178,7 @@ namespace rm.ExtensionsTest
 		public void IEnumerable01u()
 		{
 			var bitset = new BitSet((uint)255);
-			var inputs = new uint[] { 0, 100, 200, 255 };
+			var inputs = new uint[] { 0, 30, 31, 32, 33, 100, 200, 255 };
 			foreach (var item in inputs)
 			{
 				bitset.Add(item);
