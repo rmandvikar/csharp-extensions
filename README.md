@@ -580,3 +580,13 @@ int top;
 top = cq.Pop(); // returns 4
 top = cq.Pop(); // returns 3
 ```
+
+#### Deque:
+
+```c#
+Deque<int> dq = new Deque<int>();
+Node<int> node = dq.Enqueue(1);
+dq.Enqueue(2);
+dq.Delete(node); // delete in O(1) time
+int i = dq.Dequeue(); // returns 2
+```

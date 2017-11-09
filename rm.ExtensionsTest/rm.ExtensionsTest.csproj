@@ -54,6 +54,7 @@
     <Compile Include="CircularQueueTest.cs" />
     <Compile Include="DateTimeExtensionTest.cs" />
     <Compile Include="DecimalExtensionTest.cs" />
+    <Compile Include="DequeTest.cs" />
     <Compile Include="DictionaryExtensionTest.cs" />
     <Compile Include="EnumerableExtensionTest.cs" />
     <Compile Include="EnumExtensionTest.cs" />

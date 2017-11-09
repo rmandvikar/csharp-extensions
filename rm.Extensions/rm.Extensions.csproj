@@ -53,6 +53,7 @@
     <Compile Include="BitSet.cs" />
     <Compile Include="CircularStack.cs" />
     <Compile Include="CircularQueue.cs" />
+    <Compile Include="Deque.cs" />
     <Compile Include="ListExtension.cs" />
     <Compile Include="Wrapped.cs" />
     <Compile Include="GenericComparer.cs" />
