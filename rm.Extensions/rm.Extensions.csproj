@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitSet.cs" />
+    <Compile Include="CircularQueue.cs" />
     <Compile Include="ListExtension.cs" />
     <Compile Include="Wrapped.cs" />
     <Compile Include="GenericComparer.cs" />

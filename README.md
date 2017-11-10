@@ -554,3 +554,16 @@ bool has2 = bitset.Has(2); // if has 2
 bitset.Clear(); // remove all
 foreach(int item in bitset) { /**/ }
 ```
+
+#### Circular Queue:
+
+```c#
+CircularQueue<int> cq = new CircularQueue<int>(capacity: 2);
+cq.Enqueue(1);
+cq.Enqueue(2);
+cq.Enqueue(3);
+cq.Enqueue(4);
+int head;
+head = cq.Dequeue(); // returns 3
+head = cq.Dequeue(); // returns 4
+```
