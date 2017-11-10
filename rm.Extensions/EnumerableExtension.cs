@@ -704,14 +704,13 @@ namespace rm.Extensions
 			{
 				return minheap;
 			}
-			var i = 0;
 			foreach (var x in source)
 			{
 				if (x == null)
 				{
 					continue;
 				}
-				if (i >= n)
+				if (minheap.IsFull())
 				{
 					if (comparer.Compare(keySelector(x), keySelector(minheap.Peek())) > 0) //x > heap[0]
 					{
@@ -721,7 +720,6 @@ namespace rm.Extensions
 				else
 				{
 					minheap.Append(x);
-					i++;
 				}
 			}
 			return minheap;
@@ -773,14 +771,13 @@ namespace rm.Extensions
 			{
 				return maxheap;
 			}
-			var i = 0;
 			foreach (var x in source)
 			{
 				if (x == null)
 				{
 					continue;
 				}
-				if (i >= n)
+				if (maxheap.IsFull())
 				{
 					if (comparer.Compare(keySelector(x), keySelector(maxheap.Peek())) < 0) //x < heap[0]
 					{
@@ -790,7 +787,6 @@ namespace rm.Extensions
 				else
 				{
 					maxheap.Append(x);
-					i++;
 				}
 			}
 			return maxheap;

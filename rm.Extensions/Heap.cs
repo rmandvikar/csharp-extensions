@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace rm.Extensions
 {
@@ -42,11 +39,22 @@ namespace rm.Extensions
 		/// Returns count of heap.
 		/// </summary>
 		int Count();
+
+		/// <summary>
+		/// Returns true if heap is empty.
+		/// </summary>
+		bool IsEmpty();
+
+		/// <summary>
+		/// Returns true if heap is full.
+		/// </summary>
+		bool IsFull();
 	}
 
 	/// <summary>
 	/// Base abstract class for heap.
 	/// </summary>
+	/// <remarks>Uses array as backing store.</remarks>
 	public abstract class HeapBase<T, TKey> : IHeap<T, TKey>, IEnumerable<T>
 		where TKey : IComparable<TKey>
 	{
@@ -91,7 +99,7 @@ namespace rm.Extensions
 		/// </summary>
 		public void Insert(T x)
 		{
-			if (count == capacity)
+			if (IsFull())
 			{
 				throw new InvalidOperationException("Heap is full.");
 			}
@@ -109,7 +117,7 @@ namespace rm.Extensions
 		/// </summary>
 		public void Append(T x)
 		{
-			if (count == capacity)
+			if (IsFull())
 			{
 				throw new InvalidOperationException("Heap is full.");
 			}
@@ -123,7 +131,7 @@ namespace rm.Extensions
 		/// </summary>
 		public T Delete()
 		{
-			if (count == 0)
+			if (IsEmpty())
 			{
 				throw new InvalidOperationException("Heap is empty.");
 			}
@@ -145,7 +153,7 @@ namespace rm.Extensions
 		public T Displace(T x)
 		{
 			x.ThrowIfArgumentNull(nameof(x));
-			if (count == 0)
+			if (IsEmpty())
 			{
 				throw new InvalidOperationException("Heap is empty.");
 			}
@@ -164,7 +172,7 @@ namespace rm.Extensions
 		/// </summary>
 		public T Peek()
 		{
-			if (count == 0)
+			if (IsEmpty())
 			{
 				throw new InvalidOperationException("Heap is empty.");
 			}
@@ -181,6 +189,22 @@ namespace rm.Extensions
 		public int Count()
 		{
 			return count;
+		}
+
+		/// <summary>
+		/// Returns true if heap is empty.
+		/// </summary>
+		public bool IsEmpty()
+		{
+			return count == 0;
+		}
+
+		/// <summary>
+		/// Returns true if heap is full.
+		/// </summary>
+		public bool IsFull()
+		{
+			return count == capacity;
 		}
 
 		#endregion
