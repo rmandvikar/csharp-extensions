@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitSetTest.cs" />
+    <Compile Include="CircularStackTest.cs" />
     <Compile Include="CircularQueueTest.cs" />
     <Compile Include="DateTimeExtensionTest.cs" />
     <Compile Include="DecimalExtensionTest.cs" />

@@ -567,3 +567,16 @@ int head;
 head = cq.Dequeue(); // returns 3
 head = cq.Dequeue(); // returns 4
 ```
+
+#### Circular Stack:
+
+```c#
+CircularStack<int> cq = new CircularStack<int>(capacity: 2);
+cq.Push(1);
+cq.Push(2);
+cq.Push(3);
+cq.Push(4);
+int top;
+top = cq.Pop(); // returns 4
+top = cq.Pop(); // returns 3
+```
