@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using NUnit.Framework;
 using rm.Extensions;
 
@@ -191,10 +192,32 @@ namespace rm.ExtensionsTest
 			{
 				Console.WriteLine(item);
 			}
-			Console.WriteLine("scrabble count:{0}", word.Length.ScrabbleCount());
-			Console.WriteLine("result count:{0}", result.Count());
-			Assert.AreEqual(result.Count(), result.Distinct().Count());
-			Assert.AreEqual(word.Length.ScrabbleCount(), result.Count());
+			var scrabbleCount = (int)word.Length.ScrabbleCount();
+			var actualCount = result.Count();
+			Console.WriteLine("scrabble count:{0}", scrabbleCount);
+			Console.WriteLine("result count:{0}", actualCount);
+			Assert.AreEqual(actualCount, result.Distinct().Count());
+			Assert.AreEqual(scrabbleCount, actualCount);
+		}
+
+		[Test]
+		[TestCase("this", 2)]
+		[TestCase("on", 1)]
+		[TestCase("o n", 2)]
+		[TestCase("", 0)]
+		public void Scrabble02(string word, int limit)
+		{
+			var result = word.Scrabble(limit);
+			foreach (var item in result)
+			{
+				Console.WriteLine(item);
+			}
+			var scrabbleCount = (int)word.Length.ScrabbleCount(limit);
+			var actualCount = result.Count();
+			Console.WriteLine("scrabble count:{0}", scrabbleCount);
+			Console.WriteLine("result count:{0}", actualCount);
+			Assert.AreEqual(actualCount, result.Distinct().Count());
+			Assert.AreEqual(scrabbleCount, actualCount);
 		}
 
 		[Test]
@@ -218,12 +241,13 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(expected, s.ToTitleCase());
 		}
 
-		private void Permutation(string s, int r, int count, string[] spotchecks)
+		private void Permutation(string s, int r, BigInteger count, string[] spotchecks)
 		{
 			var permutations = s.Permutation(r);
-			Assert.AreEqual(permutations.Distinct().Count(), permutations.Count());
-			Assert.AreEqual(s.Length.Permutation(r), permutations.Count());
-			Assert.AreEqual(count, permutations.Count());
+			var bigCount = permutations.BigCount();
+			Assert.AreEqual(permutations.Distinct().BigCount(), bigCount);
+			Assert.AreEqual(s.Length.Permutation(r), bigCount);
+			Assert.AreEqual(count, bigCount);
 			foreach (var item in permutations)
 			{
 				Assert.AreEqual(r, item.Length);
@@ -236,9 +260,17 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		[Category("slow")]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 4, 358800, new[] { "abcd", "wxyz" })]
-		public void Permutation01(string s, int r, int count, string[] spotchecks)
+		public void Permutation01(string s, int r, long count, string[] spotchecks)
+		{
+			Permutation(s, r, count, spotchecks);
+		}
+
+		/// <remarks>For r 5, takes 13s-40s.</remarks>
+		[Test]
+		[Category("very.slow")]
+		[TestCase("abcdefghijklmnopqrstuvwxyz", 5, 7893600, new[] { "abcde", "vwxyz" })]
+		public void Permutation01_veryslow(string s, int r, long count, string[] spotchecks)
 		{
 			Permutation(s, r, count, spotchecks);
 		}
@@ -255,15 +287,16 @@ namespace rm.ExtensionsTest
 		[TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
 		public void Permutation03(string s, int r)
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() => s.Permutation(r));
+			Assert.DoesNotThrow(() => s.Permutation(r));
 		}
 
-		private void Combination(string s, int r, int count, string[] spotchecks)
+		private void Combination(string s, int r, BigInteger count, string[] spotchecks)
 		{
 			var combinations = s.Combination(r);
-			Assert.AreEqual(combinations.Distinct().Count(), combinations.Count());
-			Assert.AreEqual(s.Length.Combination(r), combinations.Count());
-			Assert.AreEqual(count, combinations.Count());
+			var bigCount = combinations.BigCount();
+			Assert.AreEqual(combinations.Distinct().BigCount(), bigCount);
+			Assert.AreEqual(s.Length.Combination(r), bigCount);
+			Assert.AreEqual(count, bigCount);
 			foreach (var item in combinations)
 			{
 				Assert.AreEqual(r, item.Length);
@@ -276,9 +309,17 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		[Category("slow")]
+		[TestCase("abcdefghijklmnopqrstuvwxyz", 4, 14950, new[] { "abcd", "bcde" })]
+		public void Combination01(string s, int r, long count, string[] spotchecks)
+		{
+			Combination(s, r, count, spotchecks);
+		}
+
+		/// <remarks>For r 25, takes 13s-40s.</remarks>
+		[Test]
+		[Category("very.slow")]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 25, 26, new[] { "abcdefghijklmnopqrstuvwxy", "bcdefghijklmnopqrstuvwxyz" })]
-		public void Combination01(string s, int r, int count, string[] spotchecks)
+		public void Combination01_veryslow(string s, int r, long count, string[] spotchecks)
 		{
 			Combination(s, r, count, spotchecks);
 		}
@@ -294,7 +335,7 @@ namespace rm.ExtensionsTest
 		[TestCase("abcdefghijklmnopqrstuvwxyz", (26 + 1))]
 		public void Combination03(string s, int r)
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() => s.Combination(r));
+			Assert.DoesNotThrow(() => s.Combination(r));
 		}
 
 		[Test]

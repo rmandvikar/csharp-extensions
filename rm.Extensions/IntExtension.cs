@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace rm.Extensions
 {
@@ -10,71 +11,60 @@ namespace rm.Extensions
 		/// <summary>
 		/// Gets n!.
 		/// </summary>
-		public static double Factorial(this int n)
+		public static BigInteger Factorial(this int n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n));
-			checked
+			BigInteger product = 1;
+			for (int i = 1; i <= n; i++)
 			{
-				var product = 1d;
-				for (int i = 1; i <= n; i++)
-				{
-					product *= i;
-				}
-				return product;
+				product *= i;
 			}
+			return product;
 		}
 
 		/// <summary>
 		/// Gets nPr.
 		/// </summary>
-		public static int Permutation(this int n, int r)
+		public static BigInteger Permutation(this int n, int r)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n));
 			r.ThrowIfArgumentOutOfRange(nameof(r), maxRange: n);
-			checked
-			{
-				var result = (n.Factorial() / (n - r).Factorial());
-				if (result > int.MaxValue)
-				{
-					throw new ArgumentOutOfRangeException("result out of range.");
-				}
-				return (int)result;
-			}
+			BigInteger result = (n.Factorial() / (n - r).Factorial());
+			return result;
 		}
 
 		/// <summary>
 		/// Gets nCr.
 		/// </summary>
-		public static int Combination(this int n, int r)
+		public static BigInteger Combination(this int n, int r)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n));
 			r.ThrowIfArgumentOutOfRange(nameof(r), maxRange: n);
-			checked
-			{
-				var result = (n.Factorial() / ((n - r).Factorial() * r.Factorial()));
-				if (result > int.MaxValue)
-				{
-					throw new ArgumentOutOfRangeException("result out of range.");
-				}
-				return (int)result;
-			}
+			BigInteger result = (n.Factorial() / ((n - r).Factorial() * r.Factorial()));
+			return result;
 		}
 
 		/// <summary>
 		/// Gets scrabble count for n. 
 		/// </summary>
 		/// <remarks>nP1 + nP2 + ... + nPn</remarks>
-		public static int ScrabbleCount(this int n)
+		public static BigInteger ScrabbleCount(this int n)
 		{
-			checked
+			return ScrabbleCount(n, n);
+		}
+
+		/// <summary>
+		/// Gets scrabble count for n with limit. 
+		/// </summary>
+		/// <remarks>nP1 + nP2 + ... + nPlimit, where limit is up to n</remarks>
+		public static BigInteger ScrabbleCount(this int n, int limit)
+		{
+			BigInteger sum = 0;
+			for (int i = 1; i <= limit; i++)
 			{
-				var sum = 0;
-				for (int i = 1; i <= n; i++)
-				{
-					sum += n.Permutation(i);
-				}
-				return sum;
+				sum += n.Permutation(i);
 			}
+			return sum;
 		}
 
 		/// <summary>

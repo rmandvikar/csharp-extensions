@@ -299,10 +299,12 @@ namespace rm.ExtensionsTest
 			{
 				Console.WriteLine(item);
 			}
-			Console.WriteLine("scrabble count:{0}", words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount());
-			Console.WriteLine("result count:{0}", result.Count());
-			Assert.AreEqual(result.Count(), result.Distinct().Count());
-			Assert.AreEqual(words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount(), result.Count());
+			var scrabbleCount = (int)words.Where(x => !x.IsNullOrEmpty()).Count().ScrabbleCount();
+			var actualCount = result.Count();
+			Console.WriteLine("scrabble count:{0}", scrabbleCount);
+			Console.WriteLine("result count:{0}", actualCount);
+			Assert.AreEqual(actualCount, result.Distinct().Count());
+			Assert.AreEqual(scrabbleCount, actualCount);
 		}
 
 		[Test]

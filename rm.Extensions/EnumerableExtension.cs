@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace rm.Extensions
@@ -500,49 +501,112 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Returns a new collection with words scrabbled like the game.
+		/// Returns a new collection with <paramref name="words"/> scrabbled like the game.
 		/// </summary>
+		/// <param name="words">Words to scrabble.</param>
 		public static IEnumerable<string> Scrabble(this IEnumerable<string> words)
 		{
 			words.ThrowIfArgumentNull(nameof(words));
-			var wordsArray = words.Where(x => !x.IsNullOrEmpty()).ToArray();
-			// preallocate
-			var list = new List<string>(wordsArray.Length.ScrabbleCount());
-			Scrabble(wordsArray, new bool[wordsArray.Length], new StringBuilder(), 0, list);
-			return list.AsEnumerable();
+			foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>())
+			{
+				yield return string.Concat(items);
+			}
+		}
+
+		/// <summary>
+		/// Returns a new collection with <paramref name="words"/> scrabbled like the game
+		/// with <paramref name="limit"/>.
+		/// </summary>
+		/// <param name="words">Words to scrabble.</param>
+		/// <param name="limit">Number of <paramref name="words"/> to scrabble from
+		/// <paramref name="words"/>.</param>
+		public static IEnumerable<string> Scrabble(this IEnumerable<string> words, int limit)
+		{
+			words.ThrowIfArgumentNull(nameof(words));
+			foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>(limit))
+			{
+				yield return string.Concat(items);
+			}
+		}
+
+		/// <summary>
+		/// Returns a new collection with <paramref name="source"/> scrabbled like the game.
+		/// </summary>
+		public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			var wordsArray = source.ToArray();
+			foreach (var item in
+				ScrabbleInner
+				(
+					wordsArray, wordsArray.Length,
+					new bool[wordsArray.Length], new T[wordsArray.Length], 0
+				))
+			{
+				yield return item;
+			}
+		}
+
+		/// <summary>
+		/// Returns a new collection with <paramref name="source"/> scrabbled like the game
+		/// with <paramref name="limit"/>.
+		/// </summary>
+		/// <param name="source">Words to scrabble.</param>
+		/// <param name="limit">Number of <paramref name="source"/> to scrabble from
+		/// <paramref name="source"/>.</param>
+		public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source, int limit)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			var wordsArray = source.ToArray();
+			limit.ThrowIfArgumentOutOfRange(nameof(limit), maxRange: wordsArray.Length);
+			foreach (var item in
+				ScrabbleInner
+				(
+					wordsArray, limit,
+					new bool[wordsArray.Length], new T[limit], 0
+				))
+			{
+				yield return item;
+			}
 		}
 
 		/// <summary>
 		/// Scrabbles recursively.
 		/// </summary>
-		/// <param name="words">Words to scrabble.</param>
-		/// <param name="used">Bool array to determine already used word in <paramref name="words"/>.</param>
+		/// <param name="items">Words to scrabble.</param>
+		/// <param name="limit">Number of <paramref name="items"/> to scrabble from 
+		/// <paramref name="items"/>.</param>
+		/// <param name="used">Bool array to determine already used word in
+		/// <paramref name="items"/>.</param>
 		/// <param name="buffer">Buffer to hold the words.</param>
 		/// <param name="depth">Call depth to determine when to return.</param>
-		/// <param name="list">List to hold the scrabbled words.</param>
 		/// <remarks>Similar to the permute method.</remarks>
-		private static void Scrabble(string[] words, bool[] used, StringBuilder buffer, int depth,
-			IList<string> list)
+		private static IEnumerable<T[]> ScrabbleInner<T>(T[] items, int limit,
+			bool[] used, T[] buffer, int depth)
 		{
-			// add to list here
+			// yield here
 			if (depth > 0)
 			{
-				list.Add(buffer.ToString());
+				yield return buffer.Slice(end: depth).ToArray();
 			}
-			if (depth == words.Length)
+			if (depth == limit)
 			{
-				return;
+				yield break;
 			}
-			for (int i = 0; i < words.Length; i++)
+			for (int i = 0; i < items.Length; i++)
 			{
 				if (used[i])
 				{
 					continue;
 				}
 				used[i] = true;
-				buffer.Append(words[i]);
-				Scrabble(words, used, buffer, depth + 1, list);
-				buffer.Length -= words[i].Length;
+				buffer[depth] = items[i];
+				foreach (var item in
+					ScrabbleInner(items, limit, used, buffer, depth + 1))
+				{
+					yield return item;
+				}
+				buffer[depth] = default(T);
 				used[i] = false;
 			}
 		}
@@ -556,12 +620,13 @@ namespace rm.Extensions
 			return new HashSet<T>(source);
 		}
 
-		public static IEnumerable<IEnumerable<T>> Permutation<T>(this IEnumerable<T> source)
+		public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source)
 		{
+			source.ThrowIfArgumentNull(nameof(source));
 			return source.Permutation(source.Count());
 		}
 
-		public static IEnumerable<IEnumerable<T>> Permutation<T>(this IEnumerable<T> source, int r)
+		public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source, int r)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
 			r.ThrowIfArgumentOutOfRange(nameof(r));
@@ -570,25 +635,27 @@ namespace rm.Extensions
 				throw new ArgumentOutOfRangeException(nameof(r));
 			}
 			var input = source.ToArray();
-			var output = new List<IEnumerable<T>>(input.Length.Permutation(r));
 			var buffer = new T[r];
 			var used = new bool[input.Length];
 			var depth = 0;
-			Permute(input, r, output, buffer, used, depth);
-			return output.AsEnumerable();
+			// yield is required
+			foreach (var item in Permute(input, r, buffer, used, depth))
+			{
+				yield return item;
+			}
 		}
 
-		private static void Permute<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
+		private static IEnumerable<T[]> Permute<T>(T[] input, int r, T[] buffer,
 			bool[] used, int depth)
 		{
 			if (depth > r)
 			{
-				return;
+				yield break;
 			}
 			if (depth == r)
 			{
-				output.Add((T[])buffer.Clone());
-				return;
+				yield return (T[])buffer.Clone();
+				yield break;
 			}
 			for (int i = 0; i < input.Length; i++)
 			{
@@ -598,18 +665,22 @@ namespace rm.Extensions
 				}
 				used[i] = true;
 				buffer[depth] = input[i];
-				Permute(input, r, output, buffer, used, depth + 1);
+				foreach (var item in Permute(input, r, buffer, used, depth + 1))
+				{
+					yield return item;
+				}
 				buffer[depth] = default(T);
 				used[i] = false;
 			}
 		}
 
-		public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source)
+		public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source)
 		{
+			source.ThrowIfArgumentNull(nameof(source));
 			return source.Combination(source.Count());
 		}
 
-		public static IEnumerable<IEnumerable<T>> Combination<T>(this IEnumerable<T> source, int r)
+		public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source, int r)
 		{
 			source.ThrowIfArgumentNull(nameof(source));
 			if (!source.HasCountOfAtLeast(r))
@@ -617,30 +688,35 @@ namespace rm.Extensions
 				throw new ArgumentOutOfRangeException(nameof(r));
 			}
 			var input = source.ToArray();
-			var output = new List<IEnumerable<T>>(input.Length.Combination(r));
 			var buffer = new T[r];
 			var depth = 0;
 			var start = 0;
-			Combine(input, r, output, buffer, depth, start);
-			return output.AsEnumerable();
+			// yield is required
+			foreach (var item in Combine(input, r, buffer, depth, start))
+			{
+				yield return item;
+			}
 		}
 
-		private static void Combine<T>(T[] input, int r, List<IEnumerable<T>> output, T[] buffer,
+		private static IEnumerable<T[]> Combine<T>(T[] input, int r, T[] buffer,
 			int depth, int start)
 		{
 			if (depth > r)
 			{
-				return;
+				yield break;
 			}
 			if (depth == r)
 			{
-				output.Add((T[])buffer.Clone());
-				return;
+				yield return (T[])buffer.Clone();
+				yield break;
 			}
 			for (int i = start; i < input.Length; i++)
 			{
 				buffer[depth] = input[i];
-				Combine(input, r, output, buffer, depth + 1, i + 1);
+				foreach (var item in Combine(input, r, buffer, depth + 1, i + 1))
+				{
+					yield return item;
+				}
 				buffer[depth] = default(T);
 			}
 		}
@@ -883,6 +959,20 @@ namespace rm.Extensions
 			}
 			singleT = default(T);
 			return false;
+		}
+
+		/// <summary>
+		/// Returns bigint count of sequence.
+		/// </summary>
+		public static BigInteger BigCount<T>(this IEnumerable<T> source)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			BigInteger count = 0;
+			foreach (var item in source)
+			{
+				count++;
+			}
+			return count;
 		}
 	}
 }

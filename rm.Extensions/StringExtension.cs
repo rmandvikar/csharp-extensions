@@ -300,7 +300,17 @@ namespace rm.Extensions
 		public static IEnumerable<string> Scrabble(this string word)
 		{
 			word.ThrowIfArgumentNull(nameof(word));
-			return word.Select(x => x.ToString()).Scrabble();
+			return word.Scrabble<char>().Select(x => new string(x));
+		}
+
+		/// <summary>
+		/// Returns a new collection with characters scrabbled like the game for particular r.
+		/// </summary>
+		public static IEnumerable<string> Scrabble(this string word, int limit)
+		{
+			word.ThrowIfArgumentNull(nameof(word));
+			limit.ThrowIfArgumentOutOfRange(nameof(limit), maxRange: word.Length);
+			return word.Scrabble<char>(limit).Select(x => new string(x));
 		}
 
 		/// <summary>
@@ -326,8 +336,7 @@ namespace rm.Extensions
 		/// <remarks>nPr permutations</remarks>
 		public static IEnumerable<string> Permutation(this string s, int r)
 		{
-			return s.ToCharArray().Permutation(r)
-				.Select(x => new string(x.ToArray()));
+			return s.Permutation<char>(r).Select(x => new string(x));
 		}
 
 		/// <summary>
@@ -345,8 +354,7 @@ namespace rm.Extensions
 		/// <remarks>nCr combinations</remarks>
 		public static IEnumerable<string> Combination(this string s, int r)
 		{
-			return s.ToCharArray().Combination(r)
-				.Select(x => new string(x.ToArray()));
+			return s.Combination<char>(r).Select(x => new string(x));
 		}
 
 		/// <summary>

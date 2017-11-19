@@ -14,7 +14,7 @@ namespace rm.ExtensionsTest
 		[TestCase(12, 479001600)]
 		public void Factorial01(int n, int result)
 		{
-			Assert.AreEqual(result, n.Factorial());
+			Assert.AreEqual(result, (int)n.Factorial());
 		}
 
 		[Test]
@@ -37,7 +37,7 @@ namespace rm.ExtensionsTest
 		[TestCase(0, 0, 1)]
 		public void Permutation01(int n, int r, int result)
 		{
-			Assert.AreEqual(result, n.Permutation(r));
+			Assert.AreEqual(result, (int)n.Permutation(r));
 		}
 
 		[Test]
@@ -46,7 +46,7 @@ namespace rm.ExtensionsTest
 		[TestCase(0, 0, 1)]
 		public void Combination01(int n, int r, int result)
 		{
-			Assert.AreEqual(result, n.Combination(r));
+			Assert.AreEqual(result, (int)n.Combination(r));
 		}
 
 		[Test]
@@ -55,7 +55,7 @@ namespace rm.ExtensionsTest
 		[TestCase(0, 0)]
 		public void ScrabbleCount01(int n, int result)
 		{
-			Assert.AreEqual(result, n.ScrabbleCount());
+			Assert.AreEqual(result, (int)n.ScrabbleCount());
 		}
 
 		[Test]
