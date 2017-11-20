@@ -47,14 +47,14 @@ bool b = "".ToBool(defaultValue: true);
 ```
 
 ```c#
-// munge a password
-string[] munged = "password".Munge().ToArray();
-// munged: { "p@$$w0rd" }
+// munge a password, a char at a time only
+string[] munged = "pass".Munge().ToArray();
+// munged: { "pa$$", "p@ss", "p@$$" }
 string[] munged = "ai".Munge().ToArray();
-// munged: { "@1", "@!" }
+// munged: { "a1", "a!", "@i", "@1", "@!" }
 // unmunge a password
-string[] unmunged = "p@$$w0rd".Unmunge().ToArray();
-// unmunged: { "password" }
+string[] unmunged = "h@x0r".Unmunge().ToArray();
+// unmunged: { "haxor" }
 string[] unmunged = "@1".Unmunge().ToArray();
 // unmunged: { "ai", "al" }
 ```

@@ -123,6 +123,18 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns specified value if source is null/empty/else same.
+		/// </summary>
+		public static IEnumerable<T> Or<T>(this IEnumerable<T> source, IEnumerable<T> or)
+		{
+			if (source.IsNullOrEmpty())
+			{
+				return or;
+			}
+			return source;
+		}
+
+		/// <summary>
 		/// Splits a collection into n parts.
 		/// </summary>
 		/// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>

@@ -201,8 +201,8 @@ namespace rm.Extensions
 		/// <summary>
 		/// Munges substitutions.
 		/// </summary>
-		private static List<KeyValuePair<char, char>> mungeSubstitutions = GetMungeSubstitutions();
-		private static List<KeyValuePair<char, char>> GetMungeSubstitutions()
+		private static List<KeyValuePair<char, char>> mungeUnmungeSubstitutions = GetMungeUnmungeSubstitutions();
+		private static List<KeyValuePair<char, char>> GetMungeUnmungeSubstitutions()
 		{
 			var mungeSubstitutions = new List<KeyValuePair<char, char>>();
 			new[]
@@ -217,7 +217,7 @@ namespace rm.Extensions
 				new[] {'l', '1'},
 				new[] {'o', '0'},
 				new[] {'s', '$'},
-				new[] {'t', '+'},
+				new[] {'5', '$'},
 				// add more here
 			}.ToList().ForEach(x => mungeSubstitutions.Add(new KeyValuePair<char, char>(x[0], x[1])));
 			return mungeSubstitutions;
@@ -226,25 +226,35 @@ namespace rm.Extensions
 		/// <summary>
 		/// key->value[] map.
 		/// </summary>
-		private static IDictionary<char, char[]> mungeMap = mungeSubstitutions.GroupBy(x => x.Key)
-			.ToDictionary(g => g.Key, g => g.Select(x => x.Value).ToArray());
+		private static IDictionary<char, char[]> mungeMap =
+			mungeUnmungeSubstitutions
+				.GroupBy(x => x.Key)
+				.ToDictionary(g => g.Key, g => g.Select(x => x.Value)
+				.ToArray());
 
 		/// <summary>
 		/// value->key[] map.
 		/// </summary>
-		private static IDictionary<char, char[]> unmungeMap = mungeSubstitutions.GroupBy(x => x.Value)
-			.ToDictionary(g => g.Key, g => g.Select(x => x.Key).ToArray());
+		private static IDictionary<char, char[]> unmungeMap =
+			mungeUnmungeSubstitutions
+				.GroupBy(x => x.Value)
+				.ToDictionary(g => g.Key, g => g.Select(x => x.Key)
+				.ToArray());
 
 		/// <summary>
 		/// Munges or unmunges password as per substitution map.
 		/// </summary>
-		private static IEnumerable<string> MungeUnmunge(this string password,
-			IDictionary<char, char[]> map)
+		private static IList<string> MungeUnmunge(this string password,
+			IDictionary<char, char[]> map, bool isMunging)
 		{
 			password.ThrowIfArgumentNull(nameof(password));
-			var list = new List<string>();
-			MungeUnmunge(password, map, 0, new StringBuilder(), list);
-			return list.AsEnumerable();
+			var items = new List<string>();
+			MungeUnmunge
+			(
+				password, map, isMunging, items,
+				0, new char[password.Length], new Dictionary<char, char>()
+			);
+			return items;
 		}
 
 		/// <summary>
@@ -252,46 +262,81 @@ namespace rm.Extensions
 		/// </summary>
 		/// <param name="password">Password to munge/unmunge.</param>
 		/// <param name="map">Substitution map.</param>
+		/// <param name="isMunging">True if munging, false if unmunging.</param>
+		/// <param name="items">List to hold the passwords.</param>
 		/// <param name="index">Index of currently processed character.</param>
 		/// <param name="buffer">Buffer to hold the munge/unmunged password.</param>
-		/// <param name="list">List to hold the passwords.</param>
+		/// <param name="chReplaceMap">Map to hold char replacements.</param>
 		private static void MungeUnmunge(string password,
-			IDictionary<char, char[]> map, int index, StringBuilder buffer,
-			List<string> list)
+			IDictionary<char, char[]> map, bool isMunging, List<string> items,
+			int index, char[] buffer, Dictionary<char, char> chReplaceMap)
 		{
 			if (index == password.Length)
 			{
-				list.Add(buffer.ToString());
+				items.Add(new string((char[])buffer.Clone()));
 				return;
 			}
-			char[] chars;
-			if (!map.TryGetValue(password[index], out chars))
+			var ch = password[index];
+			if (chReplaceMap.ContainsKey(ch))
 			{
-				chars = new[] { password[index] };
+				buffer[index] = chReplaceMap[ch];
+				MungeUnmunge(password, map, isMunging, items, index + 1, buffer, chReplaceMap);
+				return;
 			}
-			foreach (var c in chars)
+			foreach (var muChar in GetMungeUnmungeChars(ch, map, isMunging).Or(new[] { ch }))
 			{
-				buffer.Append(c);
-				MungeUnmunge(password, map, index + 1, buffer, list);
-				buffer.Length--;
+				buffer[index] = muChar;
+				chReplaceMap[ch] = muChar;
+				MungeUnmunge(password, map, isMunging, items, index + 1, buffer, chReplaceMap);
+				chReplaceMap.Remove(ch);
 			}
 		}
 
 		/// <summary>
-		/// Munges a password.
+		/// Returns the munged/unmunged chars for char including itself.
+		/// </summary>
+		/// <example>munge('o'), returns {'o', '0'}.</example>
+		/// <example>Unmunge('0'), returns {'o'}.</example>
+		private static IEnumerable<char> GetMungeUnmungeChars(char ch,
+			IDictionary<char, char[]> map, bool isMunging)
+		{
+			// yield same ch only if munging
+			if (isMunging)
+			{
+				yield return ch;
+			}
+			char[] muChars;
+			if (map.TryGetValue(ch, out muChars))
+			{
+				foreach (var muChar in muChars)
+				{
+					yield return muChar;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Munges a password (a char at a time only).
 		/// </summary>
 		/// <remarks>http://en.wikipedia.org/wiki/Munged_password</remarks>
 		public static IEnumerable<string> Munge(this string password)
 		{
-			return MungeUnmunge(password, mungeMap);
+			var items = MungeUnmunge(password, mungeMap, true);
+			// 1st item is same as password
+			if (items.Any())
+			{
+				items.RemoveAt(0);
+			}
+			return items.AsEnumerable();
 		}
 
 		/// <summary>
-		/// Unmunges a (munged) password.
+		/// Unmunges a (munged) (a char at a time only).
 		/// </summary>
+		/// <remarks>http://en.wikipedia.org/wiki/Munged_password</remarks>
 		public static IEnumerable<string> Unmunge(this string password)
 		{
-			return MungeUnmunge(password, unmungeMap);
+			return MungeUnmunge(password, unmungeMap, false);
 		}
 
 		/// <summary>
