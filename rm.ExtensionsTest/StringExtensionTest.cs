@@ -157,13 +157,20 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		[TestCase("pass", "pa$$", "p@ss", "p@$$")]
+		[TestCase("pass", "pa$$", "pa55", "p@ss", "p@$$", "p@55")]
 		[TestCase("ai", "a1", "a!", "@i", "@1", "@!")]
 		[TestCase("ia", "i@", "1a", "1@", "!a", "!@")]
 		[TestCase("aii", "a11", "a!!", "@ii", "@11", "@!!")]
+		[TestCase("jmnpuz")]
+		[TestCase("")]
+		[TestCase("pw", "puu", "p2u")]
 		public void Munge01(string s, params string[] munges)
 		{
 			var result = s.Munge().ToArray();
+			foreach (var muItem in result)
+			{
+				Console.WriteLine(muItem);
+			}
 			Assert.AreEqual(munges.Length, result.Count());
 			Assert.IsTrue(munges.SequenceEqual(result));
 		}
@@ -173,11 +180,19 @@ namespace rm.ExtensionsTest
 		[TestCase("@1", "ai", "al")]
 		[TestCase("1@", "ia", "la")]
 		[TestCase("@11", "aii", "all")]
-		[TestCase("1$", "is", "i5", "ls", "l5")]
-		[TestCase("1$$", "iss", "i55", "lss", "l55")]
+		[TestCase("1<", "ik", "iv", "lk", "lv")]
+		[TestCase("1<<", "ikk", "ivv", "lkk", "lvv")]
+		[TestCase("jmnpuz")]
+		[TestCase("")]
+		[TestCase("puu", "pw")]
+		[TestCase("p2u", "pw")]
 		public void Unmunge01(string s, params string[] unmunges)
 		{
 			var result = s.Unmunge().ToList();
+			foreach (var muItem in result)
+			{
+				Console.WriteLine(muItem);
+			}
 			Assert.AreEqual(unmunges.Length, result.Count);
 			Assert.IsTrue(unmunges.SequenceEqual(result));
 		}

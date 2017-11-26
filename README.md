@@ -47,16 +47,19 @@ bool b = "".ToBool(defaultValue: true);
 ```
 
 ```c#
-// munge a password, a char at a time only
+// munge a password, up to two chars
 string[] munged = "pass".Munge().ToArray();
-// munged: { "pa$$", "p@ss", "p@$$" }
+// munged: { "pa$$", "pa55", "p@ss", "p@$$", "p@55" }
 string[] munged = "ai".Munge().ToArray();
 // munged: { "a1", "a!", "@i", "@1", "@!" }
+string[] munged = "pw".Munge().ToArray();
+// munged: { "puu", "p2u" }
 // unmunge a password
 string[] unmunged = "h@x0r".Unmunge().ToArray();
 // unmunged: { "haxor" }
-string[] unmunged = "@1".Unmunge().ToArray();
-// unmunged: { "ai", "al" }
+string[] unmunged = "puu".Unmunge().ToArray();
+string[] unmunged = "p2u".Unmunge().ToArray();
+// unmunged: { "pw" }
 ```
 
 ```c#
