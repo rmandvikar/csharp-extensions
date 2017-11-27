@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using rm.Extensions.Deque;
+using Ex = rm.Extensions.ExceptionHelper;
 
 namespace rm.Extensions
 {
@@ -120,12 +121,10 @@ namespace rm.Extensions
 		/// </summary>
 		public T Dequeue()
 		{
-			if (IsEmpty())
-			{
-				throw new InvalidOperationException("Deque is empty.");
-			}
+			Ex.ThrowIfEmpty(IsEmpty(), "Deque is empty.");
 			count--;
 			var node = head;
+			node.owner = null;
 			if (head == tail)
 			{
 				head = tail = null;
@@ -143,10 +142,7 @@ namespace rm.Extensions
 		/// </summary>
 		public T Peek()
 		{
-			if (IsEmpty())
-			{
-				throw new InvalidOperationException("Deque is empty.");
-			}
+			Ex.ThrowIfEmpty(IsEmpty(), "Deque is empty.");
 			return head.Value;
 		}
 
@@ -155,10 +151,7 @@ namespace rm.Extensions
 		/// </summary>
 		public T PeekTail()
 		{
-			if (IsEmpty())
-			{
-				throw new InvalidOperationException("Deque is empty.");
-			}
+			Ex.ThrowIfEmpty(IsEmpty(), "Deque is empty.");
 			return tail.Value;
 		}
 
@@ -173,11 +166,9 @@ namespace rm.Extensions
 			{
 				throw new InvalidOperationException("Node does not belong to the deque.");
 			}
-			if (IsEmpty())
-			{
-				throw new InvalidOperationException("Deque is empty.");
-			}
+			Ex.ThrowIfEmpty(IsEmpty(), "Deque is empty.");
 			count--;
+			node.owner = null;
 			if (node == head && node == tail)
 			{
 				head = tail = null;

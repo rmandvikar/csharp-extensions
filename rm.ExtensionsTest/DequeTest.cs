@@ -53,6 +53,7 @@ namespace rm.ExtensionsTest
 			Assert.IsFalse(dq.IsEmpty());
 			dq.Dequeue();
 			Assert.IsTrue(dq.IsEmpty());
+			Assert.Throws<EmptyException>(() => dq.Dequeue());
 		}
 
 		[Test]
@@ -136,7 +137,7 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		public void Delete_Owner_06()
+		public void Owner_01()
 		{
 			var dqA = new Deque<int>();
 			var anode = dqA.Enqueue(1);
@@ -144,6 +145,38 @@ namespace rm.ExtensionsTest
 			var bnode = dqB.Enqueue(1);
 			Assert.Throws<InvalidOperationException>(() => dqB.Delete(anode));
 			Assert.Throws<InvalidOperationException>(() => dqA.Delete(bnode));
+		}
+
+		[Test]
+		public void Owner_02()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(1);
+			dq.Delete(node);
+			Assert.Throws<InvalidOperationException>(() => dq.Delete(node));
+		}
+
+		[Test]
+		public void Owner_03()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(1);
+			dq.Enqueue(2);
+			dq.Dequeue();
+			Assert.Throws<InvalidOperationException>(() => dq.Delete(node));
+		}
+
+		[Test]
+		[Ignore("Unignore when fixed.")]
+		public void Owner_04()
+		{
+			var dq = new Deque<int>();
+			dq.Enqueue(1);
+			var node = dq.Enqueue(2);
+			dq.Enqueue(3);
+			dq.Clear();
+			dq.Enqueue(2);
+			Assert.Throws<InvalidOperationException>(() => dq.Delete(node));
 		}
 
 		[Test(Description = "Deque<T> v/s Queue<T> find speed test.")]
