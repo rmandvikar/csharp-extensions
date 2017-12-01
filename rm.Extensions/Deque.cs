@@ -50,6 +50,16 @@ namespace rm.Extensions
 		/// Clears deque.
 		/// </summary>
 		void Clear();
+
+		/// <summary>
+		/// Inserts <paramref name="x"/> before given <paramref name="node"/>.
+		/// </summary>
+		Node<T> InsertBefore(Node<T> node, T x);
+
+		/// <summary>
+		/// Inserts <paramref name="x"/> after given <paramref name="node"/>.
+		/// </summary>
+		Node<T> InsertAfter(Node<T> node, T x);
 	}
 
 	namespace Deque
@@ -75,7 +85,11 @@ namespace rm.Extensions
 	/// <summary>
 	/// Deque.
 	/// </summary>
-	/// <remarks>Uses linked list as backing store.</remarks>
+	/// <remarks>
+	/// Uses linked list as backing store.
+	/// 
+	/// All methods are O(1) time unless noted.
+	/// </remarks>
 	public class Deque<T> : IDeque<T>, IEnumerable<T>
 	{
 		#region members
@@ -158,7 +172,6 @@ namespace rm.Extensions
 		/// <summary>
 		/// Deletes given <paramref name="node"/> from deque.
 		/// </summary>
-		/// <remarks>O(1) time.</remarks>
 		public void Delete(Node<T> node)
 		{
 			node.ThrowIfArgumentNull(nameof(node));
@@ -214,6 +227,64 @@ namespace rm.Extensions
 		{
 			head = tail = null;
 			count = 0;
+		}
+
+		/// <summary>
+		/// Inserts <paramref name="x"/> before given <paramref name="node"/>.
+		/// </summary>
+		/// <returns>The node for <paramref name="x"/>.</returns>
+		public Node<T> InsertBefore(Node<T> node, T x)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != this)
+			{
+				throw new InvalidOperationException("Node does not belong to the deque.");
+			}
+			count++;
+			var prev = node.prev;
+			var xnode = new Node<T>(x, this);
+			var next = node;
+			xnode.next = next;
+			next.prev = xnode;
+			if (next == head)
+			{
+				head = xnode;
+			}
+			else
+			{
+				prev.next = xnode;
+				xnode.prev = prev;
+			}
+			return xnode;
+		}
+
+		/// <summary>
+		/// Inserts <paramref name="x"/> after given <paramref name="node"/>.
+		/// </summary>
+		/// <returns>The node for <paramref name="x"/>.</returns>
+		public Node<T> InsertAfter(Node<T> node, T x)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != this)
+			{
+				throw new InvalidOperationException("Node does not belong to the deque.");
+			}
+			count++;
+			var prev = node;
+			var xnode = new Node<T>(x, this);
+			var next = node.next;
+			xnode.prev = prev;
+			prev.next = xnode;
+			if (prev == tail)
+			{
+				tail = xnode;
+			}
+			else
+			{
+				xnode.next = next;
+				next.prev = xnode;
+			}
+			return xnode;
 		}
 
 		#endregion

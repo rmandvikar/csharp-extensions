@@ -240,5 +240,89 @@ namespace rm.ExtensionsTest
 			Assert.Less(dqTime, qTime * 4);
 			Assert.Less(dqTime, 50);
 		}
+
+		[Test]
+		public void InsertBefore_Head_01()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(1);
+			dq.InsertBefore(node, 0);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void InsertBefore_Between_02()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(1);
+			dq.Enqueue(2);
+			dq.InsertBefore(node, 0);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
+
+		[Test]
+		public void InsertBefore_Null_03()
+		{
+			var dq = new Deque<int>();
+			Assert.Throws<ArgumentNullException>(() => dq.InsertBefore(null, 0));
+		}
+
+		[Test]
+		public void InsertBefore_Chain_04()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(2);
+			node = dq.InsertBefore(node, 1);
+			node = dq.InsertBefore(node, 0);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
+
+		[Test]
+		public void InsertAfter_Tail_01()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.InsertAfter(node, 1);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void InsertAfter_Between_02()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Enqueue(2);
+			dq.InsertAfter(node, 0);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
+
+		[Test]
+		public void InsertAfter_Null_03()
+		{
+			var dq = new Deque<int>();
+			Assert.Throws<ArgumentNullException>(() => dq.InsertAfter(null, 0));
+		}
+
+		[Test]
+		public void InsertAfter_Chain_04()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			node = dq.InsertAfter(node, 1);
+			node = dq.InsertAfter(node, 2);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
 	}
 }
