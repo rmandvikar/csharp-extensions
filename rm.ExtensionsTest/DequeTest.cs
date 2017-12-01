@@ -326,6 +326,70 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		public void InsertHead_01()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Delete(node);
+			dq.InsertHead(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.Count());
+		}
+
+		[Test]
+		public void InsertHead_02()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Delete(node);
+			dq.Enqueue(1);
+			dq.InsertHead(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.Count());
+			Assert.AreEqual(1, dq.PeekTail());
+		}
+
+		[Test]
+		public void InsertHead_03()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			Assert.Throws<InvalidOperationException>(() => dq.InsertHead(node));
+		}
+
+		[Test]
+		public void InsertTail_01()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Delete(node);
+			dq.InsertTail(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.Count());
+		}
+
+		[Test]
+		public void InsertTail_02()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(1);
+			dq.Delete(node);
+			dq.Enqueue(0);
+			dq.InsertTail(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.Count());
+			Assert.AreEqual(1, dq.PeekTail());
+		}
+
+		[Test]
+		public void InsertTail_03()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			Assert.Throws<InvalidOperationException>(() => dq.InsertTail(node));
+		}
+
+		[Test]
 		public void Nodes01()
 		{
 			var dq = new Deque<int>();

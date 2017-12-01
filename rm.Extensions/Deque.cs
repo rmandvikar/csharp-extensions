@@ -66,6 +66,16 @@ namespace rm.Extensions
 		/// </summary>
 		Node<T> InsertAfter(Node<T> node, T x);
 
+		/// <summary>
+		/// Inserts <paramref name="node"/> as head.
+		/// </summary>
+		void InsertHead(Node<T> node);
+
+		/// <summary>
+		/// Inserts <paramref name="node"/> as tail.
+		/// </summary>
+		void InsertTail(Node<T> node);
+
 		// HACK: Either encapsulate or refactor with Remove(T x).
 		/// <summary>
 		/// Iterates over all nodes.
@@ -304,6 +314,54 @@ namespace rm.Extensions
 				next.prev = xnode;
 			}
 			return xnode;
+		}
+
+		/// <summary>
+		/// Inserts <paramref name="node"/> as head.
+		/// </summary>
+		public void InsertHead(Node<T> node)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != null)
+			{
+				throw new InvalidOperationException("Node is already in deque.");
+			}
+			node.owner = this;
+			if (IsEmpty())
+			{
+				head = tail = node;
+			}
+			else
+			{
+				node.next = head;
+				head.prev = node;
+				head = node;
+			}
+			count++;
+		}
+
+		/// <summary>
+		/// Inserts <paramref name="node"/> as tail.
+		/// </summary>
+		public void InsertTail(Node<T> node)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != null)
+			{
+				throw new InvalidOperationException("Node is already in deque.");
+			}
+			node.owner = this;
+			if (IsEmpty())
+			{
+				head = tail = node;
+			}
+			else
+			{
+				tail.next = node;
+				node.prev = tail;
+				tail = node;
+			}
+			count++;
 		}
 
 		/// <summary>
