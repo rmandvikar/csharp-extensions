@@ -76,6 +76,16 @@ namespace rm.Extensions
 		/// </summary>
 		void InsertTail(Node<T> node);
 
+		/// <summary>
+		/// Make <paramref name="node"/> as head.
+		/// </summary>
+		void MakeHead(Node<T> node);
+
+		/// <summary>
+		/// Make <paramref name="node"/> as tail.
+		/// </summary>
+		void MakeTail(Node<T> node);
+
 		// HACK: Either encapsulate or refactor with Remove(T x).
 		/// <summary>
 		/// Iterates over all nodes.
@@ -362,6 +372,66 @@ namespace rm.Extensions
 				tail = node;
 			}
 			count++;
+		}
+
+		/// <summary>
+		/// Make <paramref name="node"/> as head.
+		/// </summary>
+		public void MakeHead(Node<T> node)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != this)
+			{
+				throw new InvalidOperationException("Node does not belong to the deque.");
+			}
+			if (node == head)
+			{
+				return;
+			}
+			if (node == tail)
+			{
+				tail = node.prev;
+				tail.next = node.prev = null;
+			}
+			else
+			{
+				node.prev.next = node.next;
+				node.next.prev = node.prev;
+				node.next = node.prev = null;
+			}
+			head.prev = node;
+			node.next = head;
+			head = node;
+		}
+
+		/// <summary>
+		/// Make <paramref name="node"/> as tail.
+		/// </summary>
+		public void MakeTail(Node<T> node)
+		{
+			node.ThrowIfArgumentNull(nameof(node));
+			if (node.owner != this)
+			{
+				throw new InvalidOperationException("Node does not belong to the deque.");
+			}
+			if (node == tail)
+			{
+				return;
+			}
+			if (node == head)
+			{
+				head = node.next;
+				node.next = head.prev = null;
+			}
+			else
+			{
+				node.prev.next = node.next;
+				node.next.prev = node.prev;
+				node.next = node.prev = null;
+			}
+			tail.next = node;
+			node.prev = tail;
+			tail = node;
 		}
 
 		/// <summary>

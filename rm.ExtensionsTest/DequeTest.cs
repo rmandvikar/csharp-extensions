@@ -390,6 +390,110 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		public void MakeHead_01()
+		{
+			var dq = new Deque<int>();
+			dq.Enqueue(0);
+			var node = dq.Enqueue(1);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			dq.MakeHead(node);
+			Assert.AreEqual(1, dq.Peek());
+			Assert.AreEqual(0, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void MakeHead_02()
+		{
+			var dq = new Deque<int>();
+			dq.Enqueue(0);
+			var node = dq.Enqueue(1);
+			dq.Enqueue(2);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			dq.MakeHead(node);
+			Assert.AreEqual(1, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
+
+		[Test]
+		public void MakeHead_03()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Enqueue(1);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			dq.MakeHead(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void MakeHead_04()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Delete(node);
+			Assert.Throws<InvalidOperationException>(() => dq.MakeHead(node));
+		}
+
+		[Test]
+		public void MakeTail_01()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Enqueue(1);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			dq.MakeTail(node);
+			Assert.AreEqual(1, dq.Peek());
+			Assert.AreEqual(0, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void MakeTail_02()
+		{
+			var dq = new Deque<int>();
+			dq.Enqueue(0);
+			var node = dq.Enqueue(1);
+			dq.Enqueue(2);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			dq.MakeHead(node);
+			Assert.AreEqual(1, dq.Peek());
+			Assert.AreEqual(2, dq.PeekTail());
+			Assert.AreEqual(3, dq.Count());
+		}
+
+		[Test]
+		public void MakeTail_03()
+		{
+			var dq = new Deque<int>();
+			dq.Enqueue(0);
+			var node = dq.Enqueue(1);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			dq.MakeTail(node);
+			Assert.AreEqual(0, dq.Peek());
+			Assert.AreEqual(1, dq.PeekTail());
+			Assert.AreEqual(2, dq.Count());
+		}
+
+		[Test]
+		public void MakeTail_04()
+		{
+			var dq = new Deque<int>();
+			var node = dq.Enqueue(0);
+			dq.Delete(node);
+			Assert.Throws<InvalidOperationException>(() => dq.MakeTail(node));
+		}
+
+		[Test]
 		public void Nodes01()
 		{
 			var dq = new Deque<int>();
