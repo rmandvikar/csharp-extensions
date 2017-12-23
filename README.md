@@ -247,11 +247,6 @@ var scrabbled = words.Scrabble();
 ```
 
 ```c#
-// convert a collection to HashSet
-HashSet<string> hashset = new[] { "this", "test" }.ToHashSet();
-```
-
-```c#
 // check an enumerable's count efficiently
 if (enumerable.Count() == 2) { ... } // inefficient for large enumerable
 if (enumerable.HasCount(2)) { ... }

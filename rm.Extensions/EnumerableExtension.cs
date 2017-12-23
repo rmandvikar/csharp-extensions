@@ -87,7 +87,7 @@ namespace rm.Extensions
 		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
 		/// <remarks>
-		/// Uses yield return but buffers the chunk before returning. Works with other methods 
+		/// Uses yield return but buffers the chunk before returning. Works with other methods
 		/// as Count(), ElementAt(), etc.
 		/// </remarks>
 		public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
@@ -222,7 +222,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Returns the only two elements of a sequence that satisfy a specified condition 
+		/// Returns the only two elements of a sequence that satisfy a specified condition
 		/// or a default value if no such elements exists.
 		/// </summary>
 		public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
@@ -234,7 +234,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Returns the only <paramref name="count"/> elements of a sequence 
+		/// Returns the only <paramref name="count"/> elements of a sequence
 		/// or a default value if no such elements exists depending on <paramref name="emptyCheck"/>.
 		/// </summary>
 		private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
@@ -427,8 +427,8 @@ namespace rm.Extensions
 		///    | H | e | l | p | A |
 		///    +---+---+---+---+---+
 		///      0   1   2   3   4   5
-		/// -6  -5  -4  -3  -2  -1    
-		/// 
+		/// -6  -5  -4  -3  -2  -1
+		///
 		/// note:
 		/// [1:3] and [-4:-2] give { e, l }
 		/// +ve step means traverse forward, -ve step means traverse backward
@@ -586,7 +586,7 @@ namespace rm.Extensions
 		/// Scrabbles recursively.
 		/// </summary>
 		/// <param name="items">Words to scrabble.</param>
-		/// <param name="limit">Number of <paramref name="items"/> to scrabble from 
+		/// <param name="limit">Number of <paramref name="items"/> to scrabble from
 		/// <paramref name="items"/>.</param>
 		/// <param name="used">Bool array to determine already used word in
 		/// <paramref name="items"/>.</param>
@@ -621,15 +621,6 @@ namespace rm.Extensions
 				buffer[depth] = default(T);
 				used[i] = false;
 			}
-		}
-
-		/// <summary>
-		/// Converts a collection to HashSet.
-		/// </summary>
-		public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return new HashSet<T>(source);
 		}
 
 		public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source)

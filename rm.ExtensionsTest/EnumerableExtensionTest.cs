@@ -307,19 +307,6 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(scrabbleCount, actualCount);
 		}
 
-		[Test]
-		[TestCase("words", "word", "", null)]
-		[TestCase("this", "is", "a", "test")]
-		public void ToHashSet01(params string[] words)
-		{
-			var set = EnumerableExtension.ToHashSet(words);
-			Assert.NotNull(set);
-			foreach (var word in words)
-			{
-				Assert.IsTrue(set.Contains(word));
-			}
-		}
-
 		private IEnumerable<int> GetEnumerable(int start, int end)
 		{
 			for (int i = start; i <= end; i++)
