@@ -312,7 +312,7 @@ namespace rm.ExtensionsTest
 		[TestCase("this", "is", "a", "test")]
 		public void ToHashSet01(params string[] words)
 		{
-			var set = words.ToHashSet();
+			var set = EnumerableExtension.ToHashSet(words);
 			Assert.NotNull(set);
 			foreach (var word in words)
 			{

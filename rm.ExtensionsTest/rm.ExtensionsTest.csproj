@@ -1,101 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3C36D356-3426-4951-88D9-073233CBFDB9}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>rm.ExtensionsTest</RootNamespace>
-    <AssemblyName>rm.ExtensionsTest</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>net461</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>Assemblies\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.mocks">
-      <HintPath>Assemblies\nunit.mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework">
-      <HintPath>Assemblies\pnunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BitSetTest.cs" />
-    <Compile Include="CircularStackTest.cs" />
-    <Compile Include="CircularQueueTest.cs" />
-    <Compile Include="DateTimeExtensionTest.cs" />
-    <Compile Include="DecimalExtensionTest.cs" />
-    <Compile Include="DequeTest.cs" />
-    <Compile Include="DictionaryExtensionTest.cs" />
-    <Compile Include="EnumerableExtensionTest.cs" />
-    <Compile Include="EnumExtensionTest.cs" />
-    <Compile Include="GraphExtensionTest.cs" />
-    <Compile Include="HeapTest.cs" />
-    <Compile Include="HelperTest.cs" />
-    <Compile Include="IntExtensionTest.cs" />
-    <Compile Include="ListExtensionTest.cs" />
-    <Compile Include="NameValueCollectionExtensionTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringBuilderExtensionTest.cs" />
-    <Compile Include="StringExtensionTest.cs" />
-    <Compile Include="ThrowExtensionTest.cs" />
-    <Compile Include="TimeSpanExtensionTest.cs" />
-    <Compile Include="UriExtensionTest.cs" />
-    <Compile Include="WrappedExtensionTest.cs" />
+    <ProjectReference Include="..\rm.Extensions\rm.Extensions.csproj" />
   </ItemGroup>
-  <ItemGroup />
+
   <ItemGroup>
-    <ProjectReference Include="..\rm.Extensions\rm.Extensions.csproj">
-      <Project>{cdd966d6-4370-4745-9b0e-f8d7e252620e}</Project>
-      <Name>rm.Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assemblies\nunit.framework.dll" />
-    <Content Include="Assemblies\nunit.framework.xml" />
-    <Content Include="Assemblies\nunit.mocks.dll" />
-    <Content Include="Assemblies\pnunit.framework.dll" />
-    <Content Include="images\d s .jpg">
+    <None Update="images\d s .jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
