@@ -313,6 +313,11 @@ if (source != null) { foreach (var item in source) { /**/ } }
 if (source.TrySingle(out singleT)) { ... }
 ```
 
+```c#
+// OneOrDefault() to get the only one element or default
+var oneT = source.OneOrDefault()
+```
+
 #### IList extensions:
 
 ```c#

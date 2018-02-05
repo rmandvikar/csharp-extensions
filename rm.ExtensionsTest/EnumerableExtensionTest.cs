@@ -783,5 +783,24 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(singleTExpected, singleT);
 			}
 		}
+
+		[Test]
+		[TestCase(new[] { 1, 2 }, 0)]
+		[TestCase(new[] { 1 }, 1)]
+		[TestCase(new int[] { }, 0)]
+		public void OneOrDefault01(int[] source, int oneTExpected)
+		{
+			Assert.AreEqual(oneTExpected, source.OneOrDefault());
+		}
+
+		[Test]
+		[TestCase(new[] { 1, 2 }, 2)]
+		[TestCase(new[] { 1 }, 0)]
+		[TestCase(new int[] { }, 0)]
+		[TestCase(new[] { 1, 2, 3 }, 0)]
+		public void OneOrDefaultPredicate01(int[] source, int oneTExpected)
+		{
+			Assert.AreEqual(oneTExpected, source.OneOrDefault(x => x > 1));
+		}
 	}
 }

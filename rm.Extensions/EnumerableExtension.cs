@@ -974,6 +974,34 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns the only element of sequence or default of {T}.
+		/// </summary>
+		public static T OneOrDefault<T>(this IEnumerable<T> source)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			if (source.HasCount(1))
+			{
+				return source.Single();
+			}
+			return default(T);
+		}
+
+		/// <summary>
+		/// Returns the only element of sequence that satisfies a specified condition
+		/// or default of {T}.
+		/// </summary>
+		public static T OneOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			predicate.ThrowIfArgumentNull(nameof(predicate));
+			if (source.HasCount(predicate, 1))
+			{
+				return source.Single(predicate);
+			}
+			return default(T);
+		}
+
+		/// <summary>
 		/// Returns bigint count of sequence.
 		/// </summary>
 		public static BigInteger BigCount<T>(this IEnumerable<T> source)
