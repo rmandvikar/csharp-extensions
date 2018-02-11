@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp2.0;net461</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>A collection of utility C# extension methods.</Description>
+    <PackageTags>utility extensions</PackageTags>
+    <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
+    <Authors>hippy</Authors>
+    <Company>hippy</Company>
   </PropertyGroup>
 
 </Project>

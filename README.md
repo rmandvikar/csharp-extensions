@@ -2,6 +2,11 @@ csharp-extensions
 =================
 
 
+#### nuget:
+```
+Install-Package rm.Extensions
+```
+
 #### string extensions:
 
 ```c#
