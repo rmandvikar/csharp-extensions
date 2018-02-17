@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
     <Authors>hippy</Authors>
     <Company>hippy</Company>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
 </Project>
