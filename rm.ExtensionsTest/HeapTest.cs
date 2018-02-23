@@ -114,5 +114,19 @@ namespace rm.ExtensionsTest
 			maxheap.Insert(0);
 			Assert.AreEqual(0, maxheap.Peek());
 		}
+
+		[Test]
+		public void Ineritance01()
+		{
+			IHeap<int> minheap1 = new MinHeap<int>(2);
+			IHeap<int> maxheap1 = new MaxHeap<int>(2);
+			IHeap<int, int> minheap2 = new MinHeap<int, int>(2, x => x);
+			IHeap<int, int> maxheap2 = new MaxHeap<int, int>(2, x => x);
+			// these should not compile
+			//IHeap<int> maxheap3 = new MaxHeap<int, int>(2, x => x);
+			//IHeap<int> minheap3 = new MinHeap<int, int>(2, x => x);
+			//IHeap<int, int> maxheap3 = new MaxHeap<int>(2);
+			//IHeap<int, int> minheap3 = new MinHeap<int>(2);
+		}
 	}
 }

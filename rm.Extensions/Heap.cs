@@ -6,7 +6,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Defines heap methods.
 	/// </summary>
-	interface IHeap<T, TKey>
+	public interface IHeap<T, TKey> : IEnumerable<T>
 		where TKey : IComparable<TKey>
 	{
 		/// <summary>
@@ -52,19 +52,65 @@ namespace rm.Extensions
 	}
 
 	/// <summary>
-	/// Base abstract class for heap.
+	/// Defines heap methods.
+	/// </summary>
+	public interface IHeap<T> : IEnumerable<T>
+		where T : IComparable<T>
+	{
+		/// <summary>
+		/// Inserts <paramref name="x"/> into heap.
+		/// </summary>
+		void Insert(T x);
+
+		/// <summary>
+		/// Appends <paramref name="x"/> to heap without maintaining the heap property.
+		/// </summary>
+		void Append(T x);
+
+		/// <summary>
+		/// Deletes top of heap.
+		/// </summary>
+		T Delete();
+
+		/// <summary>
+		/// Captures the current top to return it and replace it with <paramref name="x"/> and sift down.
+		/// </summary>
+		/// <remarks>Displace() avoids having to call Delete() and Insert() separately.</remarks>
+		T Displace(T x);
+
+		/// <summary>
+		/// Peeks top of heap.
+		/// </summary>
+		T Peek();
+
+		/// <summary>
+		/// Returns count of heap.
+		/// </summary>
+		int Count();
+
+		/// <summary>
+		/// Returns true if heap is empty.
+		/// </summary>
+		bool IsEmpty();
+
+		/// <summary>
+		/// Returns true if heap is full.
+		/// </summary>
+		bool IsFull();
+	}
+
+	/// <summary>
+	/// Heap helper class.
 	/// </summary>
 	/// <remarks>Uses array as backing store.</remarks>
-	public abstract class HeapBase<T, TKey> : IHeap<T, TKey>, IEnumerable<T>
-		where TKey : IComparable<TKey>
+	internal class HeapHelper<T> : IEnumerable<T>
 	{
 		#region members
 
 		protected int capacity;
 		protected T[] heap;
 		protected int count;
-		protected Func<T, TKey> keySelector;
-		protected IComparer<TKey> comparer;
+		private IHeapPropertyComparer<T> heapPropertyComparer;
 		protected bool isHeapified = true;
 
 		#endregion
@@ -72,20 +118,18 @@ namespace rm.Extensions
 		#region ctors
 
 		/// <summary>
-		/// HeapBase ctor.
+		/// HeapHelper ctor.
 		/// </summary>
 		/// <param name="capacity">Capacity of heap.</param>
-		/// <param name="keySelector">T's key to heapify against.</param>
-		/// <param name="comparer">Comparer for T's key.</param>
-		protected HeapBase(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		/// <param name="heapPropertyComparer">Heap property comparer for T.</param>
+		internal protected HeapHelper(int capacity,
+			IHeapPropertyComparer<T> heapPropertyComparer)
 		{
 			capacity.ThrowIfArgumentOutOfRange(nameof(capacity));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			comparer.ThrowIfArgumentNull(nameof(comparer));
+			heapPropertyComparer.ThrowIfArgumentNull(nameof(heapPropertyComparer));
 			this.capacity = capacity;
+			this.heapPropertyComparer = heapPropertyComparer;
 			this.heap = new T[capacity];
-			this.keySelector = keySelector;
-			this.comparer = comparer;
 		}
 
 		#endregion
@@ -316,16 +360,176 @@ namespace rm.Extensions
 			isHeapified = true;
 		}
 
+		/// <summary>
+		/// Returns true if child and parent are in heap property.
+		/// </summary>
+		private bool IsInHeapProperty(int item, int parent)
+		{
+			// pass through
+			return heapPropertyComparer.IsInHeapProperty(heap[item], heap[parent]);
+		}
+
 		#endregion
 
-		#region abstract methods
+		#endregion
+	}
+
+	#region HeapPropertyComparer classes
+
+	/// <summary>
+	/// Defines heap property methods.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public interface IHeapPropertyComparer<T>
+	{
+		/// <summary>
+		/// Returns true if <paramref name="item"/> and <paramref name="parent"/>
+		/// are in heap property.
+		/// </summary>
+		bool IsInHeapProperty(T item, T parent);
+	}
+
+	public class MinHeapPropertyComparer<T, TKey> : IHeapPropertyComparer<T>
+		where TKey : IComparable<TKey>
+	{
+		private Func<T, TKey> keySelector;
+		private IComparer<TKey> comparer;
+
+		public MinHeapPropertyComparer(Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		{
+			keySelector.ThrowIfArgumentNull(nameof(keySelector));
+			comparer.ThrowIfArgumentNull(nameof(comparer));
+			this.keySelector = keySelector;
+			this.comparer = comparer;
+		}
+
+		#region IHeapPropertyComparer<T> methods
+
+		public bool IsInHeapProperty(T item, T parent)
+		{
+			// parent <= child
+			return comparer.Compare(keySelector(parent), keySelector(item)) <= 0;
+		}
+
+		#endregion
+	}
+
+	public class MaxHeapPropertyComparer<T, TKey> : IHeapPropertyComparer<T>
+		where TKey : IComparable<TKey>
+	{
+		private Func<T, TKey> keySelector;
+		private IComparer<TKey> comparer;
+
+		public MaxHeapPropertyComparer(Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		{
+			keySelector.ThrowIfArgumentNull(nameof(keySelector));
+			comparer.ThrowIfArgumentNull(nameof(comparer));
+			this.keySelector = keySelector;
+			this.comparer = comparer;
+		}
+
+		#region IHeapPropertyComparer<T> methods
+
+		public bool IsInHeapProperty(T item, T parent)
+		{
+			// parent >= child
+			return comparer.Compare(keySelector(parent), keySelector(item)) >= 0;
+		}
+
+		#endregion
+	}
+
+	public class MinHeapPropertyComparer<T> : MinHeapPropertyComparer<T, T>
+		where T : IComparable<T>
+	{
+		public MinHeapPropertyComparer(IComparer<T> comparer)
+			: base(x => x, comparer)
+		{ }
+	}
+
+	public class MaxHeapPropertyComparer<T> : MaxHeapPropertyComparer<T, T>
+		where T : IComparable<T>
+	{
+		public MaxHeapPropertyComparer(IComparer<T> comparer)
+			: base(x => x, comparer)
+		{ }
+	}
+
+	#endregion
+
+	/// <summary>
+	/// HeapBase class.
+	/// </summary>
+	public class HeapBase<T, TKey> : IHeap<T, TKey>
+		where TKey : IComparable<TKey>
+	{
+		private HeapHelper<T> heapHelper;
 
 		/// <summary>
-		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
+		/// HeapBase.
 		/// </summary>
-		protected abstract bool IsInHeapProperty(int i, int parent);
+		/// <param name="capacity">Capacity of heap.</param>
+		/// <param name="heapPropertyComparer">Heap property comparer for T.</param>
+		public HeapBase(int capacity, IHeapPropertyComparer<T> heapPropertyComparer)
+		{
+			heapHelper = new HeapHelper<T>(capacity, heapPropertyComparer);
+		}
+
+		#region IHeap<T, TKey> methods
+
+		public void Append(T x)
+		{
+			heapHelper.Append(x);
+		}
+
+		public int Count()
+		{
+			return heapHelper.Count();
+		}
+
+		public T Delete()
+		{
+			return heapHelper.Delete();
+		}
+
+		public T Displace(T x)
+		{
+			return heapHelper.Displace(x);
+		}
+
+		public void Insert(T x)
+		{
+			heapHelper.Insert(x);
+		}
+
+		public bool IsEmpty()
+		{
+			return heapHelper.IsEmpty();
+		}
+
+		public bool IsFull()
+		{
+			return heapHelper.IsFull();
+		}
+
+		public T Peek()
+		{
+			return heapHelper.Peek();
+		}
 
 		#endregion
+
+		#region IEnumerable<T> methods
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			return heapHelper.GetEnumerator();
+		}
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 
 		#endregion
 	}
@@ -354,47 +558,7 @@ namespace rm.Extensions
 		/// <param name="keySelector">T's key to heapify against.</param>
 		/// <param name="comparer">Comparer for T's key.</param>
 		public MinHeap(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			: base(capacity, keySelector, comparer)
-		{ }
-
-		#endregion
-
-		#region HeapBase<T, TKey> methods
-
-		/// <summary>
-		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
-		/// </summary>
-		protected override bool IsInHeapProperty(int i, int parent)
-		{
-			return comparer.Compare(keySelector(heap[parent]), keySelector(heap[i])) <= 0;
-		}
-
-		#endregion
-	}
-
-	/// <summary>
-	/// Min heap.
-	/// </summary>
-	public class MinHeap<T> : MinHeap<T, T>
-		where T : IComparable<T>
-	{
-		#region ctors
-
-		/// <summary>
-		/// MinHeap ctor.
-		/// </summary>
-		/// <param name="capacity">Capacity of heap.</param>
-		public MinHeap(int capacity)
-			: this(capacity, Comparer<T>.Default)
-		{ }
-
-		/// <summary>
-		/// MinHeap ctor.
-		/// </summary>
-		/// <param name="capacity">Capacity of heap.</param>
-		/// <param name="comparer">Comparer for T.</param>
-		public MinHeap(int capacity, IComparer<T> comparer)
-			: base(capacity, x => x, comparer)
+			: base(capacity, new MinHeapPropertyComparer<T, TKey>(keySelector, comparer))
 		{ }
 
 		#endregion
@@ -403,7 +567,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Max heap.
 	/// </summary>
-	public class MaxHeap<T, TKey> : HeapBase<T, TKey>, IEnumerable<T>
+	public class MaxHeap<T, TKey> : HeapBase<T, TKey>
 		where TKey : IComparable<TKey>
 	{
 		#region ctors
@@ -424,20 +588,113 @@ namespace rm.Extensions
 		/// <param name="keySelector">T's key to heapify against.</param>
 		/// <param name="comparer">Comparer for T's key.</param>
 		public MaxHeap(int capacity, Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			: base(capacity, keySelector, comparer)
+			: base(capacity, new MaxHeapPropertyComparer<T, TKey>(keySelector, comparer))
 		{ }
 
 		#endregion
+	}
 
-		#region HeapBase<T, TKey> methods
+	/// <summary>
+	/// HeapBase class.
+	/// </summary>
+	public class HeapBase<T> : IHeap<T>
+		where T : IComparable<T>
+	{
+		private HeapHelper<T> heapHelper;
 
 		/// <summary>
-		/// Returns true if <paramref name="i"/> and <paramref name="parent"/> are in heap property.
+		/// HeapBase.
 		/// </summary>
-		protected override bool IsInHeapProperty(int i, int parent)
+		/// <param name="capacity">Capacity of heap.</param>
+		/// <param name="heapPropertyComparer">Heap property comparer for T.</param>
+		public HeapBase(int capacity, IHeapPropertyComparer<T> heapPropertyComparer)
 		{
-			return comparer.Compare(keySelector(heap[parent]), keySelector(heap[i])) >= 0;
+			heapHelper = new HeapHelper<T>(capacity, heapPropertyComparer);
 		}
+
+		#region IHeap<T> methods
+
+		public void Append(T x)
+		{
+			heapHelper.Append(x);
+		}
+
+		public int Count()
+		{
+			return heapHelper.Count();
+		}
+
+		public T Delete()
+		{
+			return heapHelper.Delete();
+		}
+
+		public T Displace(T x)
+		{
+			return heapHelper.Displace(x);
+		}
+
+		public void Insert(T x)
+		{
+			heapHelper.Insert(x);
+		}
+
+		public bool IsEmpty()
+		{
+			return heapHelper.IsEmpty();
+		}
+
+		public bool IsFull()
+		{
+			return heapHelper.IsFull();
+		}
+
+		public T Peek()
+		{
+			return heapHelper.Peek();
+		}
+
+		#endregion
+
+		#region IEnumerable<T> methods
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			return heapHelper.GetEnumerator();
+		}
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		#endregion
+	}
+
+	/// <summary>
+	/// Min heap.
+	/// </summary>
+	public class MinHeap<T> : HeapBase<T>
+		where T : IComparable<T>
+	{
+		#region ctors
+
+		/// <summary>
+		/// MinHeap ctor.
+		/// </summary>
+		/// <param name="capacity">Capacity of heap.</param>
+		public MinHeap(int capacity)
+			: this(capacity, Comparer<T>.Default)
+		{ }
+
+		/// <summary>
+		/// MinHeap ctor.
+		/// </summary>
+		/// <param name="capacity">Capacity of heap.</param>
+		/// <param name="comparer">Comparer for T.</param>
+		public MinHeap(int capacity, IComparer<T> comparer)
+			: base(capacity, new MinHeapPropertyComparer<T>(comparer))
+		{ }
 
 		#endregion
 	}
@@ -445,7 +702,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Max heap.
 	/// </summary>
-	public class MaxHeap<T> : MaxHeap<T, T>
+	public class MaxHeap<T> : HeapBase<T>
 		where T : IComparable<T>
 	{
 		#region ctors
@@ -464,7 +721,7 @@ namespace rm.Extensions
 		/// <param name="capacity">Capacity of heap.</param>
 		/// <param name="comparer">Comparer for T.</param>
 		public MaxHeap(int capacity, IComparer<T> comparer)
-			: base(capacity, x => x, comparer)
+			: base(capacity, new MaxHeapPropertyComparer<T>(comparer))
 		{ }
 
 		#endregion
