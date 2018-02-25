@@ -462,10 +462,7 @@ namespace rm.Extensions
 			_start = start ?? _start;
 			_end = end ?? _end;
 			// get positive index for given index
-			Func<int, int, int> toPositiveIndex = (int index, int length) =>
-			{
-				return index >= 0 ? index : index + length;
-			};
+			int toPositiveIndex(int index, int length) => index >= 0 ? index : index + length;
 			// start
 			if (_start < -array.Length || _start >= array.Length)
 			{
