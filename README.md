@@ -603,3 +603,17 @@ dq.Enqueue(2);
 dq.Delete(node); // delete in O(1) time
 int i = dq.Dequeue(); // returns 2
 ```
+
+#### LRU cache:
+
+```c#
+LruCache<int, int> cache = new LruCache<int, int>(5);
+cache.Insert(key: 2, value: 2);
+cache.Get(2); // returns value 2
+var count = cache.Count(); // return 1
+cache.IsEmpty(); // returns false
+cache.Remove(2); // removes 2 from cache
+cache.IsFull(); // returns false
+cache.Capacity(); // returns 5
+cache.Clear(); // clears cache
+```
