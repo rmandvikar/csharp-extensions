@@ -47,6 +47,11 @@ namespace rm.Extensions
 		int Count();
 
 		/// <summary>
+		/// Returns long count of deque.
+		/// </summary>
+		long LongCount();
+
+		/// <summary>
 		/// Clears deque.
 		/// </summary>
 		void Clear();
@@ -87,7 +92,7 @@ namespace rm.Extensions
 	/// </summary>
 	/// <remarks>
 	/// Uses linked list as backing store.
-	/// 
+	///
 	/// All methods are O(1) time unless noted.
 	/// </remarks>
 	public class Deque<T> : IDeque<T>
@@ -96,7 +101,7 @@ namespace rm.Extensions
 
 		private Node<T> head;
 		private Node<T> tail;
-		private int count;
+		private long count;
 
 		#endregion
 
@@ -216,6 +221,14 @@ namespace rm.Extensions
 		/// Returns count of deque.
 		/// </summary>
 		public int Count()
+		{
+			return checked((int)count);
+		}
+
+		/// <summary>
+		/// Returns long count of deque.
+		/// </summary>
+		public long LongCount()
 		{
 			return count;
 		}
