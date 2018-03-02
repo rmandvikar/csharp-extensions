@@ -65,6 +65,12 @@ namespace rm.Extensions
 		/// Inserts <paramref name="x"/> after given <paramref name="node"/>.
 		/// </summary>
 		Node<T> InsertAfter(Node<T> node, T x);
+
+		// HACK: Either encapsulate or refactor with Remove(T x).
+		/// <summary>
+		/// Iterates over all nodes.
+		/// </summary>
+		IEnumerable<Node<T>> Nodes();
 	}
 
 	namespace Deque
@@ -298,6 +304,19 @@ namespace rm.Extensions
 				next.prev = xnode;
 			}
 			return xnode;
+		}
+
+		/// <summary>
+		/// Iterates over all nodes.
+		/// </summary>
+		public IEnumerable<Node<T>> Nodes()
+		{
+			var node = head;
+			while (node != null)
+			{
+				yield return node;
+				node = node.next;
+			}
 		}
 
 		#endregion

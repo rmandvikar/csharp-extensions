@@ -324,5 +324,21 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(2, dq.PeekTail());
 			Assert.AreEqual(3, dq.Count());
 		}
+
+		[Test]
+		public void Nodes01()
+		{
+			var dq = new Deque<int>();
+			for (int i = 0; i < 5; i++)
+			{
+				dq.Enqueue(i);
+			}
+			var iexp = 0;
+			foreach (var node in dq.Nodes())
+			{
+				Assert.AreEqual(iexp, node.Value);
+				iexp++;
+			}
+		}
 	}
 }
