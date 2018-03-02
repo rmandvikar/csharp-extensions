@@ -9,7 +9,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Defines deque methods.
 	/// </summary>
-	interface IDeque<T>
+	interface IDeque<T> : IEnumerable<T>
 	{
 		/// <summary>
 		/// Enqueues <paramref name="x"/> into deque.
@@ -90,7 +90,7 @@ namespace rm.Extensions
 	/// 
 	/// All methods are O(1) time unless noted.
 	/// </remarks>
-	public class Deque<T> : IDeque<T>, IEnumerable<T>
+	public class Deque<T> : IDeque<T>
 	{
 		#region members
 
