@@ -63,13 +63,22 @@ namespace rm.Extensions
 		#region methods
 
 		/// <summary>
+		/// Returns index and offset for <paramref name="n"/>.
+		/// </summary>
+		private (uint, int) GetIndexOffset(uint n)
+		{
+			var index = (n >> 5);
+			var offset = (int)(n & 0b1_1111);
+			return (index, offset);
+		}
+
+		/// <summary>
 		/// Returns true if BitSet contains <paramref name="n"/>.
 		/// </summary>
 		public bool Has(uint n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n), maxRange: Max);
-			uint index = (n >> 5);
-			int offset = (int)(n & 0x1f);
+			(uint index, int offset) = GetIndexOffset(n);
 			return Has(index, offset);
 		}
 
@@ -97,8 +106,7 @@ namespace rm.Extensions
 		public void Add(uint n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n), maxRange: Max);
-			uint index = (n >> 5);
-			int offset = (int)(n & 0x1f);
+			(uint index, int offset) = GetIndexOffset(n);
 			if (Has(index, offset))
 			{
 				return;
@@ -123,8 +131,7 @@ namespace rm.Extensions
 		public bool Remove(uint n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n), maxRange: Max);
-			uint index = (n >> 5);
-			int offset = (int)(n & 0x1f);
+			(uint index, int offset) = GetIndexOffset(n);
 			if (!Has(index, offset))
 			{
 				return false;
@@ -150,8 +157,7 @@ namespace rm.Extensions
 		public void Toggle(uint n)
 		{
 			n.ThrowIfArgumentOutOfRange(nameof(n), maxRange: Max);
-			uint index = (n >> 5);
-			int offset = (int)(n & 0x1f);
+			(uint index, int offset) = GetIndexOffset(n);
 			flags[index] ^= (1 << offset);
 			Count += Has(index, offset) ? +1 : -1;
 		}
