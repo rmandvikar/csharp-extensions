@@ -2,6 +2,8 @@ csharp-extensions
 =================
 
 
+A collection of utility C# extension methods.
+
 #### nuget:
 ```
 Install-Package rm.Extensions
