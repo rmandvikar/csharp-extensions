@@ -4,6 +4,9 @@ csharp-extensions
 
 A collection of utility C# extension methods.
 
+master: [![Build Status](https://travis-ci.org/rmandvikar/csharp-extensions.svg?branch=master)](https://travis-ci.org/rmandvikar/csharp-extensions)
+dev:    [![Build Status](https://travis-ci.org/rmandvikar/csharp-extensions.svg?branch=dev)](https://travis-ci.org/rmandvikar/csharp-extensions)
+
 #### nuget:
 ```
 Install-Package rm.Extensions

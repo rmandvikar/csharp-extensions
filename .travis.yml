@@ -1,0 +1,15 @@
+language: csharp
+dist: trusty
+sudo: required
+mono: none
+dotnet: 2.0.0
+solution: rm.Extensions.sln
+before_script:
+  - chmod +x ci.sh
+script:
+  - ./ci.sh
+notifications:
+  slack:
+    on_success: change
+    rooms:
+      - hippy2981:3b9kIQgSTyvPVzwSkCqwi4aG#github
