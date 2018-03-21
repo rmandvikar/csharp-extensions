@@ -238,14 +238,17 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		[TestCase("2013-04-01T03:42:14-04:00", "4/1/2013 7:42:14 AM")]
-		[TestCase("2012-02-29T23:00:00-04:00", "3/1/2012 3:00:00 AM")]
-		public void ParseAsUtc01(string s, string expected)
+		[TestCase("2013-04-01T03:42:14-04:00", 2013, 4, 1, 7, 42, 14, DateTimeKind.Utc)]
+		[TestCase("2012-02-29T23:00:00-04:00", 2012, 3, 1, 3, 0, 0, DateTimeKind.Utc)]
+		public void ParseAsUtc01(string s,
+			int year, int month, int day, int hour, int min, int sec, DateTimeKind kind)
 		{
-			var result = s.ParseAsUtc();
-			Assert.AreEqual(DateTimeKind.Utc, result.Kind);
-			Assert.AreEqual(expected, result.ToString());
-			Assert.AreEqual(expected, result.ToUniversalTime().ToString());
+			var date = s.ParseAsUtc();
+			var expectedDate = new DateTime(year, month, day, hour, min, sec, kind);
+			Assert.AreEqual(expectedDate, date);
+			Assert.AreEqual(expectedDate.Kind, date.Kind);
+			Assert.AreEqual(expectedDate, date.ToUniversalTime());
+			Assert.AreEqual(expectedDate.Kind, date.ToUniversalTime().Kind);
 		}
 
 		[Test]

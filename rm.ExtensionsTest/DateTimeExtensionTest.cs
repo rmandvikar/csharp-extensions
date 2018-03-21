@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NUnit.Framework;
 using rm.Extensions;
 
@@ -18,8 +19,9 @@ namespace rm.ExtensionsTest
 		public void ToSqlDateTimeMinUtc01()
 		{
 			var date = new DateTime().ToSqlDateTimeMinUtc();
-			Assert.AreEqual(DateTimeKind.Utc, date.Kind);
-			Assert.AreEqual("1/1/1753 12:00:00 AM", date.ToString());
+			var expectedDate = new DateTime(1753, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			Assert.AreEqual(expectedDate, date);
+			Assert.AreEqual(expectedDate.Kind, date.Kind);
 		}
 
 		[Test]
@@ -29,8 +31,11 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(DateTimeKind.Unspecified, date.Kind);
 			date = date.AsUtcKind();
 			Assert.AreEqual(DateTimeKind.Utc, date.Kind);
-			Assert.AreEqual("4/1/2014 12:00:00 AM", date.ToString());
-			Assert.AreEqual("4/1/2014 12:00:00 AM", date.ToUniversalTime().ToString());
+			var expectedDate = new DateTime(2014, 4, 1, 0, 0, 0, DateTimeKind.Utc);
+			Assert.AreEqual(expectedDate, date);
+			Assert.AreEqual(expectedDate.Kind, date.Kind);
+			Assert.AreEqual(expectedDate, date.ToUniversalTime());
+			Assert.AreEqual(expectedDate.Kind, date.ToUniversalTime().Kind);
 		}
 	}
 }

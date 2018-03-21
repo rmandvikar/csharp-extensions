@@ -16,11 +16,7 @@ namespace rm.Extensions
 		/// <summary>
 		/// Min value for Sql datetime to save in sql db.
 		/// </summary>
-		public static readonly DateTime SqlDateTimeMinUtc =
-			DateTime.SpecifyKind(
-				DateTime.Parse(SqlDateTime.MinValue.ToString()),
-				DateTimeKind.Utc
-				);
+		public static readonly DateTime SqlDateTimeMinUtc = SqlDateTime.MinValue.Value.AsUtcKind();
 
 		/// <summary>
 		/// Gets the UTC datetime format for the date.
