@@ -194,7 +194,7 @@ namespace rm.ExtensionsTest
 			dq.Delete(node);
 			sw.Stop();
 			var dqTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(dqTime);
+			Console.WriteLine($"dqTime: {dqTime}");
 
 			sw.Reset();
 			var q = new Queue<int>();
@@ -205,7 +205,7 @@ namespace rm.ExtensionsTest
 			q.Where(x => x == count - 1).ToList();
 			sw.Stop();
 			var qTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(qTime);
+			Console.WriteLine($"qTime:  {qTime}");
 
 			Assert.Less(dqTime, qTime);
 			Assert.Less(dqTime, 3);
@@ -225,7 +225,7 @@ namespace rm.ExtensionsTest
 			foreach (var item in dq) { }
 			sw.Stop();
 			var dqTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(dqTime);
+			Console.WriteLine($"dqTime: {dqTime}");
 
 			sw.Reset();
 			var q = new Queue<int>();
@@ -235,9 +235,9 @@ namespace rm.ExtensionsTest
 			foreach (var item in q) { }
 			sw.Stop();
 			var qTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(qTime);
+			Console.WriteLine($"qTime:  {qTime}");
 
-			Assert.Less(dqTime, qTime * 4);
+			Assert.Less(dqTime, qTime * 10);
 			Assert.Less(dqTime, 50);
 		}
 

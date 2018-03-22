@@ -194,7 +194,7 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(hashq.Delete(count - 1));
 			sw.Stop();
 			var hashqTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(hashqTime);
+			Console.WriteLine($"hashqTime:  {hashqTime}");
 
 			sw.Reset();
 			var q = new Queue<int>();
@@ -205,10 +205,10 @@ namespace rm.ExtensionsTest
 			q.Where(x => x == count - 1).ToList();
 			sw.Stop();
 			var qTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(qTime);
+			Console.WriteLine($"qTime:      {qTime}");
 
 			Assert.Less(hashqTime, qTime);
-			Assert.Less(hashqTime, 3);
+			Assert.Less(hashqTime, 10);
 		}
 
 		[Test(Description = "HashQueue<T> v/s Queue<T> enumerate speed test.")]
@@ -225,7 +225,7 @@ namespace rm.ExtensionsTest
 			foreach (var item in hashq) { }
 			sw.Stop();
 			var hashqTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(hashqTime);
+			Console.WriteLine($"hashqTime:  {hashqTime}");
 
 			sw.Reset();
 			var q = new Queue<int>();
@@ -235,9 +235,9 @@ namespace rm.ExtensionsTest
 			foreach (var item in q) { }
 			sw.Stop();
 			var qTime = sw.ElapsedMilliseconds;
-			Console.WriteLine(qTime);
+			Console.WriteLine($"qTime:      {qTime}");
 
-			Assert.Less(hashqTime, qTime * 4);
+			Assert.Less(hashqTime, qTime * 10);
 			Assert.Less(hashqTime, 50);
 		}
 	}
