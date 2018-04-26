@@ -10,6 +10,6 @@ if [[ -z "$version" ]]; then
 fi
 
 dotnet nuget delete rm.Extensions "$version" \
-	-k $(< ~/.nuget.apikey) \
+	-k $(< ~/dump/.nuget.apikey) \
 	-s https://api.nuget.org/v3/index.json \
 	--non-interactive
