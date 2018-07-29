@@ -2,6 +2,8 @@
 
 #usage: nuget-push <version>
 
+if [[ "$1" == "-h" ]]; then print-file-comments "$0"; exit; fi
+
 version="$1"
 if [[ -z "$version" ]]; then
 	echo 1>&2 "fatal: version required"
@@ -9,6 +11,9 @@ if [[ -z "$version" ]]; then
 	exit 1
 fi
 
-dotnet nuget push rm.Extensions/bin/Release/rm.Extensions."$version".nupkg \
+tag="nuget-$version"
+
+dotnet nuget push rm.Extensions."$version".nupkg \
 	-k $(< ~/dump/.nuget.apikey) \
-	-s https://api.nuget.org/v3/index.json
+	-s https://api.nuget.org/v3/index.json \
+	&& git push $(git remote) "$tag"

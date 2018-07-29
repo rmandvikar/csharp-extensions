@@ -7,6 +7,7 @@
     <Description>A collection of utility C# extension methods.</Description>
     <PackageTags>utility extensions</PackageTags>
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/rmandvikar/csharp-extensions</PackageProjectUrl>
     <Authors>hippy</Authors>
     <Company>hippy</Company>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
