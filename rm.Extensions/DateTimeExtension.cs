@@ -80,7 +80,7 @@ namespace rm.Extensions
 				suffix = "th";
 			}
 
-			return $"{date.ToString("MMMM d")}{suffix}";
+			return string.Format("{0:MMMM} {1}{2}, {0:yyyy}", date, date.Day, suffix);
 		}
 	}
 }
