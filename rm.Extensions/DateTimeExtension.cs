@@ -53,7 +53,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Returns the date in ordinal format
+		/// Returns the date in year month ordinal format
 		/// </summary>
 		public static string ToYearMonthOrdinal(this DateTime date)
 		{
