@@ -37,5 +37,29 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(expectedDate, date.ToUniversalTime());
 			Assert.AreEqual(expectedDate.Kind, date.ToUniversalTime().Kind);
 		}
+
+		[Test]
+		public void ToOrdinal()
+		{
+			var date = new DateTime(2011, 2, 11);
+
+			Assert.AreEqual("February 11th, 2011", date.ToYearMonthOrdinal());
+
+			date = new DateTime(2011, 2, 2);
+
+			Assert.AreEqual("February 2nd, 2011", date.ToYearMonthOrdinal());
+
+			date = new DateTime(2011, 2, 1);
+
+			Assert.AreEqual("February 1st, 2011", date.ToYearMonthOrdinal());
+
+			date = new DateTime(2011, 2, 23);
+
+			Assert.AreEqual("February 23rd, 2011", date.ToYearMonthOrdinal());
+
+			date = new DateTime(2011, 2, 24);
+
+			Assert.AreEqual("February 24th, 2011", date.ToYearMonthOrdinal());
+		}
 	}
 }
