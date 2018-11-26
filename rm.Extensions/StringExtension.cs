@@ -50,6 +50,22 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns null if string is null/empty else same string.
+		/// </summary>
+		public static string NullIfEmpty(this string s)
+		{
+			return !s.IsNullOrEmpty() ? s : null;
+		}
+
+		/// <summary>
+		/// Returns null if string is null/empty/whitespace else same string.
+		/// </summary>
+		public static string NullIfWhiteSpace(this string s)
+		{
+			return !s.IsNullOrWhiteSpace() ? s : null;
+		}
+
+		/// <summary>
 		/// Returns html-encoded string.
 		/// </summary>
 		public static string HtmlEncode(this string s)

@@ -28,6 +28,9 @@ if (!s.IsNullOrWhiteSpace()) text = s.Trim();
 // fluent code by avoiding comparison
 string text = s.OrEmpty().Trim(); // "" when s is null/empty/whitespace
 string text = s.Or("default").Trim(); // "default" when s is null/empty/whitespace
+// or using null-conditional and null-coalesce operators
+string text = s.NullIfEmpty()?.Trim() ?? ""
+string text = s.NullIfWhiteSpace()?.Trim() ?? "default"
 ```
 
 ```c#

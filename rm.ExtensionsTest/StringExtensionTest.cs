@@ -62,6 +62,26 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		[TestCase((string)null, (string)null)]
+		[TestCase("", (string)null)]
+		[TestCase(" ", " ")]
+		[TestCase("s", "s")]
+		public void NullIfEmpty01(string s, string expected)
+		{
+			Assert.AreEqual(expected, s.NullIfEmpty());
+		}
+
+		[Test]
+		[TestCase((string)null, (string)null)]
+		[TestCase("", (string)null)]
+		[TestCase(" ", (string)null)]
+		[TestCase("s", "s")]
+		public void NullIfWhiteSpace01(string s, string expected)
+		{
+			Assert.AreEqual(expected, s.NullIfWhiteSpace());
+		}
+
+		[Test]
 		[TestCase("<", "&lt;")]
 		[TestCase("s", "s")]
 		[TestCase("", "")]
