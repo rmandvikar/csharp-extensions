@@ -58,8 +58,8 @@ namespace rm.Extensions
 	{
 		#region members
 
-		private T[] store;
-		private int capacity;
+		private readonly T[] store;
+		private readonly int capacity;
 		private int count;
 		private int head;
 		private int tail;
@@ -86,7 +86,7 @@ namespace rm.Extensions
 		public void Enqueue(T x)
 		{
 			store[tail] = x;
-			tail = wrapIndex(tail + 1);
+			tail = WrapIndex(tail + 1);
 			if (count == capacity)
 			{
 				head = tail;
@@ -107,7 +107,7 @@ namespace rm.Extensions
 				throw new InvalidOperationException("Queue is empty.");
 			}
 			var item = store[head];
-			head = wrapIndex(head + 1);
+			head = WrapIndex(head + 1);
 			count--;
 			return item;
 		}
@@ -133,7 +133,7 @@ namespace rm.Extensions
 			{
 				throw new InvalidOperationException("Queue is empty.");
 			}
-			return store[wrapIndex(tail - 1)];
+			return store[WrapIndex(tail - 1)];
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace rm.Extensions
 
 		#endregion
 
-		private int wrapIndex(int index)
+		private int WrapIndex(int index)
 		{
 			var wIndex = index % capacity;
 			if (wIndex < 0)
@@ -188,7 +188,7 @@ namespace rm.Extensions
 			for (int c = 0; c < count; c++)
 			{
 				yield return store[index];
-				index = wrapIndex(index + 1);
+				index = WrapIndex(index + 1);
 			}
 		}
 

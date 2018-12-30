@@ -58,8 +58,8 @@ namespace rm.Extensions
 	{
 		#region members
 
-		private T[] store;
-		private int capacity;
+		private readonly T[] store;
+		private readonly int capacity;
 		private int count;
 		private int top;
 
@@ -85,7 +85,7 @@ namespace rm.Extensions
 		public void Push(T x)
 		{
 			store[top] = x;
-			top = wrapIndex(top + 1);
+			top = WrapIndex(top + 1);
 			if (count < capacity)
 			{
 				count++;
@@ -101,7 +101,7 @@ namespace rm.Extensions
 			{
 				throw new InvalidOperationException("Stack is empty.");
 			}
-			top = wrapIndex(top - 1);
+			top = WrapIndex(top - 1);
 			var item = store[top];
 			count--;
 			return item;
@@ -116,7 +116,7 @@ namespace rm.Extensions
 			{
 				throw new InvalidOperationException("Stack is empty.");
 			}
-			return store[wrapIndex(top - 1)];
+			return store[WrapIndex(top - 1)];
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace rm.Extensions
 			{
 				throw new InvalidOperationException("Stack is empty.");
 			}
-			return store[wrapIndex(top - count)];
+			return store[WrapIndex(top - count)];
 		}
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace rm.Extensions
 
 		#endregion
 
-		private int wrapIndex(int index)
+		private int WrapIndex(int index)
 		{
 			var wIndex = index % capacity;
 			if (wIndex < 0)
@@ -182,7 +182,7 @@ namespace rm.Extensions
 			var index = top;
 			for (int c = 0; c < count; c++)
 			{
-				index = wrapIndex(index - 1);
+				index = WrapIndex(index - 1);
 				yield return store[index];
 			}
 		}
