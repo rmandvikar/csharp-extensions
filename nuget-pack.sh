@@ -13,7 +13,9 @@ fi
 
 tag="nuget-$version"
 
-dotnet pack -c Release rm.Extensions/rm.Extensions.csproj \
+dotnet pack rm.Extensions/rm.Extensions.csproj \
+	-c Release \
+	--include-symbols //p:SymbolPackageFormat=snupkg \
 	-o ../ \
 	//p:PackageVersion="$version" \
 	//p:PackageReleaseNotes="tag: $tag" \
