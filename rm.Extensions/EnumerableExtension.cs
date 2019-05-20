@@ -906,6 +906,14 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns empty if enumerable is null else same enumerable.
+		/// </summary>
+		public static IEnumerable<T> EmptyIfDefault<T>(this IEnumerable<T> source)
+		{
+			return source.OrEmpty();
+		}
+
+		/// <summary>
 		/// Returns source.OrderBy(keySelector, comparer) in a linqified way.
 		/// </summary>
 		public static IOrderedEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source,

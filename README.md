@@ -310,8 +310,9 @@ source.OrderBy(x => x.Property,
 ```
 
 ```c#
-// source.OrEmpty() to avoid a null check
+// source.OrEmpty() or source.EmptyIfDefault() to avoid a null check
 foreach (var item in source.OrEmpty()) { /**/ }
+foreach (var item in source.EmptyIfDefault()) { /**/ }
 // instead of
 if (source != null) { foreach (var item in source) { /**/ } }
 ```

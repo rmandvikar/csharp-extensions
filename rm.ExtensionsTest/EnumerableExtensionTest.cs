@@ -718,6 +718,13 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		public void EmptyIfDefault01()
+		{
+			Assert.AreEqual(new[] { 1 }, new[] { 1 }.EmptyIfDefault());
+			Assert.AreEqual(new int[0], ((int[])null).EmptyIfDefault());
+		}
+
+		[Test]
 		[TestCase(new[] { 1, 4, 5, 2, 3 }, new[] { 1, 2, 3, 4, 5 }, true)]
 		[TestCase(new[] { 1, 1, 2 }, new[] { 1, 1, 2 }, true)]
 		[TestCase(new int[] { }, new int[] { }, true)]
