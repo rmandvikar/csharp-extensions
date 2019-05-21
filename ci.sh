@@ -6,6 +6,6 @@ dotnet clean -c Release
 dotnet build rm.Extensions.sln \
 	-c Release \
 	-f netcoreapp2.0
-dotnet test rm.ExtensionsTest/rm.ExtensionsTest.csproj \
+dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
 	-c Release --no-build --no-restore \
 	-f netcoreapp2.0
