@@ -1,8 +1,8 @@
 language: csharp
-dist: trusty
+dist: xenial
 sudo: required
 mono: none
-dotnet: 2.0.0
+dotnet: 3.0
 solution: rm.Extensions.sln
 before_script:
   - chmod +x ci.sh
