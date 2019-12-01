@@ -97,15 +97,23 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		public void UnsupportedEnumValueException01()
+		{
+			var enumValue = (Color)0;
+			var TEnum = enumValue.GetType();
+			var ex = Assert.Throws<UnsupportedEnumValueException<Color>>(() =>
+			{
+				enumValue.GetEnumName();
+			});
+			Assert.AreEqual($"Value {enumValue} of enum {TEnum.Name} is not supported.", ex.Message);
+		}
+
+		[Test]
 		public void GetDescription02()
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			Assert.Throws<UnsupportedEnumValueException<Color>>(() =>
 			{
 				((Color)0).GetDescription();
-			});
-			Assert.Throws<ArgumentException>(() =>
-			{
-				"T".Parse<Temperature>().GetDescription();
 			});
 		}
 
@@ -113,9 +121,9 @@ namespace rm.ExtensionsTest
 		public void GetEnumValue01()
 		{
 			Assert.AreEqual(Color.Red, "Red".GetEnumValue<Color>());
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			Assert.Throws<UnsupportedEnumValueException<Color>>(() =>
 			{
-				"OutOfRange".GetEnumValue<Color>();
+				"UnsupportedEnumValue".GetEnumValue<Color>();
 			});
 		}
 
@@ -187,9 +195,9 @@ namespace rm.ExtensionsTest
 		public void GetEnumNameFromDescription01()
 		{
 			Assert.AreEqual(Color.Red.ToString(), "Red color".GetEnumNameFromDescription<Color>());
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
+			Assert.Throws<UnsupportedEnumValueException<Color>>(() =>
 			{
-				"OutOfRange".GetEnumNameFromDescription<Color>();
+				"UnsupportedEnumValue".GetEnumNameFromDescription<Color>();
 			});
 		}
 

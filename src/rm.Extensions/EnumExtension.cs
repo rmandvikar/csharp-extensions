@@ -67,7 +67,7 @@ namespace rm.Extensions
 			{
 				return enumName;
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new UnsupportedEnumValueException<T>(enumValue);
 		}
 
 		/// <summary>
@@ -81,7 +81,8 @@ namespace rm.Extensions
 			{
 				return enumValue.GetEnumName();
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new UnsupportedEnumValueException<T>(
+				$"{nameof(description)} {description} of enum {typeof(T).Name} is not supported.");
 		}
 
 		/// <summary>
@@ -95,7 +96,8 @@ namespace rm.Extensions
 			{
 				return enumValue;
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new UnsupportedEnumValueException<T>(
+				$"{nameof(name)} {name} of enum {typeof(T).Name} is not supported.");
 		}
 
 		/// <summary>
@@ -109,7 +111,8 @@ namespace rm.Extensions
 			{
 				return enumValue;
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new UnsupportedEnumValueException<T>(
+				$"{nameof(description)} {description} of enum {typeof(T).Name} is not supported.");
 		}
 
 		/// <summary>
@@ -124,7 +127,7 @@ namespace rm.Extensions
 			{
 				return description;
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new UnsupportedEnumValueException<T>(enumValue);
 		}
 
 		/// <summary>
@@ -138,7 +141,7 @@ namespace rm.Extensions
 			{
 				return json;
 			}
-			throw new ArgumentOutOfRangeException();
+			throw new ArgumentOutOfRangeException(typeof(T).FullName);
 		}
 
 		/// <summary>
