@@ -92,5 +92,21 @@ namespace rm.Extensions
 			}
 			return s;
 		}
+
+		/// <summary>
+		/// Rounds value down to an integer multiple of a given bin size.
+		/// </summary>
+		/// <remarks>
+		/// See https://docs.microsoft.com/en-us/azure/kusto/query/binfunction
+		/// </remarks>
+		public static int Bin(this int n, int binSize)
+		{
+			var result = (n / binSize) * binSize;
+			if (n < 0)
+			{
+				result -= binSize;
+			}
+			return result;
+		}
 	}
 }

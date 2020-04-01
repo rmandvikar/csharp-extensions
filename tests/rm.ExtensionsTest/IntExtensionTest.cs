@@ -88,5 +88,24 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(result, n.Round((uint)digits));
 			}
 		}
+
+		[Test]
+		[TestCase(0, 5, 0)]
+		[TestCase(1, 5, 0)]
+		[TestCase(4, 5, 0)]
+		[TestCase(5, 5, 5)]
+		[TestCase(6, 5, 5)]
+		[TestCase(9, 5, 5)]
+		[TestCase(10, 5, 10)]
+		[TestCase(-1, 5, -5)]
+		[TestCase(-4, 5, -5)]
+		[TestCase(-5, 5, -10)]
+		[TestCase(-6, 5, -10)]
+		[TestCase(-9, 5, -10)]
+		[TestCase(-10, 5, -15)]
+		public void Bin01(int n, int binSize, int result)
+		{
+			Assert.AreEqual(result, n.Bin(binSize));
+		}
 	}
 }
