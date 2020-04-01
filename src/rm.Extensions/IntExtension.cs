@@ -45,7 +45,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Gets scrabble count for n. 
+		/// Gets scrabble count for n.
 		/// </summary>
 		/// <remarks>nP1 + nP2 + ... + nPn</remarks>
 		public static BigInteger ScrabbleCount(this int n)
@@ -54,7 +54,7 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Gets scrabble count for n with limit. 
+		/// Gets scrabble count for n with limit.
 		/// </summary>
 		/// <remarks>nP1 + nP2 + ... + nPlimit, where limit is up to n</remarks>
 		public static BigInteger ScrabbleCount(this int n, int limit)
