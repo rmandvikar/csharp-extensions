@@ -13,10 +13,10 @@ fi
 
 tag="nuget-$version"
 
-dotnet pack rm.Extensions/rm.Extensions.csproj \
+dotnet pack src/rm.Extensions/rm.Extensions.csproj \
 	-c Release \
 	--include-symbols //p:SymbolPackageFormat=snupkg \
-	-o ../.nupkg/ \
+	-o .nupkg/ \
 	//p:PackageVersion="$version" \
 	//p:PackageReleaseNotes="tag: $tag" \
 	&& git tag "$tag" -m "Create nuget tag $tag"
