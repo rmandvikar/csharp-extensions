@@ -324,7 +324,11 @@ if (source.TrySingle(out singleT)) { ... }
 
 ```c#
 // OneOrDefault() to get the only one element or default
-var oneT = source.OneOrDefault()
+//	input		firstOrDefault	singleOrDefault		oneOrDefault
+//	{ 1, 2 }	1				throws				default
+//	{ 1 }		1				1					1
+//	{ }			default			default				default
+var oneT = source.OneOrDefault();
 ```
 
 #### IList extensions:
