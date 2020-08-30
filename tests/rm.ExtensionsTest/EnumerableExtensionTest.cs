@@ -748,5 +748,21 @@ namespace rm.ExtensionsTest
 		{
 			Assert.AreEqual(oneTExpected, source.OneOrDefault(x => x > 1));
 		}
+
+		[Test]
+		[TestCase(new[] { 1, 2, 3 }, 1, true)]
+		[TestCase(new[] { 1, 2, 3 }, 0, false)]
+		public void In01(int[] source, int value, bool result)
+		{
+			Assert.AreEqual(result, value.In(source));
+		}
+
+		[Test]
+		public void In_comparer01()
+		{
+			var value = new ComparableClass2() { Value = 1 };
+			var source = new[] { 1, 2, 3 }.Select(x => new ComparableClass2() { Value = x });
+			Assert.IsTrue(value.In(source, GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
+		}
 	}
 }

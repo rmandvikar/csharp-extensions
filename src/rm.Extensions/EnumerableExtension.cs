@@ -1010,5 +1010,25 @@ namespace rm.Extensions
 			}
 			return count;
 		}
+
+		/// <summary>
+		/// Returns true if <paramref name="value"/> is in <paramref name="source"/>.
+		/// </summary>
+		public static bool In<T>(this T value, IEnumerable<T> source)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			return source.Contains(value);
+		}
+
+		/// <summary>
+		/// Returns true if <paramref name="value"/> is in <paramref name="source"/>
+		/// by using a specified <paramref name="comparer"/>.
+		/// </summary>
+		public static bool In<T>(this T value, IEnumerable<T> source, IEqualityComparer<T> comparer)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			comparer.ThrowIfArgumentNull(nameof(comparer));
+			return source.Contains(value, comparer);
+		}
 	}
 }

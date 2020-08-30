@@ -331,6 +331,12 @@ if (source.TrySingle(out singleT)) { ... }
 var oneT = source.OneOrDefault();
 ```
 
+```c#
+// calls IEnumerable.Contains()
+bool result = value.In(source);
+bool result = value.In(source, comparer);
+```
+
 #### IList extensions:
 
 ```c#
