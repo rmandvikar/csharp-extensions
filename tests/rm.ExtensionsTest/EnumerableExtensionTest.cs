@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
+using rm.ExtensionsTest.Sample;
 
 namespace rm.ExtensionsTest
 {
@@ -477,42 +478,6 @@ namespace rm.ExtensionsTest
 			Assert.True(sortresult.SequenceEqual(result));
 		}
 
-		class ComparableClass : IComparable<ComparableClass>
-		{
-			public int CompareTo(ComparableClass other)
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		class ComparableClass2 : IComparable<ComparableClass2>, IEquatable<ComparableClass2>
-		{
-			public int Value { get; set; }
-
-			public int CompareTo(ComparableClass2 other)
-			{
-				if (other == null)
-				{
-					return 1;
-				}
-				return Value.CompareTo(other.Value);
-			}
-
-			public override string ToString()
-			{
-				return Value.ToString();
-			}
-
-			public bool Equals(ComparableClass2 other)
-			{
-				if (other == null)
-				{
-					return false;
-				}
-				return Value.Equals(other.Value);
-			}
-		}
-
 		[Test]
 		public void Top02()
 		{
@@ -567,19 +532,6 @@ namespace rm.ExtensionsTest
 				.OrderBy(x => x.Value)
 				.SequenceEqual(new[] { 0, 5, 10 }.Select(x => new ComparableClass2 { Value = x }),
 					GenericEqualityComparer<ComparableClass2>.By(x => x.Value)));
-		}
-
-		class ComparableClass2Comparer : IComparer<ComparableClass2>
-		{
-			public int Compare(ComparableClass2 x, ComparableClass2 y)
-			{
-				return x.Value.CompareTo(y.Value);
-			}
-		}
-
-		class SampleClass
-		{
-			public ComparableClass2 ComparableClass2 { get; set; }
 		}
 
 		[Test]
