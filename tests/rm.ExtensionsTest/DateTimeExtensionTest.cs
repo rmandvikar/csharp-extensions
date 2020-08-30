@@ -27,7 +27,8 @@ namespace rm.ExtensionsTest
 		[Test]
 		public void AsUtcKind01()
 		{
-			var date = DateTime.Parse("4/1/2014 12:00:00 AM");
+			var date = DateTime.ParseExact(
+				"4/1/2014 12:00:00 AM", "M/d/yyyy hh:mm:ss tt", CultureInfo.CurrentCulture);
 			Assert.AreEqual(DateTimeKind.Unspecified, date.Kind);
 			date = date.AsUtcKind();
 			Assert.AreEqual(DateTimeKind.Utc, date.Kind);
