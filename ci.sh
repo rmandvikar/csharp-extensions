@@ -9,4 +9,5 @@ dotnet build rm.Extensions.sln \
 dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
 	-c Release --no-build --no-restore \
 	-f netcoreapp3.1 \
-	-v normal
+	-v normal \
+	--filter "TestCategory!=very.slow"
