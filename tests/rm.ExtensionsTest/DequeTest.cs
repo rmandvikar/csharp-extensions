@@ -180,7 +180,6 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test(Description = "Deque<T> v/s Queue<T> find speed test.")]
-		[Category("slow")]
 		public void Find01()
 		{
 			var count = 1000000;
@@ -212,7 +211,6 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test(Description = "Deque<T> v/s Queue<T> enumerate speed test.")]
-		[Category("slow")]
 		public void Enumerate01()
 		{
 			var count = 1000000;

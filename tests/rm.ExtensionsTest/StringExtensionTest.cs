@@ -300,6 +300,7 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		[Category("slow")]
 		[TestCase("abcdefghijklmnopqrstuvwxyz", 4, 358800, new[] { "abcd", "wxyz" })]
 		public void Permutation01(string s, int r, long count, string[] spotchecks)
 		{
