@@ -8,4 +8,5 @@ dotnet build rm.Extensions.sln \
 	-f netcoreapp3.1
 dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
 	-c Release --no-build --no-restore \
-	-f netcoreapp3.1
+	-f netcoreapp3.1 \
+	-v normal
