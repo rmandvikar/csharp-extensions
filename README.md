@@ -428,12 +428,6 @@ enum Color
 	Green, 
 	[Description("Blue color")] Blue
 }
-string colorjson = EnumExtension.GetJson<Color>();
-// colorjson: @"{
-//   Red: "Red color",
-//   Green: "Green",
-//   Blue: "Blue color"
-// }"
 ```
 
 ```c#

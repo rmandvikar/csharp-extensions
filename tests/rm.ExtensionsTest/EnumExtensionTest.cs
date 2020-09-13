@@ -202,26 +202,6 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
-		public void GetJson01()
-		{
-			var json = EnumExtension.GetJson<Color>();
-			Console.WriteLine("colorjson = {0}", json);
-			var expected = $"{{{Environment.NewLine}{"\t"}Red: \"Red color\",{Environment.NewLine}{"\t"}Green: \"Green\",{Environment.NewLine}{"\t"}Blue: \"Blue color\"{Environment.NewLine}}}";
-			dynamic j = expected;
-			Assert.AreEqual(expected, json);
-		}
-
-		[Test]
-		public void GetJson02()
-		{
-			var json = EnumExtension.GetJson<EmptyEnum>();
-			Console.WriteLine("emptyenumjson = {0}", json);
-			var expected = $"{{{Environment.NewLine}}}";
-			dynamic j = expected;
-			Assert.AreEqual(expected, json);
-		}
-
-		[Test]
 		public void Sorting01()
 		{
 			var gradesUnsorted = new[] { "Pre-K", "1", "College", "2", "Toddler" };

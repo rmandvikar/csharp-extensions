@@ -131,20 +131,6 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Gets enum json as name, description.
-		/// </summary>
-		public static string GetJson<T>()
-			where T : struct
-		{
-			string json;
-			if (EnumInternal<T>.TypeNameToJsonMap.TryGetValue(typeof(T).FullName, out json))
-			{
-				return json;
-			}
-			throw new ArgumentOutOfRangeException(typeof(T).FullName);
-		}
-
-		/// <summary>
 		/// Generic method for <see cref="Enum.IsDefined(Type, object)"/>.
 		/// </summary>
 		public static bool IsDefined<T>(this int value)
