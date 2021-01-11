@@ -7,6 +7,9 @@ A collection of utility C# extension methods.
 main: [![Build Status](https://travis-ci.org/rmandvikar/csharp-extensions.svg?branch=main)](https://travis-ci.org/rmandvikar/csharp-extensions)
 dev:  [![Build Status](https://travis-ci.org/rmandvikar/csharp-extensions.svg?branch=dev)](https://travis-ci.org/rmandvikar/csharp-extensions)
 
+main: ![Build Status](https://github.com/rmandvikar/csharp-extensions/workflows/.NET/badge.svg?branch=main)
+dev:  ![Build Status](https://github.com/rmandvikar/csharp-extensions/workflows/.NET/badge.svg?branch=dev)
+
 #### nuget:
 ```
 Install-Package rm.Extensions

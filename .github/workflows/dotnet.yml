@@ -1,0 +1,27 @@
+name: .NET
+
+on: [ push, pull_request ]
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.101
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: |
+        dotnet build rm.Extensions.sln \
+          -c Release
+    # net5.0 only as test csproj also targets others
+    - name: Test
+      run: |
+        dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
+          -c Release --no-build --no-restore \
+          -f net5.0 \
+          -v normal \
+          --filter "TestCategory!=very.slow"
