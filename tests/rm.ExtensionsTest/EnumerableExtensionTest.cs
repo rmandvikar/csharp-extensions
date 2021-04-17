@@ -4,12 +4,15 @@ using System.Linq;
 using NUnit.Framework;
 using rm.Extensions;
 using rm.ExtensionsTest.Sample;
+using rm.Random2;
 
 namespace rm.ExtensionsTest
 {
 	[TestFixture]
 	public class EnumerableExtensionTest
 	{
+		private readonly Random random = RandomFactory.GetThreadStaticRandom();
+
 		private void Print(IEnumerable<IEnumerable<int>> itemslist)
 		{
 			Console.WriteLine("chunks={0}", itemslist.Count());
@@ -176,7 +179,7 @@ namespace rm.ExtensionsTest
 			var count = 0;
 			for (int i = 0; i < tries; i++)
 			{
-				var shuffle = items.Shuffle().ToArray();
+				var shuffle = items.Shuffle(random).ToArray();
 				var shuffleStr = string.Join(",", shuffle);
 				Console.WriteLine(itemsStr);
 				Console.WriteLine(shuffleStr);

@@ -405,14 +405,6 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
-		/// Returns a new collection with items shuffled in O(n) time.
-		/// </summary>
-		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
-		{
-			return Shuffle(source, new Random());
-		}
-
-		/// <summary>
 		/// Slices an array as Python.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
