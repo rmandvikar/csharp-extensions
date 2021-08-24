@@ -19,7 +19,7 @@ dotnet pack src/rm.Extensions/rm.Extensions.csproj \
 	-c Release \
 	--include-symbols //p:SymbolPackageFormat=snupkg \
 	-o .nupkg/ \
-	//p:Version="$version" \
+	//p:Version="$version+$metadata" \
 	//p:PackageVersion="$version+$metadata" \
 	//p:PackageReleaseNotes="tag: $tag" \
 	&& git tag "$tag" -m "Create nuget tag $tag"
