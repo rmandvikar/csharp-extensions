@@ -625,3 +625,12 @@ cache.IsFull(); // returns false
 cache.Capacity(); // returns 5
 cache.Clear(); // clears cache
 ```
+
+#### Guid:
+
+```c#
+// guid.ToByteArray() is sensitive to endianness, but
+// guid.ToByteArrayMatchingStringRepresentation() is not and matches guid.ToString()
+// see https://stackoverflow.com/questions/9195551/why-does-guid-tobytearray-order-the-bytes-the-way-it-does
+var bytes = Guid.Parse(someGuid).ToByteArrayMatchingStringRepresentation();
+```
