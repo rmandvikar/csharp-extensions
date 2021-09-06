@@ -636,3 +636,10 @@ var bytes = Guid.Parse(someGuid).ToByteArrayMatchingStringRepresentation();
 // similar roundtrip method
 var guid = bytes.ToGuidMatchingStringRepresentation(); // same as someGuid
 ```
+
+#### Base64:
+
+```c#
+var base64 = s.ToUtf8Bytes().Base64Encode();
+var s = base64.Base64Decode().ToUtf8String();
+```
