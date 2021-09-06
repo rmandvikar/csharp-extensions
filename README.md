@@ -637,9 +637,12 @@ var bytes = Guid.Parse(someGuid).ToByteArrayMatchingStringRepresentation();
 var guid = bytes.ToGuidMatchingStringRepresentation(); // same as someGuid
 ```
 
-#### Base64:
+#### Base64, Base64Url:
 
 ```c#
 var base64 = s.ToUtf8Bytes().Base64Encode();
 var s = base64.Base64Decode().ToUtf8String();
+
+var base64Url = s.ToUtf8Bytes().Base64UrlEncode();
+var s = base64Url.Base64UrlDecode().ToUtf8String();
 ```
