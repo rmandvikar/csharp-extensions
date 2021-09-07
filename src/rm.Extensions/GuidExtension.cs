@@ -5,7 +5,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Guid extensions.
 	/// </summary>
-	public static class GuidExtensions
+	public static class GuidExtension
 	{
 		/// <summary>
 		/// Returns a 16-element byte array that contains the value of this instance
