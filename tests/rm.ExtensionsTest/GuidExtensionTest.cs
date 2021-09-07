@@ -6,7 +6,7 @@ using rm.Extensions;
 namespace rm.ExtensionsTest
 {
 	[TestFixture]
-	public class GuidExtensionsTest
+	public class GuidExtensionTest
 	{
 		private const string GuidStringSample = "8843eb18-45d9-4528-a4e8-62e277a26629";
 
