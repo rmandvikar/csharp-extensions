@@ -682,3 +682,11 @@ var s = base16.Base16Decode().ToUtf8String();
 var hex = s.ToUtf8Bytes().ToHexString();
 var s = hex.FromHexString().ToUtf8String();
 ```
+
+#### Base32:
+
+```c#
+// Douglas Crockford's Base32 impl
+var base32 = s.ToUtf8Bytes().Base32Encode();
+var s = base32.Base32Decode().ToUtf8String();
+```
