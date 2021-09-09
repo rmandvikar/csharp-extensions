@@ -211,6 +211,7 @@ namespace rm.ExtensionsTest
 			Assert.Less(hashqTime, 10);
 		}
 
+		[Explicit]
 		[Test(Description = "HashQueue<T> v/s Queue<T> enumerate speed test.")]
 		[Category("slow")]
 		public void Enumerate01()
