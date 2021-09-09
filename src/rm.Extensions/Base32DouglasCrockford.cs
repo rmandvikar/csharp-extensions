@@ -15,6 +15,7 @@ namespace rm.Extensions
 		// note: use int to avoid implicit conversions
 		public const int MinValue = 0;
 		public const int MaxValue = 31;
+		public const int MaxValueIncludingCheckSymbol = 36;
 
 		private const int bitsInByte = 8;
 		private const int bitsInInteger = 32;
@@ -152,6 +153,7 @@ namespace rm.Extensions
 		// note: use int to avoid implicit conversions
 		private const int minValue = Base32DouglasCrockford.MinValue;
 		private const int maxValue = Base32DouglasCrockford.MaxValue;
+		private const int maxValueIncludingCheckSymbol = Base32DouglasCrockford.MaxValueIncludingCheckSymbol;
 		private const int defaultValue = byte.MaxValue;
 
 		/// <summary>
@@ -196,6 +198,11 @@ namespace rm.Extensions
 				'X', // 29
 				'Y', // 30
 				'Z', // 31
+				'*', // 32 // check symbol
+				'~', // 33 // check symbol
+				'$', // 34 // check symbol
+				'=', // 35 // check symbol
+				'U', // 36 // check symbol
 			};
 		}
 
@@ -275,6 +282,12 @@ namespace rm.Extensions
 			decodeMap['y'] = 30;
 			decodeMap['Z'] = 31;
 			decodeMap['z'] = 31;
+			decodeMap['*'] = 32; // check symbol
+			decodeMap['~'] = 33; // check symbol
+			decodeMap['$'] = 34; // check symbol
+			decodeMap['='] = 35; // check symbol
+			decodeMap['U'] = 36; // check symbol
+			decodeMap['u'] = 36; // check symbol
 
 			return decodeMap;
 		}
@@ -298,7 +311,23 @@ namespace rm.Extensions
 		{
 			int value;
 			if (base32Char >= decodeMapLength ||
-				(value = decodeMap[base32Char]) == defaultValue)
+				(value = decodeMap[base32Char]) == defaultValue ||
+				!(minValue <= value && value <= maxValue))
+			{
+				throw new ArgumentOutOfRangeException(nameof(base32Char), base32Char, null);
+			}
+			return value;
+		}
+
+		/// <summary>
+		/// Returns 5-bit int decoded value for <paramref name="base32Char"/>.
+		/// </summary>
+		internal static int GetBase32ValueIncludingCheckSymbol(this char base32Char)
+		{
+			int value;
+			if (base32Char >= decodeMapLength ||
+				(value = decodeMap[base32Char]) == defaultValue ||
+				!(minValue <= value && value <= maxValueIncludingCheckSymbol))
 			{
 				throw new ArgumentOutOfRangeException(nameof(base32Char), base32Char, null);
 			}
