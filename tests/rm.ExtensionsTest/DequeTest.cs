@@ -210,6 +210,7 @@ namespace rm.ExtensionsTest
 			Assert.Less(dqTime, 3);
 		}
 
+		[Explicit]
 		[Test(Description = "Deque<T> v/s Queue<T> enumerate speed test.")]
 		public void Enumerate01()
 		{
