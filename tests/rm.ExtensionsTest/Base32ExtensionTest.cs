@@ -36,6 +36,7 @@ namespace rm.ExtensionsTest
 		[TestCase("ahm6a83henmp6ts0c9s6yxve4ik6yyi0d9tptw3k4iqqcsbj4it6gs90dhgqmy90chqpebg", "The quick brown fox jumps over the lazy dog.")] // i
 		[TestCase("ahm6a83henmp6ts0c9s6yxve4Lk6yyL0d9tptw3k4Lqqcsbj4Lt6gs90dhgqmy90chqpebg", "The quick brown fox jumps over the lazy dog.")] // L
 		[TestCase("ahm6a83henmp6ts0c9s6yxve4lk6yyl0d9tptw3k4lqqcsbj4lt6gs90dhgqmy90chqpebg", "The quick brown fox jumps over the lazy dog.")] // l
+		[TestCase("a-hm-6a8-3hen-mp6ts-0c9s6y-xve4lk6-yyl0d9tp-tw3k4lqqc-sbj4lt6gs9-0dhgqmy90ch-qpebg", "The quick brown fox jumps over the lazy dog.")] // -
 		public void Base32Decode_Variations_01(string base32, string s)
 		{
 			Assert.AreEqual(s, base32.Base32Decode().ToUtf8String());
