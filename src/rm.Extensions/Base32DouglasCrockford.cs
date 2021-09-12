@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 
 namespace rm.Extensions
 {
@@ -88,6 +89,12 @@ namespace rm.Extensions
 		{
 			_ = base32
 				?? throw new ArgumentNullException(nameof(base32));
+
+			// HACK: Improve '-' symbol check perf
+			if (base32.Contains('-'))
+			{
+				base32 = base32.Replace("-", "");
+			}
 
 			var size = base32.Length * bitsInBase32Char / bitsInByte;
 			var bytes = new byte[size];
