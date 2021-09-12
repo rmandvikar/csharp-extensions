@@ -18,7 +18,7 @@ namespace rm.ExtensionsTest
 			if (url_or_path.StartsWith("."))
 			{
 				var path = url_or_path;
-				uri = new Uri(new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase), path);
+				uri = new Uri(new Uri(System.Reflection.Assembly.GetExecutingAssembly().Location), path);
 			}
 			else
 			{
