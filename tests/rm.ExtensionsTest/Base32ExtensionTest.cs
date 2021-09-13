@@ -81,6 +81,20 @@ namespace rm.ExtensionsTest
 			Assert.AreEqual(s, base32.Base32Decode().ToUtf8String());
 		}
 
+		[Test]
+		[TestCase("8843EB1845D94528A4E862E277A26629", "H11YP625V52JH978CBH7F8K654")]
+		public void Base32Encode_Hex_01(string guid, string base32)
+		{
+			Assert.AreEqual(base32, guid.Base16Decode().Base32Encode());
+		}
+
+		[Test]
+		[TestCase("H11YP625V52JH978CBH7F8K654", "8843EB1845D94528A4E862E277A26629")]
+		public void Base32Decode_Hex_01(string base32, string guid)
+		{
+			Assert.AreEqual(guid, base32.Base32Decode().Base16Encode());
+		}
+
 		[Explicit]
 		[Test]
 		[Category("slow")]
@@ -111,6 +125,23 @@ namespace rm.ExtensionsTest
 			for (int i = 0; i < iterations; i++)
 			{
 				var bytes = base32.Base32Decode();
+			}
+			sw.Stop();
+			Console.WriteLine(sw.ElapsedMilliseconds);
+		}
+
+		[Explicit]
+		[Test]
+		[Category("slow")]
+		public void Perf_Base32Encode_Guid()
+		{
+			var guidString = "8843eb18-45d9-4528-a4e8-62e277a26629";
+			var guid = Guid.Parse(guidString);
+			var sw = Stopwatch.StartNew();
+			for (int i = 0; i < iterations; i++)
+			{
+				var bytes = guid.ToByteArrayMatchingStringRepresentation();
+				var base32 = bytes.Base32Encode();
 			}
 			sw.Stop();
 			Console.WriteLine(sw.ElapsedMilliseconds);
