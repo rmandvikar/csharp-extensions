@@ -646,3 +646,13 @@ var s = base64.Base64Decode().ToUtf8String();
 var base64Url = s.ToUtf8Bytes().Base64UrlEncode();
 var s = base64Url.Base64UrlDecode().ToUtf8String();
 ```
+
+#### Base16 (Hex):
+
+```c#
+var base16 = s.ToUtf8Bytes().Base16Encode();
+var s = base16.Base16Decode().ToUtf8String();
+// or
+var hex = s.ToUtf8Bytes().ToHexString();
+var s = hex.FromHexString().ToUtf8String();
+```
