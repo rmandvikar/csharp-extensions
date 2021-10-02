@@ -23,7 +23,7 @@ namespace rm.ExtensionsTest
 				Guid.Parse(
 					BitConverter.ToString(bytes)
 						.Replace("-", "")
-						.ToLowerInvariant())
+						.ToLower())
 					.ToString("D");
 			Assert.AreEqual(guidString, guidStringRoundtrip);
 		}
