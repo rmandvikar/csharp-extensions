@@ -664,3 +664,9 @@ var s = hex.FromHexString().ToUtf8String();
 var base32 = s.ToUtf8Bytes().Base32Encode();
 var s = base32.Base32Decode().ToUtf8String();
 ```
+
+#### Random:
+
+```c#
+var gaussian = rng.NextGaussian(mu: mu, sigma: sigma);
+```
