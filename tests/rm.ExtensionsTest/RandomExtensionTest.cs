@@ -58,6 +58,21 @@ namespace rm.ExtensionsTest
 			PrintStats(mu, sigma, delays);
 		}
 
+		[Explicit]
+		[Test]
+		[TestCase(10, "0123456789")]
+		[TestCase(10, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")]
+		public void Verify_NextString(int length, string charset)
+		{
+			var unique = new HashSet<string>();
+			for (int i = 0; i < iterations; i++)
+			{
+				var nextString = random.NextString(length, charset);
+				unique.Add(nextString);
+			}
+			Console.WriteLine(unique.Count);
+		}
+
 		private Dictionary<int, int> CreateBins(int binSize)
 		{
 			var bins = new Dictionary<int, int>();
