@@ -73,6 +73,20 @@ namespace rm.ExtensionsTest
 			Console.WriteLine(unique.Count);
 		}
 
+		[Explicit]
+		[Test]
+		[TestCase(0.0d, 1.0d)]
+		[TestCase(1.0d, 10.0d)]
+		[TestCase(-1.0d, 1.0d)]
+		public void Verify_NextDecimal(double minValue, double maxValue)
+		{
+			for (int i = 0; i < 1_000; i++)
+			{
+				var nextDecimal = random.NextDecimal((decimal)minValue, (decimal)maxValue);
+				Console.WriteLine(nextDecimal);
+			}
+		}
+
 		private Dictionary<int, int> CreateBins(int binSize)
 		{
 			var bins = new Dictionary<int, int>();

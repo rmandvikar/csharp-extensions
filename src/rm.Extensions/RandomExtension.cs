@@ -42,5 +42,19 @@ namespace rm.Extensions
 			}
 			return new string(randomString);
 		}
+
+		/// <summary>
+		/// Generate random decimal between <paramref name="minValue"/> and <paramref name="maxValue"/>.
+		/// <para></para>
+		/// Note: This is a scaled implementation: (random.nextDouble() * (max - min)) + min
+		/// </summary>
+		/// <remarks>
+		/// <see href="https://stackoverflow.com/questions/609501/generating-a-random-decimal-in-c-sharp">source</see>
+		/// </remarks>
+		public static decimal NextDecimal(this Random random, decimal minValue = decimal.Zero, decimal maxValue = decimal.MaxValue)
+		{
+			// scaled
+			return ((decimal)random.NextDouble() * (maxValue - minValue)) + minValue;
+		}
 	}
 }
