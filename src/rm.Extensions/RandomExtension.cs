@@ -53,6 +53,10 @@ namespace rm.Extensions
 		/// </remarks>
 		public static decimal NextDecimal(this Random random, decimal minValue = decimal.Zero, decimal maxValue = decimal.MaxValue)
 		{
+			if (minValue > maxValue)
+			{
+				throw new ArgumentOutOfRangeException(nameof(minValue), "'minValue' cannot be greater than 'maxValue'");
+			}
 			// scaled
 			return ((decimal)random.NextDouble() * (maxValue - minValue)) + minValue;
 		}
