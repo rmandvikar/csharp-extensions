@@ -78,6 +78,7 @@ namespace rm.ExtensionsTest
 		[TestCase(0.0d, 1.0d)]
 		[TestCase(1.0d, 10.0d)]
 		[TestCase(-1.0d, 1.0d)]
+		[TestCase(0.99d, 1.00d)]
 		public void Verify_NextDecimal(double minValue, double maxValue)
 		{
 			for (int i = 0; i < 1_000; i++)
@@ -85,6 +86,15 @@ namespace rm.ExtensionsTest
 				var nextDecimal = random.NextDecimal((decimal)minValue, (decimal)maxValue);
 				Console.WriteLine(nextDecimal);
 			}
+		}
+
+		[Test]
+		[TestCase(2.0d, 1.0d)]
+		[TestCase(1.0d, 1.0d)]
+		public void Verify_NextDecimal_Throws(double minValue, double maxValue)
+		{
+			Assert.Throws<ArgumentException>(() =>
+				random.NextDecimal((decimal)minValue, (decimal)maxValue));
 		}
 
 		private Dictionary<int, int> CreateBins(int binSize)
