@@ -12,6 +12,7 @@ namespace rm.Extensions
 	/// </summary>
 	public static class EnumerableExtension
 	{
+#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
@@ -113,6 +114,7 @@ namespace rm.Extensions
 				yield return chunk.AsEnumerable();
 			}
 		}
+#endif
 
 		/// <summary>
 		/// Returns true if collection is null or empty.
@@ -860,6 +862,7 @@ namespace rm.Extensions
 			return maxheap;
 		}
 
+#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Returns source.Except(second, comparer) in a linqified way.
 		/// </summary>
@@ -874,7 +877,9 @@ namespace rm.Extensions
 				GenericEqualityComparer<T>.By(keySelector)
 				);
 		}
+#endif
 
+#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Returns source.Distinct(comparer) in a linqified way.
 		/// </summary>
@@ -888,6 +893,7 @@ namespace rm.Extensions
 				GenericEqualityComparer<T>.By(keySelector)
 				);
 		}
+#endif
 
 		/// <summary>
 		/// Returns empty if enumerable is null else same enumerable.
