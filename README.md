@@ -652,3 +652,15 @@ var s = base64Url.Base64UrlDecode().ToUtf8String();
 ```c#
 var gaussian = rng.NextGaussian(mu: mu, sigma: sigma);
 ```
+
+```c#
+var s = rng.NextString(length: 10, charset: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_");
+```
+
+```c#
+var doubleN = rng.NextDouble(minValue: 5.0d, maxValue: 10.0d);
+```
+
+```c#
+var decimalN = rng.NextDecimal(minValue: 5.0m, maxValue: 10.0m);
+```
