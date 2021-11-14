@@ -44,6 +44,24 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Generate random double between <paramref name="minValue"/> and <paramref name="maxValue"/>.
+		/// <para></para>
+		/// Note: This is a scaled implementation: (random.nextDouble() * (max - min)) + min
+		/// </summary>
+		/// <remarks>
+		/// <see href="https://stackoverflow.com/questions/1064901/random-number-between-2-double-numbers">source</see>
+		/// </remarks>
+		public static double NextDouble(this Random random, double minValue = 0d, double maxValue = double.MaxValue)
+		{
+			if (minValue > maxValue)
+			{
+				throw new ArgumentOutOfRangeException(nameof(minValue), "'minValue' cannot be greater than 'maxValue'");
+			}
+			// scaled
+			return (random.NextDouble() * (maxValue - minValue)) + minValue;
+		}
+
+		/// <summary>
 		/// Generate random decimal between <paramref name="minValue"/> and <paramref name="maxValue"/>.
 		/// <para></para>
 		/// Note: This is a scaled implementation: (random.nextDouble() * (max - min)) + min

@@ -80,6 +80,30 @@ namespace rm.ExtensionsTest
 		[TestCase(-1.0d, 1.0d)]
 		[TestCase(0.99d, 1.00d)]
 		[TestCase(1.0d, 1.0d)]
+		public void Verify_NextDouble(double minValue, double maxValue)
+		{
+			for (int i = 0; i < 1_000; i++)
+			{
+				var nextDouble = random.NextDouble(minValue, maxValue);
+				Console.WriteLine(nextDouble);
+			}
+		}
+
+		[Test]
+		[TestCase(2.0d, 1.0d)]
+		public void Verify_NextDouble_Throws(double minValue, double maxValue)
+		{
+			Assert.Throws<ArgumentOutOfRangeException>(() =>
+				random.NextDouble(minValue, maxValue));
+		}
+
+		[Explicit]
+		[Test]
+		[TestCase(0.0d, 1.0d)]
+		[TestCase(1.0d, 10.0d)]
+		[TestCase(-1.0d, 1.0d)]
+		[TestCase(0.99d, 1.00d)]
+		[TestCase(1.0d, 1.0d)]
 		public void Verify_NextDecimal(double minValue, double maxValue)
 		{
 			for (int i = 0; i < 1_000; i++)
