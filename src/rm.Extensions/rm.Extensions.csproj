@@ -3,14 +3,16 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
     <Description>A collection of utility C# extension methods.</Description>
     <PackageTags>utility extensions</PackageTags>
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
     <PackageProjectUrl>https://github.com/rmandvikar/csharp-extensions</PackageProjectUrl>
     <Authors>hippy</Authors>
     <Company>hippy</Company>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
 </Project>
