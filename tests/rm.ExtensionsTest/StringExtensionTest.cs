@@ -382,7 +382,7 @@ namespace rm.ExtensionsTest
 		[Test]
 		[TestCase("founder@company.com|devs@company.com,testers@company.com;ceo@company.com,|;",
 			new[] { "devs@company.com", "testers@company.com", "founder@company.com", "ceo@company.com" })]
-		public static void SplitCsv01(string s, string[] items)
+		public void SplitCsv01(string s, string[] items)
 		{
 			var result = s.SplitCsv();
 			Console.WriteLine(string.Join(" ", result));
@@ -397,13 +397,13 @@ namespace rm.ExtensionsTest
 		[TestCase("123", 0, "")]
 		[TestCase("", 1, "")]
 		[TestCase("123\r\n123", 5, "\r\n123")]
-		public static void SubstringTillEnd01(string s, int n, string expected)
+		public void SubstringTillEnd01(string s, int n, string expected)
 		{
 			Assert.AreEqual(expected, s.SubstringTillEnd(n));
 		}
 
 		[Test]
-		public static void SubstringTillEnd02()
+		public void SubstringTillEnd02()
 		{
 			Assert.Throws<ArgumentNullException>(() => ((string)null).SubstringTillEnd(1));
 			Assert.Throws<ArgumentOutOfRangeException>(() => "123".SubstringTillEnd(-1));
@@ -413,7 +413,7 @@ namespace rm.ExtensionsTest
 		[TestCase("this", 1, 1, "")]
 		[TestCase("this", 1, 3, "hi")]
 		[TestCase("this", 1, 4, "his")]
-		public static void SubstringByIndex01(string s, int start, int end, string expected)
+		public void SubstringByIndex01(string s, int start, int end, string expected)
 		{
 			Assert.AreEqual(expected, s.SubstringByIndex(start, end));
 		}
@@ -421,7 +421,7 @@ namespace rm.ExtensionsTest
 		[Test]
 		[TestCase("this", 1, 0)]
 		[TestCase("this", 1, 5)]
-		public static void SubstringByIndex02(string s, int start, int end)
+		public void SubstringByIndex02(string s, int start, int end)
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => s.SubstringByIndex(start, end));
 		}
