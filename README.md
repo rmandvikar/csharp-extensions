@@ -101,6 +101,12 @@ string[] result = "a,b;c|d".SplitCsv().ToArray();
 ```
 
 ```c#
+// substring from start
+string result = "this is a test".SubstringFromStart(4);
+// result: "this"
+```
+
+```c#
 // substring till end
 string result = "this is a test".SubstringTillEnd(4);
 // result: "test"

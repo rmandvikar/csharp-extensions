@@ -497,6 +497,20 @@ namespace rm.Extensions
 		}
 
 		/// <summary>
+		/// Returns substring from start of length <paramref name="n"/>.
+		/// </summary>
+		public static string SubstringFromStart(this string source, int n)
+		{
+			source.ThrowIfArgumentNull(nameof(source));
+			n.ThrowIfArgumentOutOfRange(nameof(n));
+			if (n >= source.Length)
+			{
+				return source;
+			}
+			return source.Substring(0, n);
+		}
+
+		/// <summary>
 		/// Returns substring till end of length <paramref name="n"/>.
 		/// </summary>
 		public static string SubstringTillEnd(this string source, int n)

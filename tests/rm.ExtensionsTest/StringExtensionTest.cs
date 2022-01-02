@@ -391,6 +391,18 @@ namespace rm.ExtensionsTest
 		}
 
 		[Test]
+		[TestCase("123", 1, "1")]
+		[TestCase("123", 3, "123")]
+		[TestCase("123", 5, "123")]
+		[TestCase("123", 0, "")]
+		[TestCase("", 1, "")]
+		[TestCase("123\r\n123", 5, "123\r\n")]
+		public void SubstringFromStart01(string s, int n, string expected)
+		{
+			Assert.AreEqual(expected, s.SubstringFromStart(n));
+		}
+
+		[Test]
 		[TestCase("123", 1, "3")]
 		[TestCase("123", 3, "123")]
 		[TestCase("123", 5, "123")]
