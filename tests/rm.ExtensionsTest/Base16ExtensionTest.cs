@@ -79,6 +79,36 @@ namespace rm.ExtensionsTest
 		[Explicit]
 		[Test]
 		[Category("slow")]
+		public void Perf_Base16EncodeUppercase()
+		{
+			var bytes = "The quick brown fox jumps over the lazy dog.".ToUtf8Bytes();
+			var sw = Stopwatch.StartNew();
+			for (int i = 0; i < iterations; i++)
+			{
+				var base16 = bytes.Base16EncodeUppercase();
+			}
+			sw.Stop();
+			Console.WriteLine(sw.ElapsedMilliseconds);
+		}
+
+		[Explicit]
+		[Test]
+		[Category("slow")]
+		public void Perf_Base16EncodeLowercase()
+		{
+			var bytes = "The quick brown fox jumps over the lazy dog.".ToUtf8Bytes();
+			var sw = Stopwatch.StartNew();
+			for (int i = 0; i < iterations; i++)
+			{
+				var base16 = bytes.Base16EncodeLowercase();
+			}
+			sw.Stop();
+			Console.WriteLine(sw.ElapsedMilliseconds);
+		}
+
+		[Explicit]
+		[Test]
+		[Category("slow")]
 		public void Perf_Base16Encode_SampleImpl()
 		{
 			var bytes = "The quick brown fox jumps over the lazy dog.".ToUtf8Bytes();

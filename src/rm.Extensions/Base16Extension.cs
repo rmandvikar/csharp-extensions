@@ -18,6 +18,20 @@ namespace rm.Extensions
 
 		/// <inheritdoc cref="Base16.Encode(byte[])"/>.
 		[DebuggerStepThrough]
+		public static string Base16EncodeUppercase(this byte[] bytes)
+		{
+			return base16Converter.EncodeUppercase(bytes);
+		}
+
+		/// <inheritdoc cref="Base16.Encode(byte[])"/>.
+		[DebuggerStepThrough]
+		public static string Base16EncodeLowercase(this byte[] bytes)
+		{
+			return base16Converter.EncodeLowercase(bytes);
+		}
+
+		/// <inheritdoc cref="Base16.Encode(byte[])"/>.
+		[DebuggerStepThrough]
 		public static string ToHexString(this byte[] bytes)
 		{
 			return base16Converter.Encode(bytes);

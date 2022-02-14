@@ -20,8 +20,8 @@ namespace rm.Extensions
 		/// It provides a good balance of speed, readability, and maintainability.
 		/// </note>
 		/// <ref>https://stackoverflow.com/questions/311165/how-do-you-convert-a-byte-array-to-a-hexadecimal-string-and-vice-versa</ref>
-		private static readonly char[] encodeMap = GetEncodeMap();
-		private static char[] GetEncodeMap()
+		private static readonly char[] encodeUppercaseMap = GetEncodeUppercaseMap();
+		private static char[] GetEncodeUppercaseMap()
 		{
 			return new char[]
 			{
@@ -41,6 +41,31 @@ namespace rm.Extensions
 				'D', // 13
 				'E', // 14
 				'F', // 15
+			};
+		}
+
+		/// <inheritdoc cref="encodeUppercaseMap"/>
+		private static readonly char[] encodeLowercaseMap = GetEncodeLowercaseMap();
+		private static char[] GetEncodeLowercaseMap()
+		{
+			return new char[]
+			{
+				'0', // 0
+				'1', // 1
+				'2', // 2
+				'3', // 3
+				'4', // 4
+				'5', // 5
+				'6', // 6
+				'7', // 7
+				'8', // 8
+				'9', // 9
+				'a', // 10
+				'b', // 11
+				'c', // 12
+				'd', // 13
+				'e', // 14
+				'f', // 15
 			};
 		}
 
@@ -91,6 +116,23 @@ namespace rm.Extensions
 		/// Returns Base16 encoded (hex) string from <paramref name="bytes"/>.
 		/// </summary>
 		public string Encode(byte[] bytes)
+		{
+			return EncodeInner(bytes, encodeUppercaseMap);
+		}
+
+		/// <inheritdoc cref="Encode(byte[])"/>
+		public string EncodeUppercase(byte[] bytes)
+		{
+			return EncodeInner(bytes, encodeUppercaseMap);
+		}
+
+		/// <inheritdoc cref="Encode(byte[])"/>
+		public string EncodeLowercase(byte[] bytes)
+		{
+			return EncodeInner(bytes, encodeLowercaseMap);
+		}
+
+		private string EncodeInner(byte[] bytes, char[] encodeMap)
 		{
 			_ = bytes
 				?? throw new ArgumentNullException(nameof(bytes));
