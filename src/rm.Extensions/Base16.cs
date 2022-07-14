@@ -20,54 +20,48 @@ namespace rm.Extensions
 		/// It provides a good balance of speed, readability, and maintainability.
 		/// </note>
 		/// <ref>https://stackoverflow.com/questions/311165/how-do-you-convert-a-byte-array-to-a-hexadecimal-string-and-vice-versa</ref>
-		private static readonly char[] encodeUppercaseMap = GetEncodeUppercaseMap();
-		private static char[] GetEncodeUppercaseMap()
-		{
-			return new char[]
+		private static ReadOnlySpan<byte> encodeUppercaseMap =>
+			new[]
 			{
-				'0', // 0
-				'1', // 1
-				'2', // 2
-				'3', // 3
-				'4', // 4
-				'5', // 5
-				'6', // 6
-				'7', // 7
-				'8', // 8
-				'9', // 9
-				'A', // 10
-				'B', // 11
-				'C', // 12
-				'D', // 13
-				'E', // 14
-				'F', // 15
+				(byte)'0', // 0
+				(byte)'1', // 1
+				(byte)'2', // 2
+				(byte)'3', // 3
+				(byte)'4', // 4
+				(byte)'5', // 5
+				(byte)'6', // 6
+				(byte)'7', // 7
+				(byte)'8', // 8
+				(byte)'9', // 9
+				(byte)'A', // 10
+				(byte)'B', // 11
+				(byte)'C', // 12
+				(byte)'D', // 13
+				(byte)'E', // 14
+				(byte)'F', // 15
 			};
-		}
 
 		/// <inheritdoc cref="encodeUppercaseMap"/>
-		private static readonly char[] encodeLowercaseMap = GetEncodeLowercaseMap();
-		private static char[] GetEncodeLowercaseMap()
-		{
-			return new char[]
+		private static ReadOnlySpan<byte> encodeLowercaseMap =>
+			new[]
 			{
-				'0', // 0
-				'1', // 1
-				'2', // 2
-				'3', // 3
-				'4', // 4
-				'5', // 5
-				'6', // 6
-				'7', // 7
-				'8', // 8
-				'9', // 9
-				'a', // 10
-				'b', // 11
-				'c', // 12
-				'd', // 13
-				'e', // 14
-				'f', // 15
+				(byte)'0', // 0
+				(byte)'1', // 1
+				(byte)'2', // 2
+				(byte)'3', // 3
+				(byte)'4', // 4
+				(byte)'5', // 5
+				(byte)'6', // 6
+				(byte)'7', // 7
+				(byte)'8', // 8
+				(byte)'9', // 9
+				(byte)'a', // 10
+				(byte)'b', // 11
+				(byte)'c', // 12
+				(byte)'d', // 13
+				(byte)'e', // 14
+				(byte)'f', // 15
 			};
-		}
 
 		/// <summary>
 		/// Base16 char -> 4-bit int value map.
@@ -132,7 +126,7 @@ namespace rm.Extensions
 			return EncodeInner(bytes, encodeLowercaseMap);
 		}
 
-		private string EncodeInner(byte[] bytes, char[] encodeMap)
+		private string EncodeInner(byte[] bytes, ReadOnlySpan<byte> encodeMap)
 		{
 			_ = bytes
 				?? throw new ArgumentNullException(nameof(bytes));
@@ -143,8 +137,8 @@ namespace rm.Extensions
 			{
 				var @byte = bytes[i];
 				var itarget = i << 1;
-				base16[itarget] = encodeMap[(@byte >> bitsInBase16Char) & 0b_1111];
-				base16[itarget + 1] = encodeMap[(@byte) & 0b_1111];
+				base16[itarget] = (char)encodeMap[(@byte >> bitsInBase16Char) & 0b_1111];
+				base16[itarget + 1] = (char)encodeMap[(@byte) & 0b_1111];
 			}
 			return new string(base16);
 		}
