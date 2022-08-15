@@ -73,7 +73,7 @@ public static class GuidExtension
 	/// </summary>
 	public static string ToBase64String(this Guid guid)
 	{
-		return guid.ToByteArrayMatchingStringRepresentation().Base64Encode();
+		return guid.ToByteArrayMatchingStringRepresentation().Base64Encode_Old();
 	}
 
 	/// <summary>
@@ -85,7 +85,7 @@ public static class GuidExtension
 	/// </summary>
 	public static Guid FromBase64String(this string guidString)
 	{
-		return guidString.Base64Decode().ToGuidMatchingStringRepresentation();
+		return guidString.Base64Decode_Old().ToGuidMatchingStringRepresentation();
 	}
 
 	/// <summary>
