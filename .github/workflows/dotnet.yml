@@ -2,6 +2,10 @@ name: .NET
 
 on: [ push, pull_request ]
 
+env:
+  SLN_PATH: rm.Extensions.sln
+  TEST_PROJ_PATH: tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj
+
 jobs:
   build-job:
     runs-on: ubuntu-latest
@@ -19,19 +23,19 @@ jobs:
       run: dotnet restore
     - name: Build
       run: |
-        dotnet build rm.Extensions.sln \
+        dotnet build $SLN_PATH \
           -c Release
     # net6.0, net5.0 only as test csproj also targets others
     - name: Test net6.0
       run: |
-        dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
+        dotnet test $TEST_PROJ_PATH \
           -c Release --no-build --no-restore \
           -f net6.0 \
           -v normal \
           --filter "TestCategory!=very.slow"
     - name: Test net5.0
       run: |
-        dotnet test tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj \
+        dotnet test $TEST_PROJ_PATH \
           -c Release --no-build --no-restore \
           -f net5.0 \
           -v normal \
