@@ -15,6 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.x
+    - name: Setup .NET 7.x
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.x
     - name: Setup .NET 5.x
       uses: actions/setup-dotnet@v3
       with:
@@ -25,12 +29,19 @@ jobs:
       run: |
         dotnet build $SLN_PATH \
           -c Release
-    # net6.0, net5.0 only as test csproj also targets others
+    # net6.0, net7.0, net5.0 only as test csproj also targets others
     - name: Test net6.0
       run: |
         dotnet test $TEST_PROJ_PATH \
           -c Release --no-build --no-restore \
           -f net6.0 \
+          -v normal \
+          --filter "TestCategory!=very.slow"
+    - name: Test net7.0
+      run: |
+        dotnet test $TEST_PROJ_PATH \
+          -c Release --no-build --no-restore \
+          -f net7.0 \
           -v normal \
           --filter "TestCategory!=very.slow"
     - name: Test net5.0
