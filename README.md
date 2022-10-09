@@ -673,7 +673,7 @@ var decimalN = rng.NextDecimal(minValue: 5.0m, maxValue: 10.0m);
 
 #### Base16 (Hex):
 
-note: `net5.0` has `Convert.ToHexString(bytes)`, `Convert.FromHexString(hex)` which are faster than below.
+note: `net5.0`+ has `Convert.ToHexString(bytes)`, `Convert.FromHexString(hex)` which are faster than below.
 
 ```c#
 var base16 = s.ToUtf8Bytes().Base16Encode();
