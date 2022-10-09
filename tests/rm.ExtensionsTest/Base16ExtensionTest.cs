@@ -168,7 +168,7 @@ namespace rm.ExtensionsTest
 			Console.WriteLine(sw.ElapsedMilliseconds);
 		}
 
-		///<note>net5.0 has Convert.FromHexString(string)</note>
+		///<note>net5.0+ has Convert.FromHexString(string)</note>
 		public static byte[] Base16Decode_SampleImpl(string hex)
 		{
 #if NET5_0_OR_GREATER
