@@ -690,3 +690,12 @@ var s = hex.FromHexString().ToUtf8String();
 var base32 = s.ToUtf8Bytes().Base32Encode();
 var s = base32.Base32Decode().ToUtf8String();
 ```
+
+#### Char:
+
+Wraps all static utility functions from System.Char:
+```c#
+var c = 'a'.ToUpper(); // returns 'A'
+var isLower = c.IsLower(); // returns false 
+var isLetter = c.IsLetter(); // returns true 
+```
