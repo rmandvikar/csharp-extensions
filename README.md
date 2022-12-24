@@ -11,6 +11,7 @@ dev:  ![Build Status](https://github.com/rmandvikar/csharp-extensions/workflows/
 ```
 Install-Package rm.Extensions
 ```
+[![NuGet version (rm.Extensions)](https://img.shields.io/nuget/v/rm.Extensions.svg?style=flat-square)](https://www.nuget.org/packages/rm.Extensions/)
 
 #### string extensions:
 
