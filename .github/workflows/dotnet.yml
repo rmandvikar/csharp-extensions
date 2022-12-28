@@ -25,18 +25,19 @@ jobs:
       run: |
         dotnet build $SLN_PATH \
           -c Release
-    # net6.0, net7.0 only as test csproj also targets others
     - name: Test net6.0
+      if: success() || failure()
       run: |
         dotnet test $TEST_PROJ_PATH \
           -c Release --no-build --no-restore \
           -f net6.0 \
-          -v normal \
+          -l:"console;verbosity=normal" \
           --filter "TestCategory!=very.slow"
     - name: Test net7.0
+      if: success() || failure()
       run: |
         dotnet test $TEST_PROJ_PATH \
           -c Release --no-build --no-restore \
           -f net7.0 \
-          -v normal \
+          -l:"console;verbosity=normal" \
           --filter "TestCategory!=very.slow"
