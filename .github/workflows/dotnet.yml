@@ -2,10 +2,6 @@ name: .NET
 
 on: [ push, pull_request ]
 
-env:
-  SLN_PATH: rm.Extensions.sln
-  TEST_PROJ_PATH: tests/rm.ExtensionsTest/rm.ExtensionsTest.csproj
-
 jobs:
   build-job:
     runs-on: ubuntu-latest
@@ -23,12 +19,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: |
-        dotnet build $SLN_PATH \
+        dotnet build *sln \
           -c Release
     - name: Test net6.0
       if: success() || failure()
       run: |
-        dotnet test $TEST_PROJ_PATH \
+        dotnet test tests/** \
           -c Release --no-build --no-restore \
           -f net6.0 \
           -l:"console;verbosity=normal" \
@@ -36,7 +32,7 @@ jobs:
     - name: Test net7.0
       if: success() || failure()
       run: |
-        dotnet test $TEST_PROJ_PATH \
+        dotnet test tests/** \
           -c Release --no-build --no-restore \
           -f net7.0 \
           -l:"console;verbosity=normal" \
