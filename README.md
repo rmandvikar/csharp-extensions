@@ -683,3 +683,12 @@ var s = base16.Base16Decode().ToUtf8String();
 var hex = s.ToUtf8Bytes().ToHexString();
 var s = hex.FromHexString().ToUtf8String();
 ```
+
+#### char extensions:
+
+```c#
+// all/most System.Char static utility functions
+var c = 'a'.ToUpper(); // returns 'A'
+var isLower = c.IsLower(); // returns false
+var isLetter = c.IsLetter(); // returns true
+```
