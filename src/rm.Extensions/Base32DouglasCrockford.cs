@@ -92,11 +92,14 @@ namespace rm.Extensions
 				?? throw new ArgumentNullException(nameof(base32));
 
 			// HACK: Improve '-' symbol check perf
-			if (base32.Contains('-'))
-			{
-				base32 = base32.Replace("-", "");
-			}
+			var base32Tokens = base32.Split('-');
+			var base32TokenBytes = base32Tokens.Select(DecodeInner);
+			var bytes = Helper.Concat(base32TokenBytes.ToArray());
+			return bytes;
+		}
 
+		private byte[] DecodeInner(string base32)
+		{
 			var size = base32.Length * bitsInBase32Char / bitsInByte;
 			var bytes = new byte[size];
 
