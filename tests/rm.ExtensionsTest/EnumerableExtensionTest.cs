@@ -32,12 +32,11 @@ namespace rm.ExtensionsTest
 			Console.WriteLine(string.Join(", ", a));
 		}
 
-#if !NET6_0_OR_GREATER
 		[Test]
 		public void Chunk_bad2_01()
 		{
 			var source = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-			var chunks = source.Chunk(3);
+			var chunks = source.Chunk_bad2(3);
 			var i = 0;
 			foreach (var chunk in chunks)
 			{
@@ -82,7 +81,6 @@ namespace rm.ExtensionsTest
 				Assert.AreEqual(chunks_rev.Count() - i, chunks_rev.ElementAt(i).ElementAt(0));
 			}
 		}
-#endif
 
 		[Test]
 		public void IsNullOrEmpty01()
@@ -628,17 +626,14 @@ namespace rm.ExtensionsTest
 				);
 		}
 
-#if !NET6_0_OR_GREATER
 		[Test]
 		public void ExceptBy03()
 		{
-			var except = new int?[] { 1, null }.ExceptBy(new int?[] { null }, x => x);
+			var except = new int?[] { 1, null }.ExceptBy(new int?[] { null }, x => (int)x);
 			Assert.IsTrue(except.Count() == 1);
 			Assert.IsTrue(except.Contains(1));
 		}
-#endif
 
-#if !NET6_0_OR_GREATER
 		[Test]
 		[TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3, 4, 5 })]
 		[TestCase(new[] { 1, 1, 2 }, new[] { 1, 2 })]
@@ -669,7 +664,6 @@ namespace rm.ExtensionsTest
 			Assert.IsTrue(distinct.Contains(1));
 			Assert.IsTrue(distinct.Contains((int?)null));
 		}
-#endif
 
 		[Test]
 		public void OrEmpty01()

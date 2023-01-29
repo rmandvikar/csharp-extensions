@@ -12,7 +12,6 @@ namespace rm.Extensions
 	/// </summary>
 	public static class EnumerableExtension
 	{
-#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
@@ -84,6 +83,7 @@ namespace rm.Extensions
 			} while (count < chunkSize && enumerator.MoveNext());
 		}
 
+#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Splits the collection into collections of size chunkSize.
 		/// </summary>
@@ -862,9 +862,15 @@ namespace rm.Extensions
 			return maxheap;
 		}
 
-#if !NET6_0_OR_GREATER
 		/// <summary>
 		/// Returns source.Except(second, comparer) in a linqified way.
+		/// <para>
+		/// note: net6.0 has added below extensions which have a different signature.
+		/// <br />
+		/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey})
+		/// <br />
+		/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey}, IEqualityComparer{TKey})
+		/// </para>
 		/// </summary>
 		public static IEnumerable<T> ExceptBy<T, TKey>(this IEnumerable<T> source, IEnumerable<T> second,
 			Func<T, TKey> keySelector)
@@ -877,7 +883,6 @@ namespace rm.Extensions
 				GenericEqualityComparer<T>.By(keySelector)
 				);
 		}
-#endif
 
 #if !NET6_0_OR_GREATER
 		/// <summary>
