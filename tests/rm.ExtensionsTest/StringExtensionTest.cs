@@ -151,7 +151,7 @@ namespace rm.ExtensionsTest
 		[TestCase("The name is {0}. {first} {last}.", "The name is {0}. {1} {2}.", "Bond", "James", "Bond")]
 		public void Format01(string format, string formatConverted, params object[] args)
 		{
-			Assert.AreEqual(string.Format(formatConverted, args), format.format(args));
+			Assert.AreEqual(string.Format(formatConverted, args), format.Format(args));
 		}
 
 		[Test]
@@ -161,7 +161,7 @@ namespace rm.ExtensionsTest
 		public void Format02(string format, string formatConverted, params object[] args)
 		{
 			Assert.Throws<FormatException>(() => string.Format(formatConverted, args));
-			Assert.Throws<FormatException>(() => format.format(args));
+			Assert.Throws<FormatException>(() => format.Format(args));
 		}
 
 		[Test]
