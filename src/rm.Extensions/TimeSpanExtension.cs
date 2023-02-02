@@ -17,33 +17,33 @@ namespace rm.Extensions
 		{
 			if (ts.Days >= 365)
 			{
-				return "{0}y".format(ts.Days / 365);
+				return "{0}y".Format(ts.Days / 365);
 			}
 			if (ts.Days >= 30)
 			{
-				return "{0}mth".format(ts.Days / 30);
+				return "{0}mth".Format(ts.Days / 30);
 			}
 			if (ts.Days >= 7)
 			{
-				return "{0}wk".format(ts.Days / 7);
+				return "{0}wk".Format(ts.Days / 7);
 			}
 			if (ts.Days > 0)
 			{
-				return "{0}d".format(ts.Days);
+				return "{0}d".Format(ts.Days);
 			}
 			if (ts.Hours > 0)
 			{
-				return "{0}h".format(ts.Hours);
+				return "{0}h".Format(ts.Hours);
 			}
 			if (ts.Minutes > 0)
 			{
-				return "{0}m".format(ts.Minutes);
+				return "{0}m".Format(ts.Minutes);
 			}
 			if (ts.Seconds > 0)
 			{
-				return "{0}s".format(ts.Seconds);
+				return "{0}s".Format(ts.Seconds);
 			}
-			return "{0}ms".format(ts.Milliseconds);
+			return "{0}ms".Format(ts.Milliseconds);
 		}
 
 		/// <summary>

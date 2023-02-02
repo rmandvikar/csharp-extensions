@@ -44,14 +44,14 @@ string urldecoded = s.UrlDecode();
 ```
 
 ```c#
-// "".format() instead of string.Format()
-"{0} is a {1}".format("this", "test");
+// "".Format() instead of string.Format()
+"{0} is a {1}".Format("this", "test");
 // parameter index is optional
-"{} is a {}".format("this", "test");
-"{} is a {1}".format("this", "test"); // mixing is ok
+"{} is a {}".Format("this", "test");
+"{} is a {1}".Format("this", "test"); // mixing is ok
 // parameter meta is allowed
-"The name is {0}. {first} {last}.".format(lastName, firstName, lastName); // adding arg meta is ok
-"The name is {last}. {first} {last}.".format(lastName, firstName); // bit intelligent about repeating arg meta
+"The name is {0}. {first} {last}.".Format(lastName, firstName, lastName); // adding arg meta is ok
+"The name is {last}. {first} {last}.".Format(lastName, firstName); // bit intelligent about repeating arg meta
 ```
 
 ```c#

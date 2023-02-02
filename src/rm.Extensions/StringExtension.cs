@@ -100,8 +100,8 @@ namespace rm.Extensions
 		/// <summary>
 		/// Formats string as string.Format() but the parameter index is optional and parameter meta is allowed.
 		/// </summary>
-		/// <example>"{} is a {1}".format("this", "test")</example>
-		public static string format(this string format, params object[] args)
+		/// <example>"{} is a {1}".Format("this", "test")</example>
+		public static string Format(this string format, params object[] args)
 		{
 			var buffer = new StringBuilder(format);
 			var i = 0;
@@ -163,8 +163,7 @@ namespace rm.Extensions
 				}
 				var paramMeta = buffer.ToString(metastart, metaend - metastart).Trim();
 				// insert param only if meta is not int
-				int ignore;
-				if (!int.TryParse(paramMeta, out ignore))
+				if (!int.TryParse(paramMeta, out _))
 				{
 					string paramIndex;
 					// do not insert "" into meta->index map
