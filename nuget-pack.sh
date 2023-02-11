@@ -11,7 +11,7 @@ if [[ -z "$version" ]]; then
 	exit 1
 fi
 
-tag="nuget-$version"
+tag="v$version"
 commit_hash=$(git rev-parse @)
 metadata="$commit_hash"
 

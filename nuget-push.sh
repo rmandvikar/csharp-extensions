@@ -11,7 +11,7 @@ if [[ -z "$version" ]]; then
 	exit 1
 fi
 
-tag="nuget-$version"
+tag="v$version"
 
 dotnet nuget push .nupkg/rm.Extensions."$version".nupkg \
 	-k $(< ~/dump/.nuget.apikey) \
