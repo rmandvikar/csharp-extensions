@@ -5,7 +5,7 @@ namespace rm.Extensions
 	/// <summary>
 	/// Char extensions.
 	/// </summary>
-	public static class CharExtensions
+	public static class CharExtension
 	{
 		/// <inheritdoc cref="char.IsDigit(char)"/>
 		public static bool IsDigit(this char c)
