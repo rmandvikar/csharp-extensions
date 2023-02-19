@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace rm.Extensions
+namespace rm.Extensions;
+
+/// <summary>
+/// Array{T} extensions.
+/// </summary>
+public static class Array<T>
 {
 	/// <summary>
-	/// Array{T} extensions.
+	/// Returns empty T array.
 	/// </summary>
-	public static class Array<T>
-	{
-		/// <summary>
-		/// Returns empty T array.
-		/// </summary>
-		public static T[] Empty => Array.Empty<T>();
-	}
+	public static T[] Empty => Array.Empty<T>();
 }

@@ -1,16 +1,15 @@
-﻿namespace rm.Extensions
+﻿namespace rm.Extensions;
+
+/// <summary>
+/// Wrapped extensions.
+/// </summary>
+public static class WrappedExtension
 {
 	/// <summary>
-	/// Wrapped extensions.
+	/// Returns a Wrapped{T} instance for <paramref name="t"/>.
 	/// </summary>
-	public static class WrappedExtension
+	public static Wrapped<T> Wrap<T>(this T t)
 	{
-		/// <summary>
-		/// Returns a Wrapped{T} instance for <paramref name="t"/>.
-		/// </summary>
-		public static Wrapped<T> Wrap<T>(this T t)
-		{
-			return new Wrapped<T>(t);
-		}
+		return new Wrapped<T>(t);
 	}
 }

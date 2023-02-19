@@ -7,6 +7,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
+    <LangVersion>latest</LangVersion>
     <Description>A collection of utility C# extension methods.</Description>
     <PackageTags>utility extensions</PackageTags>
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>

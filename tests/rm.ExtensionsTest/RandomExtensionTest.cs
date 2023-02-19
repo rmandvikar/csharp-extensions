@@ -5,181 +5,180 @@ using NUnit.Framework;
 using rm.Extensions;
 using rm.Random2;
 
-namespace rm.ExtensionsTest
+namespace rm.ExtensionsTest;
+
+[TestFixture]
+public class RandomExtensionTest
 {
-	[TestFixture]
-	public class RandomExtensionTest
+	private readonly Random random = RandomFactory.GetThreadStaticRandom();
+
+	private const int iterations = 1_000_000;
+
+	[Explicit]
+	[Test]
+	[TestCase(3500, 350)]
+	public void Verify_NextGaussian(double mu, double sigma)
 	{
-		private readonly Random random = RandomFactory.GetThreadStaticRandom();
+		var binSize = (int)(mu / 10);
+		var delays = new List<int>(iterations);
+		var bins = CreateBins(binSize);
 
-		private const int iterations = 1_000_000;
-
-		[Explicit]
-		[Test]
-		[TestCase(3500, 350)]
-		public void Verify_NextGaussian(double mu, double sigma)
+		for (int i = 0; i < iterations; i++)
 		{
-			var binSize = (int)(mu / 10);
-			var delays = new List<int>(iterations);
-			var bins = CreateBins(binSize);
+			var delay = random.NextGaussian(mu, sigma);
+			delays.Add((int)delay);
+			Bucketize((int)delay, binSize, bins);
+		}
 
-			for (int i = 0; i < iterations; i++)
+		PrintBins(bins);
+		PrintStats(mu, sigma, delays);
+	}
+
+	[Explicit]
+	[Test]
+	[TestCase(3500, 350)]
+	public void Verify_NextGaussian_Positive(double mu, double sigma)
+	{
+		var binSize = (int)(mu / 10);
+		var delays = new List<int>(iterations);
+		var bins = CreateBins(binSize);
+
+		for (int i = 0; i < iterations; i++)
+		{
+			var delay = random.NextGaussian(mu, sigma);
+			if (delay < 0)
 			{
-				var delay = random.NextGaussian(mu, sigma);
-				delays.Add((int)delay);
-				Bucketize((int)delay, binSize, bins);
+				delay = mu;
 			}
-
-			PrintBins(bins);
-			PrintStats(mu, sigma, delays);
+			delays.Add((int)delay);
+			Bucketize((int)delay, binSize, bins);
 		}
 
-		[Explicit]
-		[Test]
-		[TestCase(3500, 350)]
-		public void Verify_NextGaussian_Positive(double mu, double sigma)
+		PrintBins(bins);
+		PrintStats(mu, sigma, delays);
+	}
+
+	[Explicit]
+	[Test]
+	[TestCase(10, "0123456789")]
+	[TestCase(10, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")]
+	public void Verify_NextString(int length, string charset)
+	{
+		var unique = new HashSet<string>();
+		for (int i = 0; i < iterations; i++)
 		{
-			var binSize = (int)(mu / 10);
-			var delays = new List<int>(iterations);
-			var bins = CreateBins(binSize);
-
-			for (int i = 0; i < iterations; i++)
-			{
-				var delay = random.NextGaussian(mu, sigma);
-				if (delay < 0)
-				{
-					delay = mu;
-				}
-				delays.Add((int)delay);
-				Bucketize((int)delay, binSize, bins);
-			}
-
-			PrintBins(bins);
-			PrintStats(mu, sigma, delays);
+			var nextString = random.NextString(length, charset);
+			unique.Add(nextString);
 		}
+		Console.WriteLine(unique.Count);
+	}
 
-		[Explicit]
-		[Test]
-		[TestCase(10, "0123456789")]
-		[TestCase(10, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")]
-		public void Verify_NextString(int length, string charset)
+	[Explicit]
+	[Test]
+	[TestCase(0.0d, 1.0d)]
+	[TestCase(1.0d, 10.0d)]
+	[TestCase(-1.0d, 1.0d)]
+	[TestCase(0.99d, 1.00d)]
+	[TestCase(1.0d, 1.0d)]
+	public void Verify_NextDouble(double minValue, double maxValue)
+	{
+		for (int i = 0; i < 1_000; i++)
 		{
-			var unique = new HashSet<string>();
-			for (int i = 0; i < iterations; i++)
-			{
-				var nextString = random.NextString(length, charset);
-				unique.Add(nextString);
-			}
-			Console.WriteLine(unique.Count);
+			var nextDouble = random.NextDouble(minValue, maxValue);
+			Console.WriteLine(nextDouble);
 		}
+	}
 
-		[Explicit]
-		[Test]
-		[TestCase(0.0d, 1.0d)]
-		[TestCase(1.0d, 10.0d)]
-		[TestCase(-1.0d, 1.0d)]
-		[TestCase(0.99d, 1.00d)]
-		[TestCase(1.0d, 1.0d)]
-		public void Verify_NextDouble(double minValue, double maxValue)
+	[Test]
+	[TestCase(2.0d, 1.0d)]
+	public void Verify_NextDouble_Throws(double minValue, double maxValue)
+	{
+		Assert.Throws<ArgumentOutOfRangeException>(() =>
+			random.NextDouble(minValue, maxValue));
+	}
+
+	[Explicit]
+	[Test]
+	[TestCase(0.0d, 1.0d)]
+	[TestCase(1.0d, 10.0d)]
+	[TestCase(-1.0d, 1.0d)]
+	[TestCase(0.99d, 1.00d)]
+	[TestCase(1.0d, 1.0d)]
+	public void Verify_NextDecimal(double minValue, double maxValue)
+	{
+		for (int i = 0; i < 1_000; i++)
 		{
-			for (int i = 0; i < 1_000; i++)
-			{
-				var nextDouble = random.NextDouble(minValue, maxValue);
-				Console.WriteLine(nextDouble);
-			}
+			var nextDecimal = random.NextDecimal((decimal)minValue, (decimal)maxValue);
+			Console.WriteLine(nextDecimal);
 		}
+	}
 
-		[Test]
-		[TestCase(2.0d, 1.0d)]
-		public void Verify_NextDouble_Throws(double minValue, double maxValue)
+	[Test]
+	[TestCase(2.0d, 1.0d)]
+	public void Verify_NextDecimal_Throws(double minValue, double maxValue)
+	{
+		Assert.Throws<ArgumentOutOfRangeException>(() =>
+			random.NextDecimal((decimal)minValue, (decimal)maxValue));
+	}
+
+	private Dictionary<int, int> CreateBins(int binSize)
+	{
+		var bins = new Dictionary<int, int>();
+		for (int i = 0; i < 50; i++)
 		{
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
-				random.NextDouble(minValue, maxValue));
+			var bucket = binSize * i;
+			bins.Add(bucket, 0);
 		}
 
-		[Explicit]
-		[Test]
-		[TestCase(0.0d, 1.0d)]
-		[TestCase(1.0d, 10.0d)]
-		[TestCase(-1.0d, 1.0d)]
-		[TestCase(0.99d, 1.00d)]
-		[TestCase(1.0d, 1.0d)]
-		public void Verify_NextDecimal(double minValue, double maxValue)
+		return bins;
+	}
+
+	private void PrintBins(Dictionary<int, int> bins)
+	{
+		var padding = bins.Max(x => x.Key).ToString().Length;
+		foreach (var item in bins.OrderBy(x => x.Key))
 		{
-			for (int i = 0; i < 1_000; i++)
-			{
-				var nextDecimal = random.NextDecimal((decimal)minValue, (decimal)maxValue);
-				Console.WriteLine(nextDecimal);
-			}
+			Console.WriteLine($"{item.Key.ToString().PadLeft(padding)}: {item.Value}");
 		}
+	}
 
-		[Test]
-		[TestCase(2.0d, 1.0d)]
-		public void Verify_NextDecimal_Throws(double minValue, double maxValue)
-		{
-			Assert.Throws<ArgumentOutOfRangeException>(() =>
-				random.NextDecimal((decimal)minValue, (decimal)maxValue));
-		}
+	private void PrintStats(double mu, double sigma, List<int> delays)
+	{
+		Console.WriteLine($"mu: {mu}, sigma: {sigma}");
+		var avg = Average(delays);
+		var p95 = Percentile(delays, 0.95);
+		var p99 = Percentile(delays, 0.99);
+		Console.WriteLine($"avg: {avg}");
+		Console.WriteLine($"p95: {p95}");
+		Console.WriteLine($"p99: {p99}");
+	}
 
-		private Dictionary<int, int> CreateBins(int binSize)
-		{
-			var bins = new Dictionary<int, int>();
-			for (int i = 0; i < 50; i++)
-			{
-				var bucket = binSize * i;
-				bins.Add(bucket, 0);
-			}
+	private void Bucketize(int n, int binSize, IDictionary<int, int> bins)
+	{
+		var bin = Bin(n, binSize);
+		bins[bin]++;
+	}
 
-			return bins;
-		}
+	private int Bin(int n, int binSize)
+	{
+		return n / binSize * binSize;
+	}
 
-		private void PrintBins(Dictionary<int, int> bins)
-		{
-			var padding = bins.Max(x => x.Key).ToString().Length;
-			foreach (var item in bins.OrderBy(x => x.Key))
-			{
-				Console.WriteLine($"{item.Key.ToString().PadLeft(padding)}: {item.Value}");
-			}
-		}
+	public double Percentile(IEnumerable<int> source, double percentile)
+	{
+		var elements = source.ToArray();
+		Array.Sort(elements);
+		double realIndex = percentile * (elements.Length - 1);
+		int index = (int)realIndex;
+		double indexDelta = realIndex - index;
+		if (index + 1 < elements.Length)
+			return elements[index] * (1 - indexDelta) + elements[index + 1] * indexDelta;
+		else
+			return elements[index];
+	}
 
-		private void PrintStats(double mu, double sigma, List<int> delays)
-		{
-			Console.WriteLine($"mu: {mu}, sigma: {sigma}");
-			var avg = Average(delays);
-			var p95 = Percentile(delays, 0.95);
-			var p99 = Percentile(delays, 0.99);
-			Console.WriteLine($"avg: {avg}");
-			Console.WriteLine($"p95: {p95}");
-			Console.WriteLine($"p99: {p99}");
-		}
-
-		private void Bucketize(int n, int binSize, IDictionary<int, int> bins)
-		{
-			var bin = Bin(n, binSize);
-			bins[bin]++;
-		}
-
-		private int Bin(int n, int binSize)
-		{
-			return n / binSize * binSize;
-		}
-
-		public double Percentile(IEnumerable<int> source, double percentile)
-		{
-			var elements = source.ToArray();
-			Array.Sort(elements);
-			double realIndex = percentile * (elements.Length - 1);
-			int index = (int)realIndex;
-			double indexDelta = realIndex - index;
-			if (index + 1 < elements.Length)
-				return elements[index] * (1 - indexDelta) + elements[index + 1] * indexDelta;
-			else
-				return elements[index];
-		}
-
-		private double Average(IEnumerable<int> source)
-		{
-			return source.Average();
-		}
+	private double Average(IEnumerable<int> source)
+	{
+		return source.Average();
 	}
 }

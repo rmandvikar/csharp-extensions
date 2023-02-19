@@ -5,962 +5,961 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 
-namespace rm.Extensions
+namespace rm.Extensions;
+
+/// <summary>
+/// IEnumerable extensions.
+/// </summary>
+public static class EnumerableExtension
 {
-	/// <summary>
-	/// IEnumerable extensions.
-	/// </summary>
-	public static class EnumerableExtension
-	{
 #if !NET6_0_OR_GREATER
-		/// <summary>
-		/// Splits the collection into collections of size chunkSize.
-		/// </summary>
-		/// <remarks>
-		/// Uses yield return but buffers the chunk before returning. Works with other methods
-		/// as Count(), ElementAt(), etc.
-		/// </remarks>
-		public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
-			int chunkSize)
+	/// <summary>
+	/// Splits the collection into collections of size chunkSize.
+	/// </summary>
+	/// <remarks>
+	/// Uses yield return but buffers the chunk before returning. Works with other methods
+	/// as Count(), ElementAt(), etc.
+	/// </remarks>
+	public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source,
+		int chunkSize)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
+		var count = 0;
+		var chunk = new List<T>(chunkSize);
+		foreach (var item in source)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			chunkSize.ThrowIfArgumentOutOfRange(nameof(chunkSize));
-			var count = 0;
-			var chunk = new List<T>(chunkSize);
-			foreach (var item in source)
-			{
-				chunk.Add(item);
-				count++;
-				if (count == chunkSize)
-				{
-					yield return chunk.AsEnumerable();
-					chunk = new List<T>(chunkSize);
-					count = 0;
-				}
-			}
-			if (count > 0)
+			chunk.Add(item);
+			count++;
+			if (count == chunkSize)
 			{
 				yield return chunk.AsEnumerable();
+				chunk = new List<T>(chunkSize);
+				count = 0;
 			}
 		}
+		if (count > 0)
+		{
+			yield return chunk.AsEnumerable();
+		}
+	}
 #endif
 
-		/// <summary>
-		/// Returns true if collection is null or empty.
-		/// </summary>
-		public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
-		{
-			return source == null || !source.Any();
-		}
+	/// <summary>
+	/// Returns true if collection is null or empty.
+	/// </summary>
+	public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+	{
+		return source == null || !source.Any();
+	}
 
-		/// <summary>
-		/// Returns specified value if source is null/empty/else same.
-		/// </summary>
-		public static IEnumerable<T> Or<T>(this IEnumerable<T> source, IEnumerable<T> or)
+	/// <summary>
+	/// Returns specified value if source is null/empty/else same.
+	/// </summary>
+	public static IEnumerable<T> Or<T>(this IEnumerable<T> source, IEnumerable<T> or)
+	{
+		if (source.IsNullOrEmpty())
 		{
-			if (source.IsNullOrEmpty())
+			return or;
+		}
+		return source;
+	}
+
+	/// <summary>
+	/// Splits a collection into n parts.
+	/// </summary>
+	/// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>
+	public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int parts)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		parts.ThrowIfArgumentOutOfRange(nameof(parts));
+		// requires more space for objects
+		//var splits_index = source.Select((x, index) => new { x, index = index })
+		//	.GroupBy(x => x.index % parts)
+		//	.Select(g => g.Select(x => x));
+		int i = 0;
+		var splits = source.GroupBy(x => i++ % parts)
+			.Select(g => g.Select(x => x));
+		return splits;
+	}
+
+	/// <summary>
+	/// Returns true if list is ascendingly or descendingly sorted.
+	/// </summary>
+	public static bool IsSorted<T>(this IEnumerable<T> source)
+		where T : IComparable, IComparable<T>
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		// make an array to avoid inefficiency due to ElementAt(index)
+		var sourceArray = source.ToArray();
+		if (sourceArray.Length <= 1)
+		{
+			return true;
+		}
+		var isSorted = false;
+		// asc test
+		int i;
+		for (i = 1; i < sourceArray.Length; i++)
+		{
+			if (sourceArray[i - 1].CompareTo(sourceArray[i]) > 0)
 			{
-				return or;
+				break;
 			}
+		}
+		isSorted = sourceArray.Length == i;
+		if (isSorted)
+		{
+			return true;
+		}
+		// desc test
+		for (i = 1; i < sourceArray.Length; i++)
+		{
+			if (sourceArray[i - 1].CompareTo(sourceArray[i]) < 0)
+			{
+				break;
+			}
+		}
+		isSorted = sourceArray.Length == i;
+		return isSorted;
+	}
+
+	/// <summary>
+	/// Returns the only two elements of a sequence.
+	/// </summary>
+	public static IEnumerable<T> Double<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return XOrDefaultInternal(source, count: 2, emptyCheck: false);
+	}
+
+	/// <summary>
+	///  Returns the only two elements of a sequence that satisfy a specified condition.
+	/// </summary>
+	public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
+		Func<T, bool> predicate)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		return Double(source.Where(predicate));
+	}
+
+	/// <summary>
+	/// Returns the only two elements of a sequence, or a default value if the sequence is empty.
+	/// </summary>
+	public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return XOrDefaultInternal(source, count: 2, emptyCheck: true);
+	}
+
+	/// <summary>
+	/// Returns the only two elements of a sequence that satisfy a specified condition
+	/// or a default value if no such elements exists.
+	/// </summary>
+	public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
+		Func<T, bool> predicate)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		return DoubleOrDefault(source.Where(predicate));
+	}
+
+	/// <summary>
+	/// Returns the only <paramref name="count"/> elements of a sequence
+	/// or a default value if no such elements exists depending on <paramref name="emptyCheck"/>.
+	/// </summary>
+	private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
+		int count, bool emptyCheck)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		count.ThrowIfArgumentOutOfRange(nameof(count));
+		if (emptyCheck && source.IsNullOrEmpty())
+		{
+			return null;
+		}
+		// source.Count() == count is inefficient for large enumerable
+		if (source.HasCount(count))
+		{
 			return source;
 		}
+		throw new InvalidOperationException(
+			$"The input sequence does not contain {count} elements."
+			);
+	}
 
-		/// <summary>
-		/// Splits a collection into n parts.
-		/// </summary>
-		/// <remarks>http://stackoverflow.com/questions/438188/split-a-collection-into-n-parts-with-linq</remarks>
-		public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int parts)
+	/// <summary>
+	/// Returns true if source has exactly <paramref name="count"/> elements efficiently.
+	/// </summary>
+	/// <remarks>
+	/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+	/// </remarks>
+	public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		count.ThrowIfArgumentOutOfRange(nameof(count));
+		var collection = source as ICollection<TSource>;
+		if (collection != null)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			parts.ThrowIfArgumentOutOfRange(nameof(parts));
-			// requires more space for objects
-			//var splits_index = source.Select((x, index) => new { x, index = index })
-			//	.GroupBy(x => x.index % parts)
-			//	.Select(g => g.Select(x => x));
-			int i = 0;
-			var splits = source.GroupBy(x => i++ % parts)
-				.Select(g => g.Select(x => x));
-			return splits;
+			return collection.Count == count;
 		}
-
-		/// <summary>
-		/// Returns true if list is ascendingly or descendingly sorted.
-		/// </summary>
-		public static bool IsSorted<T>(this IEnumerable<T> source)
-			where T : IComparable, IComparable<T>
+		var collection2 = source as ICollection;
+		if (collection2 != null)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			// make an array to avoid inefficiency due to ElementAt(index)
-			var sourceArray = source.ToArray();
-			if (sourceArray.Length <= 1)
+			return collection2.Count == count;
+		}
+		int num = 0;
+		checked
+		{
+			using (var enumerator = source.GetEnumerator())
 			{
-				return true;
-			}
-			var isSorted = false;
-			// asc test
-			int i;
-			for (i = 1; i < sourceArray.Length; i++)
-			{
-				if (sourceArray[i - 1].CompareTo(sourceArray[i]) > 0)
+				while (enumerator.MoveNext())
 				{
-					break;
-				}
-			}
-			isSorted = sourceArray.Length == i;
-			if (isSorted)
-			{
-				return true;
-			}
-			// desc test
-			for (i = 1; i < sourceArray.Length; i++)
-			{
-				if (sourceArray[i - 1].CompareTo(sourceArray[i]) < 0)
-				{
-					break;
-				}
-			}
-			isSorted = sourceArray.Length == i;
-			return isSorted;
-		}
-
-		/// <summary>
-		/// Returns the only two elements of a sequence.
-		/// </summary>
-		public static IEnumerable<T> Double<T>(this IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return XOrDefaultInternal(source, count: 2, emptyCheck: false);
-		}
-
-		/// <summary>
-		///  Returns the only two elements of a sequence that satisfy a specified condition.
-		/// </summary>
-		public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
-			Func<T, bool> predicate)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			return Double(source.Where(predicate));
-		}
-
-		/// <summary>
-		/// Returns the only two elements of a sequence, or a default value if the sequence is empty.
-		/// </summary>
-		public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return XOrDefaultInternal(source, count: 2, emptyCheck: true);
-		}
-
-		/// <summary>
-		/// Returns the only two elements of a sequence that satisfy a specified condition
-		/// or a default value if no such elements exists.
-		/// </summary>
-		public static IEnumerable<T> DoubleOrDefault<T>(this IEnumerable<T> source,
-			Func<T, bool> predicate)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			return DoubleOrDefault(source.Where(predicate));
-		}
-
-		/// <summary>
-		/// Returns the only <paramref name="count"/> elements of a sequence
-		/// or a default value if no such elements exists depending on <paramref name="emptyCheck"/>.
-		/// </summary>
-		private static IEnumerable<T> XOrDefaultInternal<T>(IEnumerable<T> source,
-			int count, bool emptyCheck)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			count.ThrowIfArgumentOutOfRange(nameof(count));
-			if (emptyCheck && source.IsNullOrEmpty())
-			{
-				return null;
-			}
-			// source.Count() == count is inefficient for large enumerable
-			if (source.HasCount(count))
-			{
-				return source;
-			}
-			throw new InvalidOperationException(
-				$"The input sequence does not contain {count} elements."
-				);
-		}
-
-		/// <summary>
-		/// Returns true if source has exactly <paramref name="count"/> elements efficiently.
-		/// </summary>
-		/// <remarks>
-		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
-		/// </remarks>
-		public static bool HasCount<TSource>(this IEnumerable<TSource> source, int count)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			count.ThrowIfArgumentOutOfRange(nameof(count));
-			var collection = source as ICollection<TSource>;
-			if (collection != null)
-			{
-				return collection.Count == count;
-			}
-			var collection2 = source as ICollection;
-			if (collection2 != null)
-			{
-				return collection2.Count == count;
-			}
-			int num = 0;
-			checked
-			{
-				using (var enumerator = source.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
+					num++;
+					if (num > count)
 					{
-						num++;
-						if (num > count)
-						{
-							return false;
-						}
+						return false;
 					}
 				}
 			}
-			if (num < count)
+		}
+		if (num < count)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Returns true if source has exactly <paramref name="count"/> elements
+	/// that satisfy a specified condition efficiently.
+	/// </summary>
+	/// <remarks>
+	/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+	/// Intentionally not fused with <see cref="HasCount{TSource}(IEnumerable{TSource}, int)"/>
+	/// method.
+	/// </remarks>
+	public static bool HasCount<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate,
+		int count)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		count.ThrowIfArgumentOutOfRange(nameof(count));
+		int num = 0;
+		checked
+		{
+			using (var enumerator = source.GetEnumerator())
 			{
-				return false;
+				while (enumerator.MoveNext())
+				{
+					var item = enumerator.Current;
+					if (!predicate(item))
+					{
+						continue;
+					}
+					num++;
+					if (num > count)
+					{
+						return false;
+					}
+				}
 			}
+		}
+		if (num < count)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Returns true if source has at least <paramref name="count"/> elements efficiently.
+	/// </summary>
+	/// <remarks>
+	/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
+	/// </remarks>
+	public static bool HasCountOfAtLeast<TSource>(this IEnumerable<TSource> source, int count)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		count.ThrowIfArgumentOutOfRange(nameof(count));
+		var collection = source as ICollection<TSource>;
+		if (collection != null)
+		{
+			return collection.Count >= count;
+		}
+		var collection2 = source as ICollection;
+		if (collection2 != null)
+		{
+			return collection2.Count >= count;
+		}
+		int num = 0;
+		checked
+		{
+			using (var enumerator = source.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					num++;
+					if (num >= count)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		// when source has 0 elements
+		if (num == count)
+		{
 			return true;
 		}
+		return false; // < count
+	}
 
-		/// <summary>
-		/// Returns true if source has exactly <paramref name="count"/> elements
-		/// that satisfy a specified condition efficiently.
-		/// </summary>
-		/// <remarks>
-		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
-		/// Intentionally not fused with <see cref="HasCount{TSource}(IEnumerable{TSource}, int)"/>
-		/// method.
-		/// </remarks>
-		public static bool HasCount<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate,
-			int count)
+	/// <summary>
+	/// Returns a new collection with items shuffled in O(n) time.
+	/// </summary>
+	/// <remarks>
+	/// Fisher-Yates shuffle, revised by Knuth
+	/// http://stackoverflow.com/questions/1287567/is-using-random-and-orderby-a-good-shuffle-algorithm
+	/// </remarks>
+	public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		rng.ThrowIfArgumentNull(nameof(rng));
+		var items = source.ToArray();
+		for (int i = items.Length - 1; i >= 0; i--)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			count.ThrowIfArgumentOutOfRange(nameof(count));
-			int num = 0;
-			checked
-			{
-				using (var enumerator = source.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						var item = enumerator.Current;
-						if (!predicate(item))
-						{
-							continue;
-						}
-						num++;
-						if (num > count)
-						{
-							return false;
-						}
-					}
-				}
-			}
-			if (num < count)
-			{
-				return false;
-			}
-			return true;
+			var swapIndex = rng.Next(i + 1);
+			yield return items[swapIndex];
+			// no need to swap fully as items[swapIndex] is not used later
+			items[swapIndex] = items[i];
 		}
+	}
 
-		/// <summary>
-		/// Returns true if source has at least <paramref name="count"/> elements efficiently.
-		/// </summary>
-		/// <remarks>
-		/// Based on <see cref="Enumerable.Count{TSource}(IEnumerable{TSource})"/> method.
-		/// </remarks>
-		public static bool HasCountOfAtLeast<TSource>(this IEnumerable<TSource> source, int count)
+	/// <summary>
+	/// Slices an array as Python.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="array"></param>
+	/// <param name="start">index to include.</param>
+	/// <param name="end">index to exclude.</param>
+	/// <param name="step">step</param>
+	/// <returns></returns>
+	/// <remarks>
+	/// http://docs.python.org/2/tutorial/introduction.html#strings
+	///    +---+---+---+---+---+
+	///    | H | e | l | p | A |
+	///    +---+---+---+---+---+
+	///      0   1   2   3   4   5
+	/// -6  -5  -4  -3  -2  -1
+	///
+	/// note:
+	/// [1:3] and [-4:-2] give { e, l }
+	/// +ve step means traverse forward, -ve step means traverse backward
+	/// defaults for +ve step, start = 0, end = 5 (a.Length)
+	/// defaults for -ve step, start = -1, end = -6 (-a.Length -1)
+	/// </remarks>
+	public static IEnumerable<T> Slice<T>(this T[] array,
+		int? start = null, int? end = null, int step = 1)
+	{
+		array.ThrowIfArgumentNull(nameof(array));
+		int _start, _end;
+		// step
+		if (step == 0)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			count.ThrowIfArgumentOutOfRange(nameof(count));
-			var collection = source as ICollection<TSource>;
-			if (collection != null)
-			{
-				return collection.Count >= count;
-			}
-			var collection2 = source as ICollection;
-			if (collection2 != null)
-			{
-				return collection2.Count >= count;
-			}
-			int num = 0;
-			checked
-			{
-				using (var enumerator = source.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						num++;
-						if (num >= count)
-						{
-							return true;
-						}
-					}
-				}
-			}
-			// when source has 0 elements
-			if (num == count)
-			{
-				return true;
-			}
-			return false; // < count
+			// handle gracefully
+			yield break;
 		}
-
-		/// <summary>
-		/// Returns a new collection with items shuffled in O(n) time.
-		/// </summary>
-		/// <remarks>
-		/// Fisher-Yates shuffle, revised by Knuth
-		/// http://stackoverflow.com/questions/1287567/is-using-random-and-orderby-a-good-shuffle-algorithm
-		/// </remarks>
-		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+		else if (step > 0)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			rng.ThrowIfArgumentNull(nameof(rng));
-			var items = source.ToArray();
-			for (int i = items.Length - 1; i >= 0; i--)
-			{
-				var swapIndex = rng.Next(i + 1);
-				yield return items[swapIndex];
-				// no need to swap fully as items[swapIndex] is not used later
-				items[swapIndex] = items[i];
-			}
+			// defaults for step > 0
+			_start = 0;
+			_end = array.Length;
 		}
-
-		/// <summary>
-		/// Slices an array as Python.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="array"></param>
-		/// <param name="start">index to include.</param>
-		/// <param name="end">index to exclude.</param>
-		/// <param name="step">step</param>
-		/// <returns></returns>
-		/// <remarks>
-		/// http://docs.python.org/2/tutorial/introduction.html#strings
-		///    +---+---+---+---+---+
-		///    | H | e | l | p | A |
-		///    +---+---+---+---+---+
-		///      0   1   2   3   4   5
-		/// -6  -5  -4  -3  -2  -1
-		///
-		/// note:
-		/// [1:3] and [-4:-2] give { e, l }
-		/// +ve step means traverse forward, -ve step means traverse backward
-		/// defaults for +ve step, start = 0, end = 5 (a.Length)
-		/// defaults for -ve step, start = -1, end = -6 (-a.Length -1)
-		/// </remarks>
-		public static IEnumerable<T> Slice<T>(this T[] array,
-			int? start = null, int? end = null, int step = 1)
+		else // step < 0
 		{
-			array.ThrowIfArgumentNull(nameof(array));
-			int _start, _end;
-			// step
-			if (step == 0)
+			// defaults for step < 0
+			_start = -1;
+			_end = -array.Length - 1;
+		}
+		// inputs
+		_start = start ?? _start;
+		_end = end ?? _end;
+		// get positive index for given index
+		int toPositiveIndex(int index, int length) => index >= 0 ? index : index + length;
+		// start
+		if (_start < -array.Length || _start >= array.Length)
+		{
+			yield break;
+		}
+		_start = toPositiveIndex(_start, array.Length);
+		// end - check gracefully
+		if (_end < -array.Length - 1)
+		{
+			_end = -array.Length - 1;
+		}
+		if (_end > array.Length)
+		{
+			_end = array.Length;
+		}
+		_end = toPositiveIndex(_end, array.Length);
+		// start, end
+		if (step > 0 && _start > _end)
+		{
+			yield break;
+		}
+		if (step < 0 && _end > _start)
+		{
+			yield break;
+		}
+		// slice
+		if (step > 0)
+		{
+			var i = _start;
+			while (i < _end)
 			{
-				// handle gracefully
-				yield break;
-			}
-			else if (step > 0)
-			{
-				// defaults for step > 0
-				_start = 0;
-				_end = array.Length;
-			}
-			else // step < 0
-			{
-				// defaults for step < 0
-				_start = -1;
-				_end = -array.Length - 1;
-			}
-			// inputs
-			_start = start ?? _start;
-			_end = end ?? _end;
-			// get positive index for given index
-			int toPositiveIndex(int index, int length) => index >= 0 ? index : index + length;
-			// start
-			if (_start < -array.Length || _start >= array.Length)
-			{
-				yield break;
-			}
-			_start = toPositiveIndex(_start, array.Length);
-			// end - check gracefully
-			if (_end < -array.Length - 1)
-			{
-				_end = -array.Length - 1;
-			}
-			if (_end > array.Length)
-			{
-				_end = array.Length;
-			}
-			_end = toPositiveIndex(_end, array.Length);
-			// start, end
-			if (step > 0 && _start > _end)
-			{
-				yield break;
-			}
-			if (step < 0 && _end > _start)
-			{
-				yield break;
-			}
-			// slice
-			if (step > 0)
-			{
-				var i = _start;
-				while (i < _end)
-				{
-					yield return array[i];
-					i += step;
-				}
-			}
-			if (step < 0)
-			{
-				var i = _start;
-				while (i > _end)
-				{
-					yield return array[i];
-					i += step;
-				}
+				yield return array[i];
+				i += step;
 			}
 		}
-
-		/// <summary>
-		/// Returns a new collection with <paramref name="words"/> scrabbled like the game.
-		/// </summary>
-		/// <param name="words">Words to scrabble.</param>
-		public static IEnumerable<string> Scrabble(this IEnumerable<string> words)
+		if (step < 0)
 		{
-			words.ThrowIfArgumentNull(nameof(words));
-			foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>())
+			var i = _start;
+			while (i > _end)
 			{
-				yield return string.Concat(items);
+				yield return array[i];
+				i += step;
 			}
 		}
+	}
 
-		/// <summary>
-		/// Returns a new collection with <paramref name="words"/> scrabbled like the game
-		/// with <paramref name="limit"/>.
-		/// </summary>
-		/// <param name="words">Words to scrabble.</param>
-		/// <param name="limit">Number of <paramref name="words"/> to scrabble from
-		/// <paramref name="words"/>.</param>
-		public static IEnumerable<string> Scrabble(this IEnumerable<string> words, int limit)
+	/// <summary>
+	/// Returns a new collection with <paramref name="words"/> scrabbled like the game.
+	/// </summary>
+	/// <param name="words">Words to scrabble.</param>
+	public static IEnumerable<string> Scrabble(this IEnumerable<string> words)
+	{
+		words.ThrowIfArgumentNull(nameof(words));
+		foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>())
 		{
-			words.ThrowIfArgumentNull(nameof(words));
-			foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>(limit))
-			{
-				yield return string.Concat(items);
-			}
+			yield return string.Concat(items);
 		}
+	}
 
-		/// <summary>
-		/// Returns a new collection with <paramref name="source"/> scrabbled like the game.
-		/// </summary>
-		public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source)
+	/// <summary>
+	/// Returns a new collection with <paramref name="words"/> scrabbled like the game
+	/// with <paramref name="limit"/>.
+	/// </summary>
+	/// <param name="words">Words to scrabble.</param>
+	/// <param name="limit">Number of <paramref name="words"/> to scrabble from
+	/// <paramref name="words"/>.</param>
+	public static IEnumerable<string> Scrabble(this IEnumerable<string> words, int limit)
+	{
+		words.ThrowIfArgumentNull(nameof(words));
+		foreach (var items in words.Where(x => !x.IsNullOrEmpty()).Scrabble<string>(limit))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			var wordsArray = source.ToArray();
+			yield return string.Concat(items);
+		}
+	}
+
+	/// <summary>
+	/// Returns a new collection with <paramref name="source"/> scrabbled like the game.
+	/// </summary>
+	public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		var wordsArray = source.ToArray();
+		foreach (var item in
+			ScrabbleInner
+			(
+				wordsArray, wordsArray.Length,
+				new bool[wordsArray.Length], new T[wordsArray.Length], 0
+			))
+		{
+			yield return item;
+		}
+	}
+
+	/// <summary>
+	/// Returns a new collection with <paramref name="source"/> scrabbled like the game
+	/// with <paramref name="limit"/>.
+	/// </summary>
+	/// <param name="source">Words to scrabble.</param>
+	/// <param name="limit">Number of <paramref name="source"/> to scrabble from
+	/// <paramref name="source"/>.</param>
+	public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source, int limit)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		var wordsArray = source.ToArray();
+		limit.ThrowIfArgumentOutOfRange(nameof(limit), maxRange: wordsArray.Length);
+		foreach (var item in
+			ScrabbleInner
+			(
+				wordsArray, limit,
+				new bool[wordsArray.Length], new T[limit], 0
+			))
+		{
+			yield return item;
+		}
+	}
+
+	/// <summary>
+	/// Scrabbles recursively.
+	/// </summary>
+	/// <param name="items">Words to scrabble.</param>
+	/// <param name="limit">Number of <paramref name="items"/> to scrabble from
+	/// <paramref name="items"/>.</param>
+	/// <param name="used">Bool array to determine already used word in
+	/// <paramref name="items"/>.</param>
+	/// <param name="buffer">Buffer to hold the words.</param>
+	/// <param name="depth">Call depth to determine when to return.</param>
+	/// <remarks>Similar to the permute method.</remarks>
+	private static IEnumerable<T[]> ScrabbleInner<T>(T[] items, int limit,
+		bool[] used, T[] buffer, int depth)
+	{
+		// yield here
+		if (depth > 0)
+		{
+			yield return buffer.Slice(end: depth).ToArray();
+		}
+		if (depth == limit)
+		{
+			yield break;
+		}
+		for (int i = 0; i < items.Length; i++)
+		{
+			if (used[i])
+			{
+				continue;
+			}
+			used[i] = true;
+			buffer[depth] = items[i];
 			foreach (var item in
-				ScrabbleInner
-				(
-					wordsArray, wordsArray.Length,
-					new bool[wordsArray.Length], new T[wordsArray.Length], 0
-				))
+				ScrabbleInner(items, limit, used, buffer, depth + 1))
 			{
 				yield return item;
 			}
+			buffer[depth] = default(T);
+			used[i] = false;
 		}
+	}
 
-		/// <summary>
-		/// Returns a new collection with <paramref name="source"/> scrabbled like the game
-		/// with <paramref name="limit"/>.
-		/// </summary>
-		/// <param name="source">Words to scrabble.</param>
-		/// <param name="limit">Number of <paramref name="source"/> to scrabble from
-		/// <paramref name="source"/>.</param>
-		public static IEnumerable<T[]> Scrabble<T>(this IEnumerable<T> source, int limit)
+	public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return source.Permutation(source.Count());
+	}
+
+	public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source, int r)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		r.ThrowIfArgumentOutOfRange(nameof(r));
+		if (!source.HasCountOfAtLeast(r))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			var wordsArray = source.ToArray();
-			limit.ThrowIfArgumentOutOfRange(nameof(limit), maxRange: wordsArray.Length);
-			foreach (var item in
-				ScrabbleInner
-				(
-					wordsArray, limit,
-					new bool[wordsArray.Length], new T[limit], 0
-				))
+			throw new ArgumentOutOfRangeException(nameof(r));
+		}
+		var input = source.ToArray();
+		var buffer = new T[r];
+		var used = new bool[input.Length];
+		var depth = 0;
+		// yield is required
+		foreach (var item in Permute(input, r, buffer, used, depth))
+		{
+			yield return item;
+		}
+	}
+
+	private static IEnumerable<T[]> Permute<T>(T[] input, int r, T[] buffer,
+		bool[] used, int depth)
+	{
+		if (depth > r)
+		{
+			yield break;
+		}
+		if (depth == r)
+		{
+			yield return (T[])buffer.Clone();
+			yield break;
+		}
+		for (int i = 0; i < input.Length; i++)
+		{
+			if (used[i])
+			{
+				continue;
+			}
+			used[i] = true;
+			buffer[depth] = input[i];
+			foreach (var item in Permute(input, r, buffer, used, depth + 1))
 			{
 				yield return item;
 			}
+			buffer[depth] = default(T);
+			used[i] = false;
 		}
+	}
 
-		/// <summary>
-		/// Scrabbles recursively.
-		/// </summary>
-		/// <param name="items">Words to scrabble.</param>
-		/// <param name="limit">Number of <paramref name="items"/> to scrabble from
-		/// <paramref name="items"/>.</param>
-		/// <param name="used">Bool array to determine already used word in
-		/// <paramref name="items"/>.</param>
-		/// <param name="buffer">Buffer to hold the words.</param>
-		/// <param name="depth">Call depth to determine when to return.</param>
-		/// <remarks>Similar to the permute method.</remarks>
-		private static IEnumerable<T[]> ScrabbleInner<T>(T[] items, int limit,
-			bool[] used, T[] buffer, int depth)
+	public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return source.Combination(source.Count());
+	}
+
+	public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source, int r)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		if (!source.HasCountOfAtLeast(r))
 		{
-			// yield here
-			if (depth > 0)
-			{
-				yield return buffer.Slice(end: depth).ToArray();
-			}
-			if (depth == limit)
-			{
-				yield break;
-			}
-			for (int i = 0; i < items.Length; i++)
-			{
-				if (used[i])
-				{
-					continue;
-				}
-				used[i] = true;
-				buffer[depth] = items[i];
-				foreach (var item in
-					ScrabbleInner(items, limit, used, buffer, depth + 1))
-				{
-					yield return item;
-				}
-				buffer[depth] = default(T);
-				used[i] = false;
-			}
+			throw new ArgumentOutOfRangeException(nameof(r));
 		}
-
-		public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source)
+		var input = source.ToArray();
+		var buffer = new T[r];
+		var depth = 0;
+		var start = 0;
+		// yield is required
+		foreach (var item in Combine(input, r, buffer, depth, start))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return source.Permutation(source.Count());
+			yield return item;
 		}
+	}
 
-		public static IEnumerable<T[]> Permutation<T>(this IEnumerable<T> source, int r)
+	private static IEnumerable<T[]> Combine<T>(T[] input, int r, T[] buffer,
+		int depth, int start)
+	{
+		if (depth > r)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			r.ThrowIfArgumentOutOfRange(nameof(r));
-			if (!source.HasCountOfAtLeast(r))
-			{
-				throw new ArgumentOutOfRangeException(nameof(r));
-			}
-			var input = source.ToArray();
-			var buffer = new T[r];
-			var used = new bool[input.Length];
-			var depth = 0;
-			// yield is required
-			foreach (var item in Permute(input, r, buffer, used, depth))
+			yield break;
+		}
+		if (depth == r)
+		{
+			yield return (T[])buffer.Clone();
+			yield break;
+		}
+		for (int i = start; i < input.Length; i++)
+		{
+			buffer[depth] = input[i];
+			foreach (var item in Combine(input, r, buffer, depth + 1, i + 1))
 			{
 				yield return item;
 			}
+			buffer[depth] = default(T);
 		}
+	}
 
-		private static IEnumerable<T[]> Permute<T>(T[] input, int r, T[] buffer,
-			bool[] used, int depth)
-		{
-			if (depth > r)
-			{
-				yield break;
-			}
-			if (depth == r)
-			{
-				yield return (T[])buffer.Clone();
-				yield break;
-			}
-			for (int i = 0; i < input.Length; i++)
-			{
-				if (used[i])
-				{
-					continue;
-				}
-				used[i] = true;
-				buffer[depth] = input[i];
-				foreach (var item in Permute(input, r, buffer, used, depth + 1))
-				{
-					yield return item;
-				}
-				buffer[depth] = default(T);
-				used[i] = false;
-			}
-		}
+	public static bool IsEmpty<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return !source.Any();
+	}
 
-		public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return source.Combination(source.Count());
-		}
+	public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		return !source.Any(predicate);
+	}
 
-		public static IEnumerable<T[]> Combination<T>(this IEnumerable<T> source, int r)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			if (!source.HasCountOfAtLeast(r))
-			{
-				throw new ArgumentOutOfRangeException(nameof(r));
-			}
-			var input = source.ToArray();
-			var buffer = new T[r];
-			var depth = 0;
-			var start = 0;
-			// yield is required
-			foreach (var item in Combine(input, r, buffer, depth, start))
-			{
-				yield return item;
-			}
-		}
+	/// <summary>
+	/// Returns top n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n)
+		where T : IComparable<T>
+	{
+		return Top(source, n, x => x, Comparer<T>.Default);
+	}
 
-		private static IEnumerable<T[]> Combine<T>(T[] input, int r, T[] buffer,
-			int depth, int start)
-		{
-			if (depth > r)
-			{
-				yield break;
-			}
-			if (depth == r)
-			{
-				yield return (T[])buffer.Clone();
-				yield break;
-			}
-			for (int i = start; i < input.Length; i++)
-			{
-				buffer[depth] = input[i];
-				foreach (var item in Combine(input, r, buffer, depth + 1, i + 1))
-				{
-					yield return item;
-				}
-				buffer[depth] = default(T);
-			}
-		}
+	/// <summary>
+	/// Returns top n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n,
+		IComparer<T> comparer)
+		where T : IComparable<T>
+	{
+		return Top(source, n, x => x, comparer);
+	}
 
-		public static bool IsEmpty<T>(this IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return !source.Any();
-		}
+	/// <summary>
+	/// Returns top n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
+		Func<T, TKey> keySelector)
+		where TKey : IComparable<TKey>
+	{
+		return Top(source, n, keySelector, Comparer<TKey>.Default);
+	}
 
-		public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	/// <summary>
+	/// Returns top n efficiently.
+	/// </summary>
+	/// <remarks>Uses min-heap, O(elements * logn) time, O(n) space.</remarks>
+	public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
+		Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		where TKey : IComparable<TKey>
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		n.ThrowIfArgumentOutOfRange(nameof(n));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		comparer.ThrowIfArgumentNull(nameof(comparer));
+		var minheap = new MinHeap<T, TKey>(n, keySelector, comparer);
+		if (n == 0)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			return !source.Any(predicate);
-		}
-
-		/// <summary>
-		/// Returns top n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n)
-			where T : IComparable<T>
-		{
-			return Top(source, n, x => x, Comparer<T>.Default);
-		}
-
-		/// <summary>
-		/// Returns top n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Top<T>(this IEnumerable<T> source, int n,
-			IComparer<T> comparer)
-			where T : IComparable<T>
-		{
-			return Top(source, n, x => x, comparer);
-		}
-
-		/// <summary>
-		/// Returns top n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
-			Func<T, TKey> keySelector)
-			where TKey : IComparable<TKey>
-		{
-			return Top(source, n, keySelector, Comparer<TKey>.Default);
-		}
-
-		/// <summary>
-		/// Returns top n efficiently.
-		/// </summary>
-		/// <remarks>Uses min-heap, O(elements * logn) time, O(n) space.</remarks>
-		public static IEnumerable<T> Top<T, TKey>(this IEnumerable<T> source, int n,
-			Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			where TKey : IComparable<TKey>
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			n.ThrowIfArgumentOutOfRange(nameof(n));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			comparer.ThrowIfArgumentNull(nameof(comparer));
-			var minheap = new MinHeap<T, TKey>(n, keySelector, comparer);
-			if (n == 0)
-			{
-				return minheap;
-			}
-			foreach (var x in source)
-			{
-				if (x == null)
-				{
-					continue;
-				}
-				if (minheap.IsFull())
-				{
-					if (comparer.Compare(keySelector(x), keySelector(minheap.Peek())) > 0) //x > heap[0]
-					{
-						minheap.Displace(x);
-					}
-				}
-				else
-				{
-					minheap.Append(x);
-				}
-			}
 			return minheap;
 		}
-
-		/// <summary>
-		/// Returns bottom n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n)
-			where T : IComparable<T>
+		foreach (var x in source)
 		{
-			return Bottom(source, n, x => x, Comparer<T>.Default);
-		}
-
-		/// <summary>
-		/// Returns bottom n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n,
-			IComparer<T> comparer)
-			where T : IComparable<T>
-		{
-			return Bottom(source, n, x => x, comparer);
-		}
-
-		/// <summary>
-		/// Returns bottom n efficiently.
-		/// </summary>
-		public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
-			Func<T, TKey> keySelector)
-			where TKey : IComparable<TKey>
-		{
-			return Bottom(source, n, keySelector, Comparer<TKey>.Default);
-		}
-
-		/// <summary>
-		/// Returns bottom n efficiently.
-		/// </summary>
-		/// <remarks>Uses max-heap, O(elements * logn) time, O(n) space.</remarks>
-		public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
-			Func<T, TKey> keySelector, IComparer<TKey> comparer)
-			where TKey : IComparable<TKey>
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			n.ThrowIfArgumentOutOfRange(nameof(n));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			comparer.ThrowIfArgumentNull(nameof(comparer));
-			var maxheap = new MaxHeap<T, TKey>(n, keySelector, comparer);
-			if (n == 0)
+			if (x == null)
 			{
-				return maxheap;
+				continue;
 			}
-			foreach (var x in source)
+			if (minheap.IsFull())
 			{
-				if (x == null)
+				if (comparer.Compare(keySelector(x), keySelector(minheap.Peek())) > 0) //x > heap[0]
 				{
-					continue;
-				}
-				if (maxheap.IsFull())
-				{
-					if (comparer.Compare(keySelector(x), keySelector(maxheap.Peek())) < 0) //x < heap[0]
-					{
-						maxheap.Displace(x);
-					}
-				}
-				else
-				{
-					maxheap.Append(x);
+					minheap.Displace(x);
 				}
 			}
+			else
+			{
+				minheap.Append(x);
+			}
+		}
+		return minheap;
+	}
+
+	/// <summary>
+	/// Returns bottom n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n)
+		where T : IComparable<T>
+	{
+		return Bottom(source, n, x => x, Comparer<T>.Default);
+	}
+
+	/// <summary>
+	/// Returns bottom n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Bottom<T>(this IEnumerable<T> source, int n,
+		IComparer<T> comparer)
+		where T : IComparable<T>
+	{
+		return Bottom(source, n, x => x, comparer);
+	}
+
+	/// <summary>
+	/// Returns bottom n efficiently.
+	/// </summary>
+	public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
+		Func<T, TKey> keySelector)
+		where TKey : IComparable<TKey>
+	{
+		return Bottom(source, n, keySelector, Comparer<TKey>.Default);
+	}
+
+	/// <summary>
+	/// Returns bottom n efficiently.
+	/// </summary>
+	/// <remarks>Uses max-heap, O(elements * logn) time, O(n) space.</remarks>
+	public static IEnumerable<T> Bottom<T, TKey>(this IEnumerable<T> source, int n,
+		Func<T, TKey> keySelector, IComparer<TKey> comparer)
+		where TKey : IComparable<TKey>
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		n.ThrowIfArgumentOutOfRange(nameof(n));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		comparer.ThrowIfArgumentNull(nameof(comparer));
+		var maxheap = new MaxHeap<T, TKey>(n, keySelector, comparer);
+		if (n == 0)
+		{
 			return maxheap;
 		}
-
-		/// <summary>
-		/// Returns source.Except(second, comparer) in a linqified way.
-		/// <para>
-		/// note: net6.0 has added below extensions which have a different signature.
-		/// <br />
-		/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey})
-		/// <br />
-		/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey}, IEqualityComparer{TKey})
-		/// </para>
-		/// </summary>
-		public static IEnumerable<T> ExceptBy<T, TKey>(this IEnumerable<T> source, IEnumerable<T> second,
-			Func<T, TKey> keySelector)
+		foreach (var x in source)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			second.ThrowIfArgumentNull(nameof(second));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			return source.Except(second,
-				// calls new GenericEqualityComparer<T, TKey>(keySelector)
-				GenericEqualityComparer<T>.By(keySelector)
-				);
+			if (x == null)
+			{
+				continue;
+			}
+			if (maxheap.IsFull())
+			{
+				if (comparer.Compare(keySelector(x), keySelector(maxheap.Peek())) < 0) //x < heap[0]
+				{
+					maxheap.Displace(x);
+				}
+			}
+			else
+			{
+				maxheap.Append(x);
+			}
 		}
+		return maxheap;
+	}
+
+	/// <summary>
+	/// Returns source.Except(second, comparer) in a linqified way.
+	/// <para>
+	/// note: net6.0 has added below extensions which have a different signature.
+	/// <br />
+	/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey})
+	/// <br />
+	/// ExceptBy{TSource,TKey}(IEnumerable{TSource}, IEnumerable{TKey}, Func{Source,TKey}, IEqualityComparer{TKey})
+	/// </para>
+	/// </summary>
+	public static IEnumerable<T> ExceptBy<T, TKey>(this IEnumerable<T> source, IEnumerable<T> second,
+		Func<T, TKey> keySelector)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		second.ThrowIfArgumentNull(nameof(second));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		return source.Except(second,
+			// calls new GenericEqualityComparer<T, TKey>(keySelector)
+			GenericEqualityComparer<T>.By(keySelector)
+			);
+	}
 
 #if !NET6_0_OR_GREATER
-		/// <summary>
-		/// Returns source.Distinct(comparer) in a linqified way.
-		/// </summary>
-		public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source,
-			Func<T, TKey> keySelector)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			return source.Distinct(
-				// calls new GenericEqualityComparer<T, TKey>(keySelector)
-				GenericEqualityComparer<T>.By(keySelector)
-				);
-		}
+	/// <summary>
+	/// Returns source.Distinct(comparer) in a linqified way.
+	/// </summary>
+	public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source,
+		Func<T, TKey> keySelector)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		return source.Distinct(
+			// calls new GenericEqualityComparer<T, TKey>(keySelector)
+			GenericEqualityComparer<T>.By(keySelector)
+			);
+	}
 #endif
 
-		/// <summary>
-		/// Returns empty if enumerable is null else same enumerable.
-		/// </summary>
-		public static IEnumerable<T> OrEmpty<T>(this IEnumerable<T> source)
-		{
-			return source ?? Enumerable.Empty<T>();
-		}
+	/// <summary>
+	/// Returns empty if enumerable is null else same enumerable.
+	/// </summary>
+	public static IEnumerable<T> OrEmpty<T>(this IEnumerable<T> source)
+	{
+		return source ?? Enumerable.Empty<T>();
+	}
 
-		/// <summary>
-		/// Returns empty if enumerable is null else same enumerable.
-		/// </summary>
-		public static IEnumerable<T> EmptyIfDefault<T>(this IEnumerable<T> source)
-		{
-			return source.OrEmpty();
-		}
+	/// <summary>
+	/// Returns empty if enumerable is null else same enumerable.
+	/// </summary>
+	public static IEnumerable<T> EmptyIfDefault<T>(this IEnumerable<T> source)
+	{
+		return source.OrEmpty();
+	}
 
-		/// <summary>
-		/// Returns source.OrderBy(keySelector, comparer) in a linqified way.
-		/// </summary>
-		public static IOrderedEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source,
-			Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			compare.ThrowIfArgumentNull(nameof(compare));
-			return source.OrderBy(keySelector, new GenericComparer<TKey>(compare));
-		}
+	/// <summary>
+	/// Returns source.OrderBy(keySelector, comparer) in a linqified way.
+	/// </summary>
+	public static IOrderedEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source,
+		Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		compare.ThrowIfArgumentNull(nameof(compare));
+		return source.OrderBy(keySelector, new GenericComparer<TKey>(compare));
+	}
 
-		/// <summary>
-		/// Returns source.OrderByDescending(keySelector, comparer) in a linqified way.
-		/// </summary>
-		public static IOrderedEnumerable<T> OrderByDescending<T, TKey>(this IEnumerable<T> source,
-			Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			keySelector.ThrowIfArgumentNull(nameof(keySelector));
-			compare.ThrowIfArgumentNull(nameof(compare));
-			return source.OrderByDescending(keySelector, new GenericComparer<TKey>(compare));
-		}
+	/// <summary>
+	/// Returns source.OrderByDescending(keySelector, comparer) in a linqified way.
+	/// </summary>
+	public static IOrderedEnumerable<T> OrderByDescending<T, TKey>(this IEnumerable<T> source,
+		Func<T, TKey> keySelector, Func<TKey, TKey, int> compare)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		keySelector.ThrowIfArgumentNull(nameof(keySelector));
+		compare.ThrowIfArgumentNull(nameof(compare));
+		return source.OrderByDescending(keySelector, new GenericComparer<TKey>(compare));
+	}
 
-		/// <summary>
-		/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource})"/> without exception.
-		/// </summary>
-		public static bool TrySingle<T>(this IEnumerable<T> source, out T singleT)
+	/// <summary>
+	/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource})"/> without exception.
+	/// </summary>
+	public static bool TrySingle<T>(this IEnumerable<T> source, out T singleT)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		if (source.HasCount(1))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			if (source.HasCount(1))
-			{
-				singleT = source.Single();
-				return true;
-			}
-			singleT = default(T);
-			return false;
+			singleT = source.Single();
+			return true;
 		}
+		singleT = default(T);
+		return false;
+	}
 
-		/// <summary>
-		/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource}, Func{TSource, bool})"/>
-		/// without exception.
-		/// </summary>
-		public static bool TrySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T singleT)
+	/// <summary>
+	/// Implements <see cref="Enumerable.Single{TSource}(IEnumerable{TSource}, Func{TSource, bool})"/>
+	/// without exception.
+	/// </summary>
+	public static bool TrySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T singleT)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		if (source.HasCount(predicate, 1))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			if (source.HasCount(predicate, 1))
-			{
-				singleT = source.Single(predicate);
-				return true;
-			}
-			singleT = default(T);
-			return false;
+			singleT = source.Single(predicate);
+			return true;
 		}
+		singleT = default(T);
+		return false;
+	}
 
-		/// <summary>
-		/// Returns the only element of sequence or default of {T}.
-		/// </summary>
-		public static T OneOrDefault<T>(this IEnumerable<T> source)
+	/// <summary>
+	/// Returns the only element of sequence or default of {T}.
+	/// </summary>
+	public static T OneOrDefault<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		if (source.HasCount(1))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			if (source.HasCount(1))
-			{
-				return source.Single();
-			}
-			return default(T);
+			return source.Single();
 		}
+		return default(T);
+	}
 
-		/// <summary>
-		/// Returns the only element of sequence that satisfies a specified condition
-		/// or default of {T}.
-		/// </summary>
-		public static T OneOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	/// <summary>
+	/// Returns the only element of sequence that satisfies a specified condition
+	/// or default of {T}.
+	/// </summary>
+	public static T OneOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		if (source.HasCount(predicate, 1))
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			predicate.ThrowIfArgumentNull(nameof(predicate));
-			if (source.HasCount(predicate, 1))
-			{
-				return source.Single(predicate);
-			}
-			return default(T);
+			return source.Single(predicate);
 		}
+		return default(T);
+	}
 
-		/// <summary>
-		/// Returns bigint count of sequence.
-		/// </summary>
-		public static BigInteger BigCount<T>(this IEnumerable<T> source)
+	/// <summary>
+	/// Returns bigint count of sequence.
+	/// </summary>
+	public static BigInteger BigCount<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		BigInteger count = 0;
+		foreach (var item in source)
 		{
-			source.ThrowIfArgumentNull(nameof(source));
-			BigInteger count = 0;
-			foreach (var item in source)
-			{
-				count++;
-			}
-			return count;
+			count++;
 		}
+		return count;
+	}
 
-		/// <summary>
-		/// Returns true if <paramref name="value"/> is in <paramref name="source"/>.
-		/// </summary>
-		public static bool In<T>(this T value, IEnumerable<T> source)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			return source.Contains(value);
-		}
+	/// <summary>
+	/// Returns true if <paramref name="value"/> is in <paramref name="source"/>.
+	/// </summary>
+	public static bool In<T>(this T value, IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return source.Contains(value);
+	}
 
-		/// <summary>
-		/// Returns true if <paramref name="value"/> is in <paramref name="source"/>
-		/// by using a specified <paramref name="comparer"/>.
-		/// </summary>
-		public static bool In<T>(this T value, IEnumerable<T> source, IEqualityComparer<T> comparer)
-		{
-			source.ThrowIfArgumentNull(nameof(source));
-			comparer.ThrowIfArgumentNull(nameof(comparer));
-			return source.Contains(value, comparer);
-		}
+	/// <summary>
+	/// Returns true if <paramref name="value"/> is in <paramref name="source"/>
+	/// by using a specified <paramref name="comparer"/>.
+	/// </summary>
+	public static bool In<T>(this T value, IEnumerable<T> source, IEqualityComparer<T> comparer)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		comparer.ThrowIfArgumentNull(nameof(comparer));
+		return source.Contains(value, comparer);
 	}
 }

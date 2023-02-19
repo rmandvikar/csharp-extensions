@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 
-namespace rm.Extensions
+namespace rm.Extensions;
+
+/// <summary>
+/// List extensions.
+/// </summary>
+public static class ListExtension
 {
 	/// <summary>
-	/// List extensions.
+	/// Removes the last <paramref name="n"/> item(s) in the list.
 	/// </summary>
-	public static class ListExtension
+	public static void RemoveLast<T>(this IList<T> source, int n = 1)
 	{
-		/// <summary>
-		/// Removes the last <paramref name="n"/> item(s) in the list.
-		/// </summary>
-		public static void RemoveLast<T>(this IList<T> source, int n = 1)
+		for (int i = 0; i < n; i++)
 		{
-			for (int i = 0; i < n; i++)
-			{
-				source.RemoveAt(source.Count - 1);
-			}
+			source.RemoveAt(source.Count - 1);
 		}
 	}
 }

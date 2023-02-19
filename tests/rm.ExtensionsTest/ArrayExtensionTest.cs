@@ -2,18 +2,17 @@
 using NUnit.Framework;
 using rm.Extensions;
 
-namespace rm.ExtensionsTest
+namespace rm.ExtensionsTest;
+
+[TestFixture]
+public class ArrayExtensionTest
 {
-	[TestFixture]
-	public class ArrayExtensionTest
+	[Test]
+	public void EmptyTest01()
 	{
-		[Test]
-		public void EmptyTest01()
-		{
-			var empty = Array<int>.Empty;
-			var expected = Array.Empty<int>();
-			Assert.AreSame(expected, empty);
-			Assert.AreSame(Array<int>.Empty, Array<int>.Empty);
-		}
+		var empty = Array<int>.Empty;
+		var expected = Array.Empty<int>();
+		Assert.AreSame(expected, empty);
+		Assert.AreSame(Array<int>.Empty, Array<int>.Empty);
 	}
 }

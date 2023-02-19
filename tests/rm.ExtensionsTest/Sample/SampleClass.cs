@@ -1,7 +1,6 @@
-﻿namespace rm.ExtensionsTest.Sample
+﻿namespace rm.ExtensionsTest.Sample;
+
+public class SampleClass
 {
-	public class SampleClass
-	{
-		public ComparableClass2 ComparableClass2 { get; set; }
-	}
+	public ComparableClass2 ComparableClass2 { get; set; }
 }

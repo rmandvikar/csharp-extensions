@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace rm.ExtensionsTest.Sample
+namespace rm.ExtensionsTest.Sample;
+
+public class ComparableClass : IComparable<ComparableClass>
 {
-	public class ComparableClass : IComparable<ComparableClass>
+	public int CompareTo(ComparableClass other)
 	{
-		public int CompareTo(ComparableClass other)
-		{
-			throw new NotImplementedException();
-		}
+		throw new NotImplementedException();
 	}
 }
