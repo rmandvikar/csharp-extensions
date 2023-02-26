@@ -692,3 +692,11 @@ var c = 'a'.ToUpper(); // returns 'A'
 var isLower = c.IsLower(); // returns false
 var isLetter = c.IsLetter(); // returns true
 ```
+
+#### Base32:
+
+```c#
+// Douglas Crockford's Base32 impl
+var base32 = s.ToUtf8Bytes().Base32Encode();
+var s = base32.Base32Decode().ToUtf8String();
+```
