@@ -642,6 +642,10 @@ cache.Clear(); // clears cache
 var bytes = Guid.Parse(someGuid).ToByteArrayMatchingStringRepresentation();
 // similar roundtrip method
 var guid = bytes.ToGuidMatchingStringRepresentation(); // same as someGuid
+// other than base16 (hex) formats
+var guidBase64 = guid.ToBase64String();
+var guidBase64Url = guid.ToBase64UrlString();
+var guidBase32 = guid.ToBase32String();
 ```
 
 #### Base64, Base64Url:
