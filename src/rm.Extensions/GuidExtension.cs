@@ -48,6 +48,12 @@ public static class GuidExtension
 		return new Guid(bytes);
 	}
 
+	/// <summary>
+	/// Tweaks the order of <paramref name="guidBytes"/> <b>in-place</b> as per endianness.
+	/// </summary>
+	/// <note>
+	/// This method should be kept private to avoid confusion as it tweaks in-place.
+	/// </note>
 	private static void TweakOrderOfGuidBytesToMatchStringRepresentation(byte[] guidBytes)
 	{
 		if (BitConverter.IsLittleEndian)
@@ -56,5 +62,77 @@ public static class GuidExtension
 			Array.Reverse(guidBytes, 4, 2);
 			Array.Reverse(guidBytes, 6, 2);
 		}
+	}
+
+	/// <summary>
+	/// Returns guid's bytes (matching string representation) in Base64 format.
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/text-to-base64.
+	/// </note>
+	/// </summary>
+	public static string ToBase64String(this Guid guid)
+	{
+		return guid.ToByteArrayMatchingStringRepresentation().Base64Encode();
+	}
+
+	/// <summary>
+	/// Returns guid from Base64 format (matching string representation).
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/text-to-base64.
+	/// </note>
+	/// </summary>
+	public static Guid FromBase64String(this string guidString)
+	{
+		return guidString.Base64Decode().ToGuidMatchingStringRepresentation();
+	}
+
+	/// <summary>
+	/// Returns guid's bytes (matching string representation) in Base64 Url format.
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/text-to-base64.
+	/// </note>
+	/// </summary>
+	public static string ToBase64UrlString(this Guid guid)
+	{
+		return guid.ToByteArrayMatchingStringRepresentation().Base64UrlEncode();
+	}
+
+	/// <summary>
+	/// Returns guid from Base64 Url format (matching string representation).
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/text-to-base64.
+	/// </note>
+	/// </summary>
+	public static Guid FromBase64UrlString(this string guidString)
+	{
+		return guidString.Base64UrlDecode().ToGuidMatchingStringRepresentation();
+	}
+
+	/// <summary>
+	/// Returns guid's bytes (matching string representation) in Base32 format.
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/base32-to-hex.
+	/// </note>
+	/// </summary>
+	public static string ToBase32String(this Guid guid)
+	{
+		return guid.ToByteArrayMatchingStringRepresentation().Base32Encode();
+	}
+
+	/// <summary>
+	/// Returns guid from Base32 format (matching string representation).
+	/// <para/>
+	/// <note>
+	/// See https://cryptii.com/pipes/base32-to-hex.
+	/// </note>
+	/// </summary>
+	public static Guid FromBase32String(this string guidString)
+	{
+		return guidString.Base32Decode().ToGuidMatchingStringRepresentation();
 	}
 }

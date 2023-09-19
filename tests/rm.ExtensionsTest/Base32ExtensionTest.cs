@@ -131,21 +131,4 @@ public class Base32ExtensionTest
 		sw.Stop();
 		Console.WriteLine(sw.ElapsedMilliseconds);
 	}
-
-	[Explicit]
-	[Test]
-	[Category("slow")]
-	public void Perf_Base32Encode_Guid()
-	{
-		var guidString = "8843eb18-45d9-4528-a4e8-62e277a26629";
-		var guid = Guid.Parse(guidString);
-		var sw = Stopwatch.StartNew();
-		for (int i = 0; i < iterations; i++)
-		{
-			var bytes = guid.ToByteArrayMatchingStringRepresentation();
-			var base32 = bytes.Base32Encode();
-		}
-		sw.Stop();
-		Console.WriteLine(sw.ElapsedMilliseconds);
-	}
 }
