@@ -1,12 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rm.Extensions", "src\rm.Extensions\rm.Extensions.csproj", "{CDD966D6-4370-4745-9B0E-F8D7E252620E}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rm.Extensions", "src\rm.Extensions\rm.Extensions.csproj", "{CDD966D6-4370-4745-9B0E-F8D7E252620E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rm.ExtensionsTest", "tests\rm.ExtensionsTest\rm.ExtensionsTest.csproj", "{3C36D356-3426-4951-88D9-073233CBFDB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rm.ExtensionsTest", "tests\rm.ExtensionsTest\rm.ExtensionsTest.csproj", "{3C36D356-3426-4951-88D9-073233CBFDB9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51F18744-8BB4-4636-B916-51DA6EBFBD48}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

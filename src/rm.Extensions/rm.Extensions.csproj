@@ -12,8 +12,12 @@
     <PackageTags>utility extensions</PackageTags>
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
     <PackageProjectUrl>https://github.com/rmandvikar/csharp-extensions</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Authors>hippy</Authors>
     <Company>hippy</Company>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
