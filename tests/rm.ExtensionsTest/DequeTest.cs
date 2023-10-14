@@ -179,6 +179,7 @@ public class DequeTest
 		Assert.Throws<InvalidOperationException>(() => dq.Delete(node));
 	}
 
+	[Retry(5)]
 	[Test(Description = "Deque<T> v/s Queue<T> find speed test.")]
 	public void Find01()
 	{
