@@ -10,7 +10,7 @@ namespace rm.Extensions;
 public enum Hasher
 {
 	sha1 = 1,
-	md5
+	md5,
 }
 
 /// <summary>
@@ -44,7 +44,7 @@ public static class UriExtension
 					return Checksum(hasher, uri);
 				}
 			default:
-				throw new ArgumentOutOfRangeException("Unknown hash algorithm type.");
+				throw new ArgumentOutOfRangeException(nameof(type), type, "Unknown hash algorithm type.");
 		}
 	}
 
