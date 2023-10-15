@@ -34,7 +34,7 @@ public static class UriExtension
 		switch (type)
 		{
 			case Hasher.sha1:
-				using (var hasher = new SHA1CryptoServiceProvider())
+				using (var hasher = SHA1.Create())
 				{
 					return Checksum(hasher, uri);
 				}
