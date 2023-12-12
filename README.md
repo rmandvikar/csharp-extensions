@@ -661,6 +661,10 @@ var s = base64Url.Base64UrlDecode().ToUtf8String();
 #### Random:
 
 ```c#
+var nextItem = rng.NextItem(arrayOfItems);
+```
+
+```c#
 var gaussian = rng.NextGaussian(mu: mu, sigma: sigma);
 ```
 

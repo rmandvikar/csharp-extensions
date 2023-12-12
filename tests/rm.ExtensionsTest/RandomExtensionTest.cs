@@ -16,6 +16,23 @@ public class RandomExtensionTest
 
 	[Explicit]
 	[Test]
+	[TestCase(10)]
+	public void Verify_NextItem(int size)
+	{
+		var source = Enumerable.Range(0, size).ToArray();
+		var nextItem = random.NextItem(source);
+		Console.WriteLine(nextItem);
+	}
+
+	[Test]
+	public void Verify_NextItem_Throws()
+	{
+		var source = Array.Empty<int>();
+		Assert.Throws<ArgumentOutOfRangeException>(() => random.NextItem(source));
+	}
+
+	[Explicit]
+	[Test]
 	[TestCase(3500, 350)]
 	public void Verify_NextGaussian(double mu, double sigma)
 	{

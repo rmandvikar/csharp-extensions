@@ -8,6 +8,20 @@ namespace rm.Extensions;
 public static class RandomExtension
 {
 	/// <summary>
+	/// Returns a random item from <paramref name="source"/>.
+	/// </summary>
+	public static T NextItem<T>(this Random random, T[] source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		if (source.IsNullOrEmpty())
+		{
+			throw new ArgumentOutOfRangeException(nameof(source.Length), source.Length, null);
+		}
+
+		return source[random.Next(source.Length)];
+	}
+
+	/// <summary>
 	/// <see href="https://stackoverflow.com/questions/218060/random-gaussian-variables">source</see>
 	/// </summary>
 	public static double NextGaussian(this Random random, double mu = 0, double sigma = 1)
