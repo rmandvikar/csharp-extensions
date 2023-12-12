@@ -23,7 +23,7 @@ public static class RandomExtension
 	}
 
 	/// <summary>
-	/// Generate random string of <paramref name="length"/> for <paramref name="charset"/>.
+	/// Generates random string of <paramref name="length"/> for <paramref name="charset"/>.
 	/// </summary>
 	/// <remarks>
 	/// <see href="https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings">source</see>
@@ -44,7 +44,7 @@ public static class RandomExtension
 	}
 
 	/// <summary>
-	/// Generate random double between <paramref name="minValue"/> and <paramref name="maxValue"/>.
+	/// Generates random double between <paramref name="minValue"/> and <paramref name="maxValue"/>.
 	/// <para></para>
 	/// Note: This is a scaled implementation: (random.nextDouble() * (max - min)) + min
 	/// </summary>
@@ -62,7 +62,7 @@ public static class RandomExtension
 	}
 
 	/// <summary>
-	/// Generate random decimal between <paramref name="minValue"/> and <paramref name="maxValue"/>.
+	/// Generates random decimal between <paramref name="minValue"/> and <paramref name="maxValue"/>.
 	/// <para></para>
 	/// Note: This is a scaled implementation: (random.nextDouble() * (max - min)) + min
 	/// </summary>
