@@ -8,6 +8,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591;NU1507</NoWarn>
     <LangVersion>latest</LangVersion>
+    <PackageId>rmandvikar.Extensions</PackageId>
     <Description>A collection of utility C# extension methods.</Description>
     <PackageTags>utility extensions</PackageTags>
     <RepositoryUrl>https://github.com/rmandvikar/csharp-extensions</RepositoryUrl>
