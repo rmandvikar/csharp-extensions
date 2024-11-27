@@ -19,7 +19,11 @@ public enum Color
 	Red = 1,
 	Green,
 	[Sc.Description("Blue color")]
-	Blue
+	Blue,
+	[Sc.Description("")]
+	Black,
+	[Sc.Description()]
+	White,
 }
 
 public enum Grade
@@ -94,6 +98,8 @@ public class EnumExtensionTest
 	{
 		Assert.AreEqual("Red color", Color.Red.GetDescription());
 		Assert.AreEqual(Color.Green.ToString(), Color.Green.GetDescription());
+		Assert.AreEqual(Color.Black.ToString(), Color.Black.GetDescription());
+		Assert.AreEqual(Color.White.ToString(), Color.White.GetDescription());
 	}
 
 	[Test]
@@ -131,7 +137,7 @@ public class EnumExtensionTest
 	public void GetEnumValues01()
 	{
 		var colors = EnumExtension.GetEnumValues<Color>();
-		Assert.AreEqual(3, colors.Count());
+		Assert.AreEqual(5, colors.Count());
 		Assert.IsTrue(colors.Contains(Color.Red));
 		Assert.IsTrue(colors.Contains(Color.Green));
 		Assert.IsTrue(colors.Contains(Color.Blue));
@@ -169,7 +175,7 @@ public class EnumExtensionTest
 	public void GetEnumNames01()
 	{
 		var colors = EnumExtension.GetEnumNames<Color>();
-		Assert.AreEqual(3, colors.Count());
+		Assert.AreEqual(5, colors.Count());
 		Assert.IsTrue(colors.Contains(Color.Red.ToString()));
 		Assert.IsTrue(colors.Contains(Color.Green.ToString()));
 		Assert.IsTrue(colors.Contains(Color.Blue.ToString()));
@@ -179,7 +185,7 @@ public class EnumExtensionTest
 	public void GetEnumNameToDescriptionMap01()
 	{
 		var colorsMap = EnumExtension.GetEnumNameToDescriptionMap<Color>();
-		Assert.AreEqual(3, colorsMap.Count());
+		Assert.AreEqual(5, colorsMap.Count());
 		Assert.IsTrue(colorsMap.Contains(
 			new KeyValuePair<string, string>(Color.Red.ToString(), Color.Red.GetDescription())
 			));
