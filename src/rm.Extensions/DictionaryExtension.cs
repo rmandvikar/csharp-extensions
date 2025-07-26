@@ -8,6 +8,7 @@ namespace rm.Extensions;
 /// </summary>
 public static class DictionaryExtension
 {
+#if !(NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER)
 	/// <summary>
 	/// Returns value for key if exists or default{<typeparamref name="TValue"/>}.
 	/// </summary>
@@ -30,7 +31,9 @@ public static class DictionaryExtension
 		}
 		return defaultValue;
 	}
+#endif
 
+#if !NET7_0_OR_GREATER
 	/// <summary>
 	/// Returns the <paramref name="dictionary"/> as read-only.
 	/// </summary>
@@ -38,4 +41,5 @@ public static class DictionaryExtension
 	{
 		return new ReadOnlyDictionary<TKey, TValue>(dictionary);
 	}
+#endif
 }

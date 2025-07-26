@@ -32,6 +32,7 @@ public class EnumerableExtensionTest
 		Console.WriteLine(string.Join(", ", a));
 	}
 
+#if !NET6_0_OR_GREATER
 	[Test]
 	public void Chunk01()
 	{
@@ -65,6 +66,7 @@ public class EnumerableExtensionTest
 			Assert.AreEqual(chunks_rev.Count() - i, chunks_rev.ElementAt(i).ElementAt(0));
 		}
 	}
+#endif
 
 	[Test]
 	public void IsNullOrEmpty01()
@@ -618,6 +620,7 @@ public class EnumerableExtensionTest
 		Assert.IsTrue(except.Contains(1));
 	}
 
+#if !NET6_0_OR_GREATER
 	[Test]
 	[TestCase(new[] { 1, 2, 3, 4, 5 }, new[] { 1, 2, 3, 4, 5 })]
 	[TestCase(new[] { 1, 1, 2 }, new[] { 1, 2 })]
@@ -648,6 +651,7 @@ public class EnumerableExtensionTest
 		Assert.IsTrue(distinct.Contains(1));
 		Assert.IsTrue(distinct.Contains((int?)null));
 	}
+#endif
 
 	[Test]
 	public void OrEmpty01()

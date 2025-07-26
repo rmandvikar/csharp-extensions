@@ -8,6 +8,7 @@ namespace rm.ExtensionsTest;
 [TestFixture]
 public class DictionaryExtensionTest
 {
+#if !(NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0_OR_GREATER)
 	[Test]
 	[TestCase(new[] { 1, 2 }, 3, 0)]
 	[TestCase(new[] { 1, 2 }, 1, 1)]
@@ -27,11 +28,14 @@ public class DictionaryExtensionTest
 		var dictionary = a.ToDictionary(x => x, y => y.ToString());
 		Assert.AreEqual(expected, dictionary.GetValueOrDefault(key));
 	}
+#endif
 
+#if !NET7_0_OR_GREATER
 	[Test]
 	public void AsReadOnly01()
 	{
 		var dictionary = new[] { 0, 1, 2 }.ToDictionary(x => x, y => y.ToString()).AsReadOnly();
 		Assert.Throws<NotSupportedException>(() => dictionary[5] = "5");
 	}
+#endif
 }
