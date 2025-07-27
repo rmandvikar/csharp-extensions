@@ -79,4 +79,34 @@ public class Base64ExtensionTest
 		sw.Stop();
 		Console.WriteLine(sw.ElapsedMilliseconds);
 	}
+
+	[Explicit]
+	[Test]
+	[Category("slow")]
+	public void Perf_Base64UrlEncode()
+	{
+		var bytes = "The quick brown fox jumps over the lazy dog.".ToUtf8Bytes();
+		var sw = Stopwatch.StartNew();
+		for (int i = 0; i < iterations; i++)
+		{
+			var base64Url = bytes.Base64UrlEncode();
+		}
+		sw.Stop();
+		Console.WriteLine(sw.ElapsedMilliseconds);
+	}
+
+	[Explicit]
+	[Test]
+	[Category("slow")]
+	public void Perf_Base64UrlDecode()
+	{
+		var base64Url = "ahm6a83henmp6ts0c9s6yxve41k6yy10d9tptw3k41qqcsbj41t6gs90dhgqmy90chqpebg";
+		var sw = Stopwatch.StartNew();
+		for (int i = 0; i < iterations; i++)
+		{
+			var bytes = base64Url.Base64UrlDecode();
+		}
+		sw.Stop();
+		Console.WriteLine(sw.ElapsedMilliseconds);
+	}
 }

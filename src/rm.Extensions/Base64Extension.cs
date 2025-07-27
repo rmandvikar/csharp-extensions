@@ -1,4 +1,7 @@
 ﻿using System;
+#if NET9_0_OR_GREATER
+using System.Buffers.Text;
+#endif
 using System.Text;
 
 namespace rm.Extensions;
@@ -20,16 +23,23 @@ public static class Base64Extension
 
 	public static string Base64UrlEncode(this byte[] bytes)
 	{
+#if NET9_0_OR_GREATER
+		return Base64Url.EncodeToString(bytes);
+#else
 		var base64 = bytes.Base64Encode();
 		return new StringBuilder(base64)
 			.Replace('+', '-')
 			.Replace('/', '_')
 			.Replace("=", "")
 			.ToString();
+#endif
 	}
 
 	public static byte[] Base64UrlDecode(this string base64Url)
 	{
+#if NET9_0_OR_GREATER
+		return Base64Url.DecodeFromChars(base64Url);
+#else
 		const int maxPad = 0b_0100;
 		var pad = new string('=', (maxPad - (base64Url.Length & 0b_0011)) & 0b_0011);
 		return new StringBuilder(base64Url)
@@ -38,5 +48,6 @@ public static class Base64Extension
 			.Append(pad)
 			.ToString()
 			.Base64Decode();
+#endif
 	}
 }
