@@ -85,4 +85,26 @@ public static class TimespanExtension
 	{
 		return TimeSpan.FromMilliseconds(n);
 	}
+
+	/// <summary>
+	/// Gets timespan with <paramref name="n"/> microseconds.
+	/// </summary>
+	public static TimeSpan Microseconds(this int n)
+	{
+		return
+#if NET7_0_OR_GREATER
+			TimeSpan.FromMicroseconds(n);
+#else
+			// 1us = 10 ticks
+			TimeSpan.FromTicks(n * 10);
+#endif
+	}
+
+	/// <summary>
+	/// Gets timespan with <paramref name="n"/> ticks.
+	/// </summary>
+	public static TimeSpan Ticks(this int n)
+	{
+		return TimeSpan.FromTicks(n);
+	}
 }

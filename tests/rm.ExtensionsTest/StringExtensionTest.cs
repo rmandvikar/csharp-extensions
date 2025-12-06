@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using NUnit.Framework;
@@ -9,6 +10,8 @@ namespace rm.ExtensionsTest;
 [TestFixture]
 public class StringExtensionTest
 {
+	private const int iterations = 1_000_000;
+
 	[Test]
 	[TestCase((string)null)]
 	[TestCase("")]
@@ -436,5 +439,100 @@ public class StringExtensionTest
 	public void SubstringByIndex02(string s, int start, int end)
 	{
 		Assert.Throws<ArgumentOutOfRangeException>(() => s.SubstringByIndex(start, end));
+	}
+
+	[Test]
+	[TestCase("1y")]
+	[TestCase("1mo")]
+	[TestCase("1wk")]
+	[TestCase("1d")]
+	[TestCase("1h")]
+	[TestCase("1m")]
+	[TestCase("1s")]
+	[TestCase("1ms")]
+	[TestCase("1us")]
+	[TestCase("1y1mo1wk1d1h1m1s1ms1us")]
+	[TestCase("365d")]
+	[TestCase("1y7d24h")]
+	[TestCase("1y1wk7d24h")]
+	[TestCase("7d24h60m60s60ms")]
+	[TestCase("1y12mo4wk7d24h60m60s100ms")]
+	[TestCase("0m")]
+	[TestCase("1h0m")]
+	[TestCase("01h00m00s")]
+	[TestCase("1y 1mo")]
+	[TestCase("1y 1mo 1wk 1d 1h 1m 1s 1ms")]
+	[TestCase("-1y")]
+	[TestCase("+1y")]
+	[TestCase("- 1y")]
+	[TestCase("+ 1y")]
+	[TestCase("-1y1d")]
+	[TestCase("-0y")]
+	[TestCase("+0y")]
+	public void ParseDuration01(string s)
+	{
+		Assert.DoesNotThrow(() =>
+		{
+			var timespan = s.ParseDuration();
+			Console.WriteLine($"value: {timespan}");
+			Console.WriteLine($" days: {timespan.TotalDays}");
+		});
+	}
+
+	[Test]
+	[TestCase("x")]
+	[TestCase("1y 1xx")]
+	[TestCase("1y y")]
+	[TestCase("1y x")]
+	[TestCase("1y x y")]
+	[TestCase("1y x 1wk y")]
+	[TestCase("1y  ")]
+	[TestCase("1y  1d")]
+	[TestCase("1.5d")]
+	[TestCase("1y1y")]
+	[TestCase("1mo1mo")]
+	[TestCase("1wk1wk")]
+	[TestCase("1d1d")]
+	[TestCase("1h1h")]
+	[TestCase("1m1m")]
+	[TestCase("1s1s")]
+	[TestCase("1us1us")]
+	[TestCase("1ms1ms")]
+	[TestCase("1ms1s")]
+	[TestCase("1s1m")]
+	[TestCase("1m1h")]
+	[TestCase("1h1d")]
+	[TestCase("1d1wk")]
+	[TestCase("1wk1mo")]
+	[TestCase("1mo1y")]
+	[TestCase("1y1mo1y")]
+	[TestCase("1y1wk1mo")]
+	[TestCase("-1y-1h")]
+	[TestCase("-1y+1h")]
+	[TestCase("-1y++1h")]
+	[TestCase("-1y_1h")]
+	[TestCase("-1yx1h")]
+	[TestCase("--1y")]
+	[TestCase("++0y")]
+	[TestCase("0Y")]
+	public void ParseDuration02(string s)
+	{
+		Assert.Throws<FormatException>(() => s.ParseDuration());
+	}
+
+	[Explicit]
+	[Test]
+	[Category("slow")]
+	[TestCase("1y")]
+	[TestCase("7d24h")]
+	public void Perf_ParseDuration(string s)
+	{
+		var sw = Stopwatch.StartNew();
+		for (int i = 0; i < iterations; i++)
+		{
+			var _ = s.ParseDuration();
+		}
+		sw.Stop();
+		Console.WriteLine(sw.ElapsedMilliseconds);
 	}
 }

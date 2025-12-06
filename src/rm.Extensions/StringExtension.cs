@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace rm.Extensions;
@@ -532,5 +532,147 @@ public static class StringExtension
 		startIndex.ThrowIfArgumentOutOfRange(nameof(startIndex));
 		endIndex.ThrowIfArgumentOutOfRange(nameof(endIndex), maxRange: source.Length);
 		return source.Substring(startIndex, endIndex - startIndex);
+	}
+
+	// note: GeneratedRegex is slower
+	private const string durationRegexStr = @"(?<sign>^\D+ ?)?(?<value>(-|\+|)+\d+)(?<timeUnit>[a-z]+)\s?";
+	private static readonly Regex durationRegex = new(durationRegexStr, RegexOptions.Compiled);
+
+	private static readonly string[] timeUnitOrder = ["us", "ms", "s", "m", "h", "d", "wk", "mo", "y"];
+
+	/// <summary>
+	/// Returns timespan by parsing a duration string.
+	/// <para></para>
+	/// Valid time units are y, mo, wk, d, h, m, s, ms, us, without duplicates.
+	/// Higher time units come before lower time units.
+	/// Valid values for time units are non-negative. Overall duration sign could be negative.
+	/// <para></para>
+	/// Examples: 1y, 1mo, 1wk, 1d, 1h, 1m, 1s, 1ms, 1us, 1y1d, 7d, 1h1m1s, 0y, 1h0m, 01h00m, -1y, etc.
+	/// </summary>
+	public static TimeSpan ParseDuration(this string duration)
+	{
+		duration.ThrowIfArgumentNull(nameof(duration));
+
+		var durationMatches = durationRegex.Matches(duration);
+
+		// no regex match
+		if (durationMatches.Count == 0)
+		{
+			throw new FormatException($"Duration '{duration}' is not in expected format (e.g. 1ms, 1s, 1m, 1h, 1d, 1wk, 1mo, 1y).");
+		}
+
+		// regex match, but duration token(s) in unexpected format
+		if (durationMatches
+#if NETSTANDARD2_0
+			.Cast<Match>()
+#endif
+			.Sum(durationMatch => durationMatch.Value.Length) != duration.Length)
+		{
+			var durationIncorrectBuffer = new StringBuilder(duration);
+			durationMatches
+#if NETSTANDARD2_0
+				.Cast<Match>()
+#endif
+				.Select(durationMatch => durationIncorrectBuffer.Replace(durationMatch.Value, "")).ToArray();
+			var durationIncorrect = durationIncorrectBuffer.ToString();
+
+			// duration token(s) in unexpected format, with extra spaces or invalid
+			if (durationIncorrect.IsNullOrWhiteSpace())
+			{
+				throw new FormatException($"Duration '{duration}' is not in expected format (e.g. 1ms, 1s, 1m, 1h, 1d, 1wk, 1mo, 1y)" +
+					$" with extra spaces, and only 1 space is allowed.");
+			}
+			else
+			{
+				throw new FormatException($"Duration '{duration}' is not in expected format (e.g. 1ms, 1s, 1m, 1h, 1d, 1wk, 1mo, 1y)" +
+					$" in duration token '{durationIncorrect}'.");
+			}
+		}
+
+		var timespan = TimeSpan.Zero;
+
+		// sign only for 1st duration token
+		var isNegative = false;
+		var durationMatchFirst = durationMatches[0];
+		var sign = durationMatchFirst.Groups["sign"].Value.TrimEnd();
+		if (sign == "+" || sign == "")
+		{
+			// noop
+		}
+		else if (sign == "-")
+		{
+			isNegative = true;
+		}
+		else
+		{
+			throw new FormatException($"Duration sign '{sign}' is not in expected format" +
+				$" in duration '{duration}'.");
+		}
+
+		var timeUnitVisited = new HashSet<string>();
+		int? previousTimeUnitOrderIndex = null!;
+		foreach (Match durationMatch in durationMatches)
+		{
+			var valueStr = durationMatch.Groups["value"].Value;
+			// value sign check
+			if (valueStr.StartsWith("+") || valueStr.StartsWith("-"))
+			{
+				throw new FormatException($"Duration value '{valueStr}' is not valid" +
+					$" in duration token '{durationMatch.Value}' in duration '{duration}'.");
+			}
+
+			var value = int.Parse(valueStr);
+			var timeUnit = durationMatch.Groups["timeUnit"].Value;
+
+			var currentTimeUnitOrderIndex = Array.IndexOf(timeUnitOrder, timeUnit);
+
+			// not supported time unit check
+			if (currentTimeUnitOrderIndex < 0)
+			{
+				throw new FormatException($"Duration time unit '{timeUnit}' is not supported" +
+					$" in duration token '{durationMatch.Value}' in duration '{duration}'.");
+			}
+
+			// duplicate check
+			if (timeUnitVisited.Contains(timeUnit))
+			{
+				throw new FormatException($"Duration time unit '{timeUnit}' is duplicate" +
+					$" in duration token '{durationMatch.Value}' in duration '{duration}'.");
+			}
+			timeUnitVisited.Add(timeUnit);
+
+			// time unit order check
+			previousTimeUnitOrderIndex ??= currentTimeUnitOrderIndex;
+			if (currentTimeUnitOrderIndex > previousTimeUnitOrderIndex)
+			{
+				throw new FormatException($"Higher time units come before lower time units," +
+					$" and time unit '{timeUnit}' is not before time unit '{timeUnitOrder[previousTimeUnitOrderIndex.Value]}'" +
+					$" in duration token '{durationMatch.Value}' in duration '{duration}'.");
+			}
+			previousTimeUnitOrderIndex = currentTimeUnitOrderIndex;
+
+			// add
+			timespan += timeUnit switch
+			{
+				"y" => (value * 365).Days(),
+				"mo" => (value * 30).Days(),
+				"wk" => (value * 7).Days(),
+				"d" => value.Days(),
+				"h" => value.Hours(),
+				"m" => value.Minutes(),
+				"s" => value.Seconds(),
+				"ms" => value.Milliseconds(),
+				"us" => value.Microseconds(),
+				_ => throw new NotImplementedException($"Time unit {timeUnit} is not implemented"),
+			};
+		}
+
+		// sign
+		if (isNegative)
+		{
+			timespan = -timespan;
+		}
+
+		return timespan;
 	}
 }

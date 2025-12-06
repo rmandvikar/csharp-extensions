@@ -119,6 +119,18 @@ string result = "this".SubstringByIndex(1, 3);
 // result: "hi"
 ```
 
+```c#
+// parse timespan duration string
+TimeSpan duration = "7d".ParseDuration();
+// duration: TimeSpan.FromDays(7)
+TimeSpan duration = "1h2m3s".ParseDuration();
+// duration: TimeSpan.FromHours(1) + TimeSpan.FromMinutes(2) + TimeSpan.FromSeconds(3)
+TimeSpan duration = "-7d".ParseDuration();
+// duration: -TimeSpan.FromDays(7)
+TimeSpan duration = "1y1mo1wk1d1h1m1s1ms1us".ParseDuration();
+TimeSpan duration = "1y 1mo 1wk 1d 1h 1m 1s 1ms 1us".ParseDuration();
+```
+
 #### ThrowIf extensions:
 
 ```c#
