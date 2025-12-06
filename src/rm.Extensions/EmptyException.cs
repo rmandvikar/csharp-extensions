@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace rm.Extensions;
 
@@ -14,6 +13,4 @@ public class EmptyException : Exception
 		: base(message) { }
 	public EmptyException(string message, Exception inner)
 		: base(message, inner) { }
-	protected EmptyException(SerializationInfo info, StreamingContext context)
-		: base(info, context) { }
 }
