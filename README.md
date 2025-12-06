@@ -492,19 +492,6 @@ string round = TimeSpan.FromDays(10).Round();
 TimeSpan ts = 10.Days();
 ```
 
-#### Uri extensions:
-
-```c#
-// calculate uri's checksum (sha1, md5)
-var uri = new Uri(@"https://www.google.com/images/srpr/logo11w.png") // url
-	// OR new Uri(@"D:\temp\images\logo.png"); // local file
-	// OR new Uri(new Uri(@"D:\temp\"), @".\images\logo.png"); // dir and relative path
-string sha1 = uri.Checksum(Hasher.sha1);
-string md5 = uri.Checksum(Hasher.md5);
-// sha1: 349841408d1aa1f5a8892686fbdf54777afc0b2c
-// md5: 57e396baedfe1a034590339082b9abce
-```
-
 #### Helper methods:
 
 ```c#
