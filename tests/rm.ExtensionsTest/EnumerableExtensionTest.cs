@@ -80,9 +80,9 @@ public class EnumerableExtensionTest
 	public void Split01()
 	{
 		int n = 3;
-		var splits = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.Split(n);
+		var splits = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsEnumerable().Split(n);
 		//Print(splits);
-		Assert.AreEqual(n, splits.Count());
+		Assert.AreEqual(n, splits.AsEnumerable().ToArray().Count());
 		Assert.IsTrue(splits.ElementAt(0).SequenceEqual(new[] { 1, 4, 7, 10 }));
 		Assert.IsTrue(splits.ElementAt(2).SequenceEqual(new[] { 3, 6, 9 }));
 	}
@@ -93,7 +93,7 @@ public class EnumerableExtensionTest
 		Assert.Throws<ArgumentNullException>(() => { ((IEnumerable<int>)null).IsSorted(); });
 		var sourceAsc = new[] { 1, 5, 10 };
 		Assert.IsTrue(sourceAsc.IsSorted());
-		var sourceDesc = new[] { 1, 5, 10 }.Reverse();
+		var sourceDesc = new[] { 1, 5, 10 }.AsEnumerable().Reverse();
 		Assert.IsTrue(sourceDesc.IsSorted());
 		var sourceUnsorted = new[] { 1, 3, 2 };
 		Assert.IsFalse(sourceUnsorted.IsSorted());
@@ -106,7 +106,7 @@ public class EnumerableExtensionTest
 		Assert.IsTrue(source1.IsSorted());
 		var source2Asc = new[] { 1, 5 };
 		Assert.IsTrue(source2Asc.IsSorted());
-		var source2Desc = new[] { 1, 5 }.Reverse();
+		var source2Desc = new[] { 1, 5 }.AsEnumerable().Reverse();
 		Assert.IsTrue(source2Desc.IsSorted());
 		var sourceAllSame = new[] { 5, 5, 5 };
 		Assert.IsTrue(sourceAllSame.IsSorted());

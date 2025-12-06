@@ -10,7 +10,7 @@ namespace rm.ExtensionsTest;
 public class StringBuilderExtensionTest
 {
 	private static readonly string CRLF = Environment.NewLine;
-	private static readonly string LFCR = new string(Environment.NewLine.ToCharArray().Reverse().ToArray());
+	private static readonly string LFCR = new string(Environment.NewLine.Reverse().ToArray());
 
 	[Test]
 	[TestCase("this {0} {1} test.", "is", "a")]
