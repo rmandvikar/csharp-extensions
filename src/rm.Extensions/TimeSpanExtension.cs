@@ -10,7 +10,7 @@ public static class TimespanExtension
 	/// <summary>
 	/// Rounds timespan.
 	/// <para>
-	/// Ex: ms, s, h, d, wk, mth, y.
+	/// Ex: ms, s, m, h, d, wk, mo, y.
 	/// </para>
 	/// </summary>
 	public static string Round(this TimeSpan ts)
@@ -21,7 +21,7 @@ public static class TimespanExtension
 		}
 		if (ts.Days >= 30)
 		{
-			return "{0}mth".Format(ts.Days / 30);
+			return "{0}mo".Format(ts.Days / 30);
 		}
 		if (ts.Days >= 7)
 		{

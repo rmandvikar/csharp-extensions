@@ -14,7 +14,7 @@ public class TimeSpanExtensionTest
 	[TestCase(0, 10, 10, 10, 10, "10h")]
 	[TestCase(6, 10, 10, 10, 10, "6d")]
 	[TestCase(10, 10, 10, 10, 10, "1wk")]
-	[TestCase(30, 10, 10, 10, 10, "1mth")]
+	[TestCase(30, 10, 10, 10, 10, "1mo")]
 	[TestCase(365, 120, 0, 0, 0, "1y")]
 	[TestCase(0, 0, 0, 0, 999, "999ms")]
 	[TestCase(0, 0, 0, 0, 1000, "1s")]
@@ -22,6 +22,7 @@ public class TimeSpanExtensionTest
 	public void Round01(int d, int h, int m, int s, int ms, string result)
 	{
 		var ts = new TimeSpan(d, h, m, s, ms);
+		Console.WriteLine(ts);
 		Assert.AreEqual(result, ts.Round());
 	}
 
