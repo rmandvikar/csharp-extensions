@@ -133,7 +133,7 @@ public static class EnumerableExtension
 	}
 
 	/// <summary>
-	///  Returns the only two elements of a sequence that satisfy a specified condition.
+	/// Returns the only two elements of a sequence that satisfy a specified condition.
 	/// </summary>
 	public static IEnumerable<T> Double<T>(this IEnumerable<T> source,
 		Func<T, bool> predicate)
