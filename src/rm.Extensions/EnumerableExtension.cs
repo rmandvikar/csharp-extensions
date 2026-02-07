@@ -54,6 +54,25 @@ public static class EnumerableExtension
 	}
 
 	/// <summary>
+	/// Returns true if collection is empty.
+	/// </summary>
+	public static bool IsEmpty<T>(this IEnumerable<T> source)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		return !source.Any();
+	}
+
+	/// <summary>
+	/// Returns true if collection is empty that satisfies a specified condition.
+	/// </summary>
+	public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	{
+		source.ThrowIfArgumentNull(nameof(source));
+		predicate.ThrowIfArgumentNull(nameof(predicate));
+		return !source.Any(predicate);
+	}
+
+	/// <summary>
 	/// Returns specified value if source is null/empty/else same.
 	/// </summary>
 	public static IEnumerable<T> Or<T>(this IEnumerable<T> source, IEnumerable<T> or)
@@ -642,19 +661,6 @@ public static class EnumerableExtension
 			}
 			buffer[depth] = default(T);
 		}
-	}
-
-	public static bool IsEmpty<T>(this IEnumerable<T> source)
-	{
-		source.ThrowIfArgumentNull(nameof(source));
-		return !source.Any();
-	}
-
-	public static bool IsEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
-	{
-		source.ThrowIfArgumentNull(nameof(source));
-		predicate.ThrowIfArgumentNull(nameof(predicate));
-		return !source.Any(predicate);
 	}
 
 	/// <summary>

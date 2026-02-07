@@ -206,6 +206,13 @@ if (collection.IsNullOrEmpty()) { /**/ }
 ```
 
 ```c#
+// if a collection is empty instead of !collection.Any()
+var collection = new[] { 1, 2 };
+if (collection.IsEmpty()) { /**/ }
+if (collection.IsEmpty(x => x > 1)) { /**/ }
+```
+
+```c#
 // split a collection into n parts
 var collection = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 IEnumerable<IEnumerable<int>> splits = collection.Split(3);
@@ -291,12 +298,6 @@ var result = new[] { 1, 2 }.Permutation(2);
 // result: { { 1, 2 }, { 2, 1 } }
 var result = new[] { 1, 2 }.Combination(2);
 // result: { { 1, 2 } }
-```
-
-```c#
-// if a collection is empty instead of !collection.Any()
-var collection = new[] { 1, 2 };
-if (collection.IsEmpty()) { /**/ }
 ```
 
 ```c#
