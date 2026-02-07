@@ -214,6 +214,12 @@ if (collection.IsEmpty(x => x > 1)) { /**/ }
 ```
 
 ```c#
+// if a collection is not null or empty, returns it or arg
+IEnumerable<int> collection = null;
+if (collection.Or(Enumerable.Empty<int>()).Any()) { /**/ }
+```
+
+```c#
 // split a collection into n parts
 var collection = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 IEnumerable<IEnumerable<int>> splits = collection.Split(3);

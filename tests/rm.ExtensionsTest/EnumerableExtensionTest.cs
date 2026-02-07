@@ -101,6 +101,14 @@ public class EnumerableExtensionTest
 	}
 
 	[Test]
+	public void Or01()
+	{
+		Assert.IsTrue(new[] { 1 }.Or(new int[] { }).SequenceEqual(new[] { 1 }));
+		Assert.IsTrue(((int[])null).Or(new int[] { }).SequenceEqual(new int[] { }));
+		Assert.IsNull(new int[] { }.Or((int[])null));
+	}
+
+	[Test]
 	public void Split01()
 	{
 		int n = 3;
