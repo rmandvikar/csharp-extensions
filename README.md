@@ -203,6 +203,7 @@ IEnumerable<IEnumerable<int>> chunks = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 // if a collection is null or empty
 var collection = new[] { 1, 2 };
 if (collection.IsNullOrEmpty()) { /**/ }
+if (collection.IsNullOrEmpty(x => x > 1)) { /**/ }
 ```
 
 ```c#

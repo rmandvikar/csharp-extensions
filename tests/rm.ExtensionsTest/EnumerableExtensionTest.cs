@@ -77,6 +77,14 @@ public class EnumerableExtensionTest
 	}
 
 	[Test]
+	public void IsNullOrEmpty02()
+	{
+		Assert.IsFalse(new[] { 3 }.IsNullOrEmpty(x => x > 0));
+		Assert.IsTrue(new int[0].IsNullOrEmpty(x => x > 0));
+		Assert.IsTrue(((IEnumerable<int>)null).IsNullOrEmpty(x => x > 0));
+	}
+
+	[Test]
 	public void IsEmpty01()
 	{
 		Assert.IsTrue(new int[] { }.IsEmpty());

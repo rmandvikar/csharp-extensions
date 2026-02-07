@@ -54,6 +54,14 @@ public static class EnumerableExtension
 	}
 
 	/// <summary>
+	/// Returns true if collection is null or empty that satisfies a specified condition.
+	/// </summary>
+	public static bool IsNullOrEmpty<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+	{
+		return source == null || !source.Any(predicate);
+	}
+
+	/// <summary>
 	/// Returns true if collection is empty.
 	/// </summary>
 	public static bool IsEmpty<T>(this IEnumerable<T> source)
