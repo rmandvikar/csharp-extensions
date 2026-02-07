@@ -101,6 +101,18 @@ public class EnumerableExtensionTest
 	}
 
 	[Test]
+	public void None01()
+	{
+		IsEmpty01();
+	}
+
+	[Test]
+	public void None02()
+	{
+		IsEmpty02();
+	}
+
+	[Test]
 	public void Or01()
 	{
 		Assert.IsTrue(new[] { 1 }.Or(new int[] { }).SequenceEqual(new[] { 1 }));

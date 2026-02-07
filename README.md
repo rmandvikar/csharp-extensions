@@ -214,6 +214,13 @@ if (collection.IsEmpty(x => x > 1)) { /**/ }
 ```
 
 ```c#
+// if a collection is empty instead of !collection.Any()
+var collection = new[] { 1, 2 };
+if (collection.None()) { /**/ }
+if (collection.None(x => x > 1)) { /**/ }
+```
+
+```c#
 // if a collection is not null or empty, returns it or arg
 IEnumerable<int> collection = null;
 if (collection.Or(Enumerable.Empty<int>()).Any()) { /**/ }
