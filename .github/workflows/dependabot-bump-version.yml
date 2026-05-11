@@ -1,0 +1,31 @@
+# dependabot bump version
+on: pull_request
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run script for Major updates
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-major' }}
+        run: |
+          echo "Detected a MAJOR bump. Running major script..."
+          # ./your-major-script.sh
+
+      - name: Run script for Minor updates
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-minor' }}
+        run: |
+          echo "Detected a MINOR bump. Running minor script..."
+          # ./your-minor-script.sh
+
+      - name: Run script for Patch updates
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        run: |
+          echo "Detected a PATCH bump. Running patch script..."
+          # ./your-patch-script.sh
